@@ -1,15 +1,8 @@
-﻿  editorMain.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\editorMain.cpp(215,12): warning C4305: '+=': truncamiento de 'double' a 'float'
-  imgui.cpp
-  imgui_demo.cpp
-  imgui_draw.cpp
-  imgui_impl_opengl3.cpp
-  imgui_impl_sdl2.cpp
-  imgui_tables.cpp
-  imgui_widgets.cpp
-  glad.c
+﻿  main.cpp
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\main.cpp(219,12): warning C4305: '+=': truncamiento de 'double' a 'float'
   Generando código
-  Previous IPDB not found, fall back to full compilation.
-  All 1515 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  191 of 1515 functions (12.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    17 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
   OpenGL-basico.vcxproj -> C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\x64\ReleaseEditor\OpenGL-avanzado.exe

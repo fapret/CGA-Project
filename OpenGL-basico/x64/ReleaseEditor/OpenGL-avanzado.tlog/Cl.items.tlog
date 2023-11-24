@@ -1,4 +1,3 @@
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\editorMain.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\editorMain.obj
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\glad.c;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\glad.obj
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgui\imgui.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\imgui.obj
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgui\imgui_demo.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\imgui_demo.obj
@@ -7,3 +6,4 @@ C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgu
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgui\imgui_impl_sdl2.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\imgui_impl_sdl2.obj
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgui\imgui_tables.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\imgui_tables.obj
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\libraries\imgui\imgui_widgets.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\imgui_widgets.obj
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\main.cpp;C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\x64\ReleaseEditor\main.obj
