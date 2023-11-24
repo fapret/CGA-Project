@@ -18,6 +18,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <assimp/ai_assert.h>
+
 using namespace std;
 
 // global variables - normally would avoid globals, using in this demo

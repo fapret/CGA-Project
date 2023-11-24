@@ -76,8 +76,8 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\libraries\Freeimage;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\libraries\olgdev;..\libraries\Freeimage;..\libraries\assimp;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libraries\assimp;..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEditor|x64'">
@@ -119,7 +119,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\libraries\glad;..\libraries\imgui;..\libraries\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libraries\glad;..\libraries\imgui;..\libraries\glm;..\libraries\ogldev;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
