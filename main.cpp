@@ -364,7 +364,7 @@ int main(int argc, char *argv[]) {
 		ImGui::End();
 		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight)));
-		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
 #endif
 		//update();
 		draw(window); // call the draw function
