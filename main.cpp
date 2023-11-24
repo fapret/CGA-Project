@@ -25,6 +25,33 @@ GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
 
+#ifdef USE_IMGUI
+GLuint framebuffer;
+GLuint texture;
+
+void initFramebuffer()
+{
+	glGenFramebuffers(1, &framebuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+
+	// Create texture to render into
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1280, 720, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	// Attach the texture to the framebuffer
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+
+	// Check if framebuffer is complete
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		cout << "Framebuffer is not complete!" << endl;
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, 0); // Unbind the framebuffer
+}
+#endif
   
 // loadFile - loads text file into char* fname
 // allocates memory - so need to delete after use
@@ -187,10 +214,12 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	glEnableVertexAttribArray(1);    // Enable attribute index 1 (color)
 
 	glEnable(GL_DEPTH_TEST); // enable depth testing
-	//glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
+	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
 
-	#ifdef USE_IMGUI
-	// Initialize ImGui
+#ifdef USE_IMGUI
+	initFramebuffer();
+
+// Initialize ImGui
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -202,13 +231,15 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 
 	// Setup ImGui style
 	ImGui::StyleColorsDark();
-	#endif
+#endif
 }
 
 
 void draw(SDL_Window* window)
 {
-
+#ifdef USE_IMGUI
+	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+#endif
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 
@@ -238,6 +269,9 @@ void draw(SDL_Window* window)
 
 	// Swap buffers and present
 	//SDL_GL_SwapWindow(window);
+#ifdef USE_IMGUI
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+#endif
 }
 
 
@@ -267,11 +301,21 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	// Set OpenGL version and profile for SDL
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
 	SDL_Window *window = NULL;
 	SDL_GLContext gl_context;
 
-	window = SDL_CreateWindow("Ventana", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
-																	800, 800, SDL_WINDOW_OPENGL);
+#ifdef USE_IMGUI
+	window = SDL_CreateWindow("Ventana", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+#else
+	window = SDL_CreateWindow("Ventana", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+		800, 800, SDL_WINDOW_OPENGL);
+#endif
 
 	gl_context = SDL_GL_CreateContext(window);
 	//disable limit of 60fps
@@ -300,24 +344,44 @@ int main(int argc, char *argv[]) {
 			#endif
 		}
 
-		//update();
-		draw(window); // call the draw function
-
-		#ifdef USE_IMGUI
+#ifdef USE_IMGUI
+		glClearColor(0.231, 0.231, 0.329, 1.0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Render ImGui
 		// Start ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(window);
 		ImGui::NewFrame();
 		// ImGui UI elements
-		ImGui::Begin("Editor");
+		int windowWidth, windowHeight;
+		SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
+		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+		// Add ImGui UI elements here
+
+		ImGui::End();
+		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, 0), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight)));
+		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+#endif
+		//update();
+		draw(window); // call the draw function
+#ifdef USE_IMGUI
+		ImGui::Image((void*)(intptr_t)texture, ImVec2(1280, 720), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::End();
+		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.85, 0), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
+		ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
 		// Add ImGui UI elements here
 
 		ImGui::End();
 		ImGui::Render();
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-		#endif
+#endif
 		// Swap buffers and present
 		SDL_GL_SwapWindow(window);
 	}
