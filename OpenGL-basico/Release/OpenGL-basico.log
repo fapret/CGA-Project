@@ -1,0 +1,61 @@
+﻿  main.cpp
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\shader.h(57,40): warning C4101: 'e': unreferenced local variable
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\mesh.h(34,15): warning C4244: 'initializing': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\mesh.h(99,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(114,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(115,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(137,74): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(138,74): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(147,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(201,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(205,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(206,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(151,21): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(228,14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(279,22): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(366,66): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(366,46): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\system\detail\generic\sort.inl(191,1): error C2027: use of undefined type 'thrust::detail::STATIC_ASSERTION_FAILURE<false>'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\system\detail\generic\sort.inl(191): message : see declaration of 'thrust::detail::STATIC_ASSERTION_FAILURE<false>'
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\detail\sort.inl(83): message : see reference to function template instantiation 'void thrust::system::detail::generic::stable_sort<thrust::cuda_cub::tag,RandomAccessIterator,StrictWeakOrdering>(thrust::execution_policy<thrust::cuda_cub::tag> &,RandomAccessIterator,RandomAccessIterator,StrictWeakOrdering)' being compiled
+          with
+          [
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>,
+              StrictWeakOrdering=thrust::less<value_type>
+          ]
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\system\detail\generic\sort.inl(63): message : see reference to function template instantiation 'void thrust::stable_sort<DerivedPolicy,RandomAccessIterator,StrictWeakOrdering>(const thrust::detail::execution_policy_base<DerivedPolicy> &,RandomAccessIterator,RandomAccessIterator,StrictWeakOrdering)' being compiled
+          with
+          [
+              DerivedPolicy=thrust::cuda_cub::tag,
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>,
+              StrictWeakOrdering=thrust::less<value_type>
+          ]
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\detail\sort.inl(56): message : see reference to function template instantiation 'void thrust::system::detail::generic::sort<thrust::cuda_cub::tag,RandomAccessIterator,StrictWeakOrdering>(thrust::execution_policy<thrust::cuda_cub::tag> &,RandomAccessIterator,RandomAccessIterator,StrictWeakOrdering)' being compiled
+          with
+          [
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>,
+              StrictWeakOrdering=thrust::less<value_type>
+          ]
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\system\detail\generic\sort.inl(49): message : see reference to function template instantiation 'void thrust::sort<DerivedPolicy,RandomAccessIterator,thrust::less<value_type>>(const thrust::detail::execution_policy_base<DerivedPolicy> &,RandomAccessIterator,RandomAccessIterator,StrictWeakOrdering)' being compiled
+          with
+          [
+              DerivedPolicy=thrust::cuda_cub::tag,
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>,
+              StrictWeakOrdering=thrust::less<value_type>
+          ]
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\detail\sort.inl(41): message : see reference to function template instantiation 'void thrust::system::detail::generic::sort<thrust::cuda_cub::tag,RandomAccessIterator>(thrust::execution_policy<thrust::cuda_cub::tag> &,RandomAccessIterator,RandomAccessIterator)' being compiled
+          with
+          [
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>
+          ]
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2\include\thrust\detail\sort.inl(215): message : see reference to function template instantiation 'void thrust::sort<DerivedPolicy,RandomAccessIterator>(const thrust::detail::execution_policy_base<DerivedPolicy> &,RandomAccessIterator,RandomAccessIterator)' being compiled
+          with
+          [
+              DerivedPolicy=thrust::cuda_cub::tag,
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>
+          ]
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\sortBufferCUDA.cu(11): message : see reference to function template instantiation 'void thrust::sort<thrust::device_ptr<RadiosityData>>(RandomAccessIterator,RandomAccessIterator)' being compiled
+          with
+          [
+              RandomAccessIterator=thrust::device_ptr<RadiosityData>
+          ]

@@ -1,0 +1,19 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(467,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (OpenGL-basico.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\shader.h(57,40): warning C4101: 'e': unreferenced local variable
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\mesh.h(34,15): warning C4244: 'initializing': conversion from 'float' to 'size_t', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\mesh.h(99,28): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(114,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(115,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(137,74): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(138,74): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(147,51): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(201,15): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(205,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\subdivide.h(206,70): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\model.h(190,36): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(144,21): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(264,22): warning C4244: 'initializing': conversion from 'Uint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(351,66): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\main.cpp(351,46): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+  OpenGL-basico.vcxproj -> C:\Users\Jose\Desktop\RealTimeDiffuseIlumination\OpenGL-avanzado\Debug\OpenGL-avanzado.exe
