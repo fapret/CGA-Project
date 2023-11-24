@@ -21,7 +21,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cpp">
+    <ClCompile Include="..\gameMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\glad.c">
@@ -47,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="..\libraries\imgui\imgui_impl_sdl2.cpp">
       <Filter>Source Files\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\editorMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

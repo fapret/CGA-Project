@@ -1,4 +1,11 @@
 ﻿  glad.c
-  main.cpp
-C:\Users\Jose\Downloads\OpenGL-avanzado\main.cpp(197,12): warning C4305: '+=': truncation from 'double' to 'float'
-  OpenGL-basico.vcxproj -> C:\Users\Jose\Downloads\OpenGL-avanzado\x64\Debug\OpenGL-avanzado.exe
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_impl_sdl2.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  gameMain.cpp
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\gameMain.cpp(3,10): fatal  error C1083: No se puede abrir el archivo incluir: 'imgui.h': No such file or directory
+  Generando código...
