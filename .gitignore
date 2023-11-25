@@ -1,5 +1,7 @@
 .vs
-x64/
 OpenGL-basico/Debug/
 OpenGL-basico/Release/
 OpenGL-basico/x64/
+x64/ReleaseEditor/OpenGL-avanzado.pdb
+x64/ReleaseEditor/OpenGL-avanzado.pdb
+x64/ReleaseEditor/OpenGL-avanzado.exe
