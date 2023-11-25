@@ -76,8 +76,8 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\libraries\olgdev;..\libraries\Freeimage;..\libraries\assimp;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libraries\assimp;..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\libraries\Freeimage;..\include;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libraries\glad;..\libraries\assimp;..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEditor|x64'">
@@ -119,13 +119,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\libraries\glad;..\libraries\imgui;..\libraries\glm;..\libraries\ogldev;..\libraries\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\libraries\glad;..\libraries\glm;..\include\assimp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>FreeImage.lib;opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FreeImage.lib;opengl32.lib;glu32.lib;SDL2.lib;SDL2main.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;assimp-vc143-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
     </Link>

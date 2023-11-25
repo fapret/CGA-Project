@@ -21,7 +21,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "imgui.h"
 
 
 #include <assimp/ai_assert.h>
