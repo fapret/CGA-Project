@@ -26,6 +26,9 @@
 #include <assimp/ai_assert.h>
 #include <assimp/Importer.hpp>
 
+#include "Mesh.h"
+#include "mundo.h"
+
 using namespace std;
 
 // global variables - normally would avoid globals, using in this demo
@@ -267,7 +270,7 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 }
 
 
-void draw(SDL_Window* window)
+void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 {
 #ifdef USE_IMGUI
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -286,6 +289,9 @@ void draw(SDL_Window* window)
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
+
+	mundo->draw(jugador, vert);
+
 
 	// pass model as uniform into shader
 	int projectionIndex = glGetUniformLocation(shaderprogram, "projection");
@@ -340,6 +346,12 @@ int main(int argc, char* argv[]) {
 
 	SDL_Window* window = NULL;
 	SDL_GLContext gl_context;
+
+
+	int vertAmountJugador = 0;
+	Vector3** jugador = DoTheImportThing("models/jugador.obj", vertAmountJugador);//mesh.h
+	Mundo* mundo = new Mundo(0.3, 0.3, 0.2);
+
 
 #ifdef USE_IMGUI
 	StdoutRedirect stdoutRedirect;
@@ -402,7 +414,7 @@ int main(int argc, char* argv[]) {
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
 #endif
 		//update();
-		draw(window); // call the draw function
+		draw(window, mundo, jugador, vertAmountJugador); // call the draw function
 #ifdef USE_IMGUI
 		ImGui::Image((void*)(intptr_t)texture, ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
