@@ -4,6 +4,9 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+#include <Windows.h> //Para obtener metricas
+#include <string>
+#include <sstream>
 #endif
 
 #include <glad/glad.h>
@@ -30,6 +33,30 @@ float r = 0;
 #ifdef USE_IMGUI
 GLuint framebuffer;
 GLuint texture;
+bool checkboxValue = false;
+
+// Redirect standard output (stdout) to a string
+class StdoutRedirect {
+public:
+	StdoutRedirect() {
+		original_stdout = std::cout.rdbuf();
+		std::cout.rdbuf(buffer.rdbuf());
+	}
+
+	~StdoutRedirect() {
+		// Restore original stdout when the object goes out of scope
+		std::cout.rdbuf(original_stdout);
+	}
+
+	// Get the content of the redirected stdout
+	std::string GetOutput() const {
+		return buffer.str();
+	}
+
+private:
+	std::ostringstream buffer;
+	std::streambuf* original_stdout;
+};
 
 void initFramebuffer()
 {
@@ -312,6 +339,7 @@ int main(int argc, char *argv[]) {
 	SDL_GLContext gl_context;
 
 #ifdef USE_IMGUI
+	StdoutRedirect stdoutRedirect;
 	window = SDL_CreateWindow("Ventana", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 #else
@@ -323,11 +351,11 @@ int main(int argc, char *argv[]) {
 	//disable limit of 60fps
 	SDL_GL_SetSwapInterval(0);
 	// Check OpenGL properties
-	printf("OpenGL loaded\n");
+	cout << "App Started" << endl;
 	gladLoadGLLoader(SDL_GL_GetProcAddress);
-	printf("Vendor:   %s\n", glGetString(GL_VENDOR));
-	printf("Renderer: %s\n", glGetString(GL_RENDERER));
-	printf("Version:  %s\n", glGetString(GL_VERSION));
+	cout << "Vendor: " << glGetString(GL_VENDOR) << endl;
+	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
+	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
 	init(window, gl_context);
 
@@ -357,6 +385,7 @@ int main(int argc, char *argv[]) {
 		// ImGui UI elements
 		int windowWidth, windowHeight;
 		SDL_GetWindowSize(window, &windowWidth, &windowHeight);
+
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
 		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
@@ -364,8 +393,9 @@ int main(int argc, char *argv[]) {
 		// Add ImGui UI elements here
 
 		ImGui::End();
+
 		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, 0), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight)));
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
 #endif
 		//update();
@@ -373,6 +403,59 @@ int main(int argc, char *argv[]) {
 #ifdef USE_IMGUI
 		ImGui::Image((void*)(intptr_t)texture, ImVec2(1280, 720), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
+
+		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight) * 0.25));
+		ImGui::Begin("Information", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
+		if (ImGui::BeginTabBar("Tabs")) {
+			if (ImGui::BeginTabItem("Statistics")) {
+				ImGui::Text("FPS: %.1f", ImGui::GetIO().Framerate);
+				ImGui::Text("Frame Time: %.3f ms/frame", 1000.0f / ImGui::GetIO().Framerate);
+				ImGui::Text("Mouse Position: (%.1f, %.1f)", ImGui::GetIO().MousePos.x, ImGui::GetIO().MousePos.y);
+
+				MEMORYSTATUSEX memoryStatus;
+				memoryStatus.dwLength = sizeof(memoryStatus);
+				GlobalMemoryStatusEx(&memoryStatus);
+				ImGui::Text("Total Physical Memory: %llu MB", memoryStatus.ullTotalPhys / (1024 * 1024));
+				ImGui::Text("Available Physical Memory: %llu MB", memoryStatus.ullAvailPhys / (1024 * 1024));
+
+				FILETIME idleTime, kernelTime, userTime;
+
+				if (GetSystemTimes(&idleTime, &kernelTime, &userTime)) {
+					ULARGE_INTEGER idle, kernel, user;
+					idle.LowPart = idleTime.dwLowDateTime;
+					idle.HighPart = idleTime.dwHighDateTime;
+					kernel.LowPart = kernelTime.dwLowDateTime;
+					kernel.HighPart = kernelTime.dwHighDateTime;
+					user.LowPart = userTime.dwLowDateTime;
+					user.HighPart = userTime.dwHighDateTime;
+
+					ULONGLONG totalTime = (kernel.QuadPart - idle.QuadPart) + (user.QuadPart - idle.QuadPart);
+					double usage = (static_cast<double>(totalTime - idle.QuadPart) / totalTime) * 100.0;
+
+					ImGui::Text("CPU Usage: %.2f%%", usage);
+				}
+				else {
+					ImGui::Text("Failed to retrieve CPU usage");
+				}
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("OpenGL Configuration")) {
+				if (ImGui::Checkbox("Limit FPS", &checkboxValue)) {
+					SDL_GL_SetSwapInterval(checkboxValue);  // Disable vsync
+				}
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Console")) {
+				// Display redirected stdout content in ImGui
+				ImGui::Text("%s", stdoutRedirect.GetOutput().c_str());
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
+		}
+
+		ImGui::End();
+
 		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.85, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
 		ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
