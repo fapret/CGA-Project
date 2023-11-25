@@ -458,9 +458,15 @@ int main(int argc, char *argv[]) {
 
 		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.85, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
-		ImGui::Begin("Properties", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Inspect", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
 		// Add ImGui UI elements here
+		if (ImGui::BeginTabBar("Tabs")) {
+			if (ImGui::BeginTabItem("Properties")) {
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
+		}
 
 		ImGui::End();
 		ImGui::Render();
