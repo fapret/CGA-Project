@@ -387,7 +387,7 @@ int main(int argc, char *argv[]) {
 		SDL_GetWindowSize(window, &windowWidth, &windowHeight);
 
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight)));
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
 		// Add ImGui UI elements here
@@ -401,11 +401,11 @@ int main(int argc, char *argv[]) {
 		//update();
 		draw(window); // call the draw function
 #ifdef USE_IMGUI
-		ImGui::Image((void*)(intptr_t)texture, ImVec2(1280, 720), ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::Image((void*)(intptr_t)texture, ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 
-		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75), ImGuiCond_Always);
-		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight) * 0.25));
+		ImGui::SetNextWindowPos(ImVec2(0, static_cast<float>(windowHeight) * 0.75), ImGuiCond_Always);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.85, static_cast<float>(windowHeight) * 0.25));
 		ImGui::Begin("Information", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
 		if (ImGui::BeginTabBar("Tabs")) {
 			if (ImGui::BeginTabItem("Statistics")) {
