@@ -1,1 +1,5 @@
 .vs
+x64/
+OpenGL-basico/Debug/
+OpenGL-basico/Release/
+OpenGL-basico/x64/
