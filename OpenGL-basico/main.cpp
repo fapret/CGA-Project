@@ -36,6 +36,13 @@ GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
 
+float cameraSpeed = 0.1f;
+float cameraX = 0.0f;
+float cameraZ = -4.0f;
+glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, -4.0f);
+float cameraYaw = 0.0f;
+float cameraPitch = 0.0f;
+
 #ifdef USE_IMGUI
 GLuint framebuffer;
 GLuint texture;
@@ -279,18 +286,22 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 
 	// Create perspective projection matrix
+
 	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 100.f);
+	projection = glm::rotate(projection, glm::radians(cameraYaw), glm::vec3(0.0f, 1.0f, 0.0f));
+	projection = glm::rotate(projection, glm::radians(cameraPitch), glm::vec3(1.0f, 0.0f, 0.0f));
+	//projection = glm::translate(projection, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create view matrix for the camera
-	r += 0.001; //for camera rotation
 	glm::mat4 view(1.0);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-	view = glm::rotate(view, r, glm::vec3(0.0f, 1.0f, 0.0f));
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
+	view = glm::translate(view, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
 
 	mundo->draw(jugador, vert);
+
 
 
 	// pass model as uniform into shader
@@ -350,7 +361,7 @@ int main(int argc, char* argv[]) {
 
 	int vertAmountJugador = 0;
 	Vector3** jugador = DoTheImportThing("models/jugador.obj", vertAmountJugador);//mesh.h
-	Mundo* mundo = new Mundo(0.3, 0.3, 0.2);
+	Mundo* mundo = new Mundo(4.0, 0.3, 0.2);
 
 
 #ifdef USE_IMGUI
@@ -379,15 +390,55 @@ int main(int argc, char* argv[]) {
 
 	while (running)		// the event loop
 	{
-		while (SDL_PollEvent(&sdlEvent))
-		{
-			if (sdlEvent.type == SDL_QUIT)
-				running = false;
-			// Pass SDL events to ImGui
+
+
+		while (SDL_PollEvent(&sdlEvent)) {
 #ifdef USE_IMGUI
 			ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 #endif
+			switch (sdlEvent.type) {
+			case SDL_QUIT:
+				running = false;
+				break;
+			case SDL_KEYDOWN:
+				switch (sdlEvent.key.keysym.sym) {
+				case SDLK_ESCAPE:
+					exit(0);
+					break;
+				case SDLK_w:
+					cameraZ += cameraSpeed;
+					cout << "W" << endl;
+					break;
+				case SDLK_s:
+					cameraZ -= cameraSpeed;
+
+					cout << "S" << endl;
+					break;
+				case SDLK_a:
+					cameraX += cameraSpeed;
+
+					cout << "A" << endl;
+					break;
+				case SDLK_d:
+					cameraX -= cameraSpeed;
+
+					cout << "D" << endl;
+					break;
+				}
+				break;
+
+			case SDL_MOUSEMOTION:
+				// Handle mouse movement to update camera direction
+				cameraYaw += sdlEvent.motion.xrel * 0.1f;
+				cameraPitch += sdlEvent.motion.yrel * 0.1f;
+				cameraPitch = glm::clamp(cameraPitch, -89.0f, 89.0f);
+
+
+				break;
+			}
+			
 		}
+
 
 #ifdef USE_IMGUI
 		glClearColor(0.231, 0.231, 0.329, 1.0);
