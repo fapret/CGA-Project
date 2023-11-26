@@ -364,7 +364,7 @@ int main(int argc, char* argv[]) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	SDL_SetRelativeMouseMode(SDL_TRUE);
+	//SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_Window* window = NULL;
 	SDL_GLContext gl_context;
 
@@ -464,6 +464,9 @@ int main(int argc, char* argv[]) {
 		ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_None)) {
+			cout << "Hierarchy focused" << endl;
+		}
 
 		char** namesAsChar = new char* [hierarchy.getAllEntities().size()];
 		int i = 0;
@@ -483,6 +486,9 @@ int main(int argc, char* argv[]) {
 		ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.15, 0), ImGuiCond_Always);
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_None)) {
+			cout << "Viewport focused" << endl;
+		}
 #endif
 		//update();
 		draw(window, mundo, jugador, vertAmountJugador); // call the draw function

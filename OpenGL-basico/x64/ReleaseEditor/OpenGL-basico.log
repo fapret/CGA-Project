@@ -1,7 +1,23 @@
-﻿  TransformComponent.cpp
+﻿  main.cpp
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(374,37): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(374,32): warning C4305: 'argumento': truncamiento de 'double' a 'float'
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(453,30): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(453,23): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(453,16): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(465,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(465,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(479,94): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(486,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(487,107): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(487,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(499,70): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(500,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(500,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(551,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(552,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
   Generando código
-  1 of 2063 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2064 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    26 functions had inline decision re-evaluated but remain unchanged
+    30 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
   OpenGL-basico.vcxproj -> C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\x64\ReleaseEditor\OpenGL-avanzado.exe
