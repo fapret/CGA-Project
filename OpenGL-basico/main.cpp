@@ -445,10 +445,10 @@ int main(int argc, char* argv[]) {
 					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
-					cameraComponent->setY(cameraComponent->getY() - cameraComponent->getSpeed());
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() - cameraComponent->getSpeed(), camTransform->getPosition()->getZ()));
 					break;
 				case SDLK_LCTRL:
-					cameraComponent->setY(cameraComponent->getY() + cameraComponent->getSpeed());
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() + cameraComponent->getSpeed(), camTransform->getPosition()->getZ()));
 				}
 				break;
 
