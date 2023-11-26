@@ -293,8 +293,9 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	// Create perspective projection matrix
 
 	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 100.f);
-	projection = glm::rotate(projection, glm::radians(cameraComponent->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
 	projection = glm::rotate(projection, glm::radians(cameraComponent->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
+	projection = glm::rotate(projection, glm::radians(cameraComponent->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	//projection = glm::translate(projection, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create view matrix for the camera
@@ -363,7 +364,7 @@ int main(int argc, char* argv[]) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_Window* window = NULL;
 	SDL_GLContext gl_context;
 
