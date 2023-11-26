@@ -43,6 +43,8 @@ void TransformComponent::EditorPropertyDraw()
     float xValue = this->position->getX();
     float yValue = this->position->getY();
     float zValue = this->position->getZ();
+    ImGui::Text("Position");
+    ImGui::Separator();
     ImGui::Text("X:");
     ImGui::SameLine();
     ImGui::InputFloat("##X", &xValue, 0.01f, 0.1f, "%.3f");
@@ -52,5 +54,37 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::Text("Z:");
     ImGui::SameLine();
     ImGui::InputFloat("##Z", &zValue, 0.01f, 0.1f, "%.3f");
+
+    float xValue2 = this->rotation->getX();
+    float yValue2 = this->rotation->getY();
+    float zValue2 = this->rotation->getZ();
+    ImGui::Separator();
+    ImGui::Text("Rotation");
+    ImGui::Separator();
+    ImGui::Text("X:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##X", &xValue2, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Y:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Y", &yValue2, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Z:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Z", &zValue2, 0.01f, 0.1f, "%.3f");
+
+    float xValue3 = this->scale->getX();
+    float yValue3 = this->scale->getY();
+    float zValue3 = this->scale->getZ();
+    ImGui::Separator();
+    ImGui::Text("Scale");
+    ImGui::Separator();
+    ImGui::Text("X:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##X", &xValue3, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Y:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Y", &yValue3, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Z:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Z", &zValue3, 0.01f, 0.1f, "%.3f");
 }
 #endif
