@@ -2,7 +2,6 @@
 #include "mesh.h"
 #include "Vector3.h"
 #include <SDL_opengl.h>
-#pragma once
 
 
 class Mundo {

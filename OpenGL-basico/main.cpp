@@ -22,7 +22,6 @@
 #include <fstream>
 
 
-
 #include <assimp/ai_assert.h>
 #include <assimp/Importer.hpp>
 
