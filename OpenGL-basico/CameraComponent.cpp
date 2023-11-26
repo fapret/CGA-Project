@@ -54,6 +54,7 @@ TransformComponent* CameraComponent::getTransform()
 #ifdef USE_IMGUI
 void CameraComponent::EditorPropertyDraw()
 {
+	EntityComponent::EditorPropertyDraw();
 	ImGui::Text("Speed:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##Speed", &Speed, 0.01f, 0.1f, "%.3f");

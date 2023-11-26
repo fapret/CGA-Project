@@ -15,6 +15,7 @@ public:
 	std::string getId();
 	EntityComponent();
 	EntityComponent(std::string type);
+	virtual void draw();
 #ifdef USE_IMGUI
 	virtual void EditorPropertyDraw();
 #endif

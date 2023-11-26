@@ -177,6 +177,7 @@
     <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="mundo.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -196,11 +197,13 @@
     <ClInclude Include="..\libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="..\libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="GUIGenerator.h" />
     <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="mundo.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vector3.h" />

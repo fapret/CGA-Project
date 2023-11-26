@@ -311,7 +311,6 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	mundo->draw(jugador, vert);
 
 
-
 	// pass model as uniform into shader
 	int projectionIndex = glGetUniformLocation(shaderprogram, "projection");
 	glUniformMatrix4fv(projectionIndex, 1, GL_FALSE, glm::value_ptr(projection));
@@ -372,7 +371,7 @@ int main(int argc, char* argv[]) {
 
 
 	int vertAmountJugador = 0;
-	Vector3** jugador = DoTheImportThing("models/Bayard4.obj", vertAmountJugador);//mesh.h
+	Vector3** jugador = DoTheImportThing("../models/jugador.obj", vertAmountJugador);//mesh.h
 	Mundo* mundo = new Mundo(4.0, 0.3, 0.2);
 
 
@@ -480,7 +479,7 @@ int main(int argc, char* argv[]) {
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_None)) {
-			cout << "Hierarchy focused" << endl;
+			//cout << "Hierarchy focused" << endl;
 		}
 
 		char** namesAsChar = new char* [hierarchy.getAllEntities().size()];
@@ -502,7 +501,7 @@ int main(int argc, char* argv[]) {
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.7, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_HorizontalScrollbar);
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_None)) {
-			cout << "Viewport focused" << endl;
+			//cout << "Viewport focused" << endl;
 		}
 #endif
 		//update();

@@ -40,6 +40,7 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
 #ifdef USE_IMGUI
 void TransformComponent::EditorPropertyDraw()
 {
+    EntityComponent::EditorPropertyDraw();
     float xValue = this->position->getX();
     float yValue = this->position->getY();
     float zValue = this->position->getZ();
