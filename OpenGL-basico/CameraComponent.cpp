@@ -4,8 +4,6 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 {
 	this->transform = new TransformComponent();
 	this->Speed = 0.1f;
-	this->X = 0.0f;
-	this->Z = -4.0f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 }
@@ -14,8 +12,6 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 {
 	this->transform = transform;
 	this->Speed = 0.1f;
-	this->X = 0.0f;
-	this->Z = -4.0f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 }
@@ -23,16 +19,6 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 float CameraComponent::getSpeed()
 {
 	return Speed;
-}
-
-float CameraComponent::getX()
-{
-	return X;
-}
-
-float CameraComponent::getZ()
-{
-	return Z;
 }
 
 float CameraComponent::getYaw()
@@ -48,16 +34,6 @@ float CameraComponent::getPitch()
 void CameraComponent::setSpeed(float speed)
 {
 	this->Speed = speed;
-}
-
-void CameraComponent::setX(float x)
-{
-	this->X = x;
-}
-
-void CameraComponent::setZ(float z)
-{
-	this->Z = z;
 }
 
 void CameraComponent::setYaw(float yaw)
@@ -81,12 +57,6 @@ void CameraComponent::EditorPropertyDraw()
 	ImGui::Text("Speed:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##Speed", &Speed, 0.01f, 0.1f, "%.3f");
-	ImGui::Text("X:");
-	ImGui::SameLine();
-	ImGui::InputFloat("##X", &X, 0.01f, 0.1f, "%.3f");
-	ImGui::Text("Z:");
-	ImGui::SameLine();
-	ImGui::InputFloat("##Z", &Z, 0.01f, 0.1f, "%.3f");
 	ImGui::Text("Yaw:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##Yaw", &yaw, 0.01f, 0.1f, "%.3f");

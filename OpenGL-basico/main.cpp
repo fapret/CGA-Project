@@ -301,7 +301,8 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	// Create view matrix for the camera
 	glm::mat4 view(1.0);
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-	view = glm::translate(view, glm::vec3(cameraComponent->getX(), 0.0f, cameraComponent->getZ()));
+	TransformComponent* camTransform = (TransformComponent*) camara->findComponentsByType("TransformComponent").at(0);
+	view = glm::translate(view, glm::vec3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
@@ -398,6 +399,8 @@ int main(int argc, char* argv[]) {
 	bool running = true; // set running to true
 	SDL_Event sdlEvent;  // variable to detect SDL events
 
+	TransformComponent* camTransform = (TransformComponent*)camara->findComponentsByType("TransformComponent").at(0);
+
 	while (running)		// the event loop
 	{
 
@@ -416,22 +419,19 @@ int main(int argc, char* argv[]) {
 					exit(0);
 					break;
 				case SDLK_w:
-					cameraComponent->setZ(cameraComponent->getZ() + cameraComponent->getSpeed());
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() + cameraComponent->getSpeed()));
 					cout << "W" << endl;
 					break;
 				case SDLK_s:
-					cameraComponent->setZ(cameraComponent->getZ() - cameraComponent->getSpeed());
-
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() - cameraComponent->getSpeed()));
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					cameraComponent->setX(cameraComponent->getX() + cameraComponent->getSpeed());
-
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() + cameraComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					cameraComponent->setX(cameraComponent->getX() - cameraComponent->getSpeed());
-
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() - cameraComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 					cout << "D" << endl;
 					break;
 				}
