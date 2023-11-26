@@ -17,6 +17,7 @@ public:
 	void setSpeed(float speed);
 	void setX(float x);
 	void setZ(float z);
+	void setY(float y);
 	void setYaw(float yaw);
 	void setPitch(float pitch);
 	TransformComponent* getTransform();

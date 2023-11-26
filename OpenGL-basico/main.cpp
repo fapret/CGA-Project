@@ -38,6 +38,7 @@ using namespace std;
 GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
+bool relativeMouse = true;
 
 Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
@@ -365,7 +366,7 @@ int main(int argc, char* argv[]) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	//SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_Window* window = NULL;
 	SDL_GLContext gl_context;
 
@@ -415,8 +416,17 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_KEYDOWN:
 				switch (sdlEvent.key.keysym.sym) {
-				case SDLK_ESCAPE:
+				case SDLK_q:
 					exit(0);
+					break;
+				case SDLK_ESCAPE:
+					relativeMouse = !relativeMouse;
+					if (relativeMouse) {
+						SDL_SetRelativeMouseMode(SDL_TRUE);
+					}
+					else {
+						SDL_SetRelativeMouseMode(SDL_FALSE);
+					}
 					break;
 				case SDLK_w:
 					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() + cameraComponent->getSpeed()));
@@ -434,6 +444,11 @@ int main(int argc, char* argv[]) {
 					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() - cameraComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 					cout << "D" << endl;
 					break;
+				case SDLK_SPACE:
+					cameraComponent->setY(cameraComponent->getY() - cameraComponent->getSpeed());
+					break;
+				case SDLK_LCTRL:
+					cameraComponent->setY(cameraComponent->getY() + cameraComponent->getSpeed());
 				}
 				break;
 
@@ -445,7 +460,7 @@ int main(int argc, char* argv[]) {
 
 				break;
 			}
-			
+
 		}
 
 
