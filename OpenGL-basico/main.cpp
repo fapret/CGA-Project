@@ -369,7 +369,7 @@ int main(int argc, char* argv[]) {
 
 
 	int vertAmountJugador = 0;
-	Vector3** jugador = DoTheImportThing("models/jugador.obj", vertAmountJugador);//mesh.h
+	Vector3** jugador = DoTheImportThing("models/Bayard4.obj", vertAmountJugador);//mesh.h
 	Mundo* mundo = new Mundo(4.0, 0.3, 0.2);
 
 
