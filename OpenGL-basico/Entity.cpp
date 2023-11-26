@@ -44,20 +44,25 @@ Entity::~Entity()
 EntityComponent* Entity::findComponentByID(std::string id)
 {
 	for (auto& component : components) {
-		if (component.getId() == id) {
-			return &component;
+		if (component->getId() == id) {
+			return component;
 		}
 	}
 	return nullptr;
 }
 
-std::vector<EntityComponent> Entity::findComponentsByType(std::string type)
+std::vector<EntityComponent*> Entity::findComponentsByType(std::string type)
 {
-	std::vector<EntityComponent> array;
+	std::vector<EntityComponent*> array;
 	for (auto& component : components) {
-		if (component.getType() == type) {
+		if (component->getType() == type) {
 			array.push_back(component);
 		}
 	}
 	return array;
+}
+
+void Entity::addComponent(EntityComponent* component)
+{
+	this->components.push_back(component);
 }

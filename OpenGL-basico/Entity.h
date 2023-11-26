@@ -7,7 +7,7 @@ class Entity {
 private:
 	std::string name;
 	std::string id;
-	std::vector<EntityComponent> components;
+	std::vector<EntityComponent*> components;
 public:
 	std::string getName();
 	void setName(std::string name);
@@ -17,5 +17,6 @@ public:
 	Entity(std::string name, std::string id);
 	~Entity();
 	EntityComponent* findComponentByID(std::string id);
-	std::vector<EntityComponent> findComponentsByType(std::string type);
+	std::vector<EntityComponent*> findComponentsByType(std::string type);
+	void addComponent(EntityComponent* component);
 };

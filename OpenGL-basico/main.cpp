@@ -28,6 +28,9 @@
 #include "Mesh.h"
 #include "mundo.h"
 
+#include "Entity.h"
+#include "CameraComponent.h"
+
 using namespace std;
 
 // global variables - normally would avoid globals, using in this demo
@@ -35,12 +38,9 @@ GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
 
-float cameraSpeed = 0.1f;
-float cameraX = 0.0f;
-float cameraZ = -4.0f;
-glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, -4.0f);
-float cameraYaw = 0.0f;
-float cameraPitch = 0.0f;
+std::string cameraName = "MainCamera";
+Entity* camara = new Entity(cameraName);
+CameraComponent* cameraComponent = new CameraComponent();//Se agrega en el main
 
 #ifdef USE_IMGUI
 GLuint framebuffer;
@@ -287,14 +287,14 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	// Create perspective projection matrix
 
 	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 100.f);
-	projection = glm::rotate(projection, glm::radians(cameraYaw), glm::vec3(0.0f, 1.0f, 0.0f));
-	projection = glm::rotate(projection, glm::radians(cameraPitch), glm::vec3(1.0f, 0.0f, 0.0f));
+	projection = glm::rotate(projection, glm::radians(cameraComponent->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+	projection = glm::rotate(projection, glm::radians(cameraComponent->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
 	//projection = glm::translate(projection, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create view matrix for the camera
 	glm::mat4 view(1.0);
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-	view = glm::translate(view, glm::vec3(cameraX, 0.0f, cameraZ));
+	view = glm::translate(view, glm::vec3(cameraComponent->getX(), 0.0f, cameraComponent->getZ()));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
@@ -343,6 +343,9 @@ void cleanup(void)
 
 
 int main(int argc, char* argv[]) {
+	camara->addComponent(cameraComponent);//Agrego componente de camara a la camara
+	camara->addComponent(cameraComponent->getTransform());
+
 	//INICIALIZACION
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
 		SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
@@ -405,21 +408,21 @@ int main(int argc, char* argv[]) {
 					exit(0);
 					break;
 				case SDLK_w:
-					cameraZ += cameraSpeed;
+					cameraComponent->setZ(cameraComponent->getZ() + cameraComponent->getSpeed());
 					cout << "W" << endl;
 					break;
 				case SDLK_s:
-					cameraZ -= cameraSpeed;
+					cameraComponent->setZ(cameraComponent->getZ() - cameraComponent->getSpeed());
 
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					cameraX += cameraSpeed;
+					cameraComponent->setX(cameraComponent->getX() + cameraComponent->getSpeed());
 
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					cameraX -= cameraSpeed;
+					cameraComponent->setX(cameraComponent->getX() - cameraComponent->getSpeed());
 
 					cout << "D" << endl;
 					break;
@@ -428,10 +431,9 @@ int main(int argc, char* argv[]) {
 
 			case SDL_MOUSEMOTION:
 				// Handle mouse movement to update camera direction
-				cameraYaw += sdlEvent.motion.xrel * 0.1f;
-				cameraPitch += sdlEvent.motion.yrel * 0.1f;
-				cameraPitch = glm::clamp(cameraPitch, -89.0f, 89.0f);
-
+				cameraComponent->setYaw(cameraComponent->getYaw() + sdlEvent.motion.xrel * 0.1f);
+				cameraComponent->setPitch(cameraComponent->getPitch() + sdlEvent.motion.yrel * 0.1f);
+				cameraComponent->setPitch(glm::clamp(cameraComponent->getPitch(), -89.0f, 89.0f));
 
 				break;
 			}
