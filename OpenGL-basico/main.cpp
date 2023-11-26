@@ -294,15 +294,17 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	// Create perspective projection matrix
 
 	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 100.f);
-	projection = glm::rotate(projection, glm::radians(cameraComponent->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
-	projection = glm::rotate(projection, glm::radians(cameraComponent->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+	CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
+	projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
+	projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
 
 	//projection = glm::translate(projection, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create view matrix for the camera
 	glm::mat4 view(1.0);
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-	TransformComponent* camTransform = (TransformComponent*) camara->findComponentsByType("TransformComponent").at(0);
+
+	TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
 	view = glm::translate(view, glm::vec3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 
 	// Create model matrix for model transformations
@@ -353,7 +355,20 @@ void cleanup(void)
 int main(int argc, char* argv[]) {
 	camara->addComponent(cameraComponent);//Agrego componente de camara a la camara
 	camara->addComponent(cameraComponent->getTransform());
+	cameraComponent->setIsActive(true);
+	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
+	hierarchy.setActiveCamera(camara);
+
+	//Test
+	std::string cameraName2 = "SecondaryCamera";
+	Entity* camara2 = new Entity(cameraName2);
+	CameraComponent* secCameraComponent = new CameraComponent();
+	camara2->addComponent(secCameraComponent);
+	camara2->addComponent(secCameraComponent->getTransform());
+	secCameraComponent->setIsActive(false);
+	secCameraComponent->setFatherEntity(camara2);
+	hierarchy.addEntity(camara2);
 
 	//INICIALIZACION
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
@@ -399,11 +414,10 @@ int main(int argc, char* argv[]) {
 	bool running = true; // set running to true
 	SDL_Event sdlEvent;  // variable to detect SDL events
 
-	TransformComponent* camTransform = (TransformComponent*)camara->findComponentsByType("TransformComponent").at(0);
-
 	while (running)		// the event loop
 	{
-
+		TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
+		CameraComponent* currCamComponent = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
 
 		while (SDL_PollEvent(&sdlEvent)) {
 #ifdef USE_IMGUI
@@ -428,34 +442,34 @@ int main(int argc, char* argv[]) {
 					}
 					break;
 				case SDLK_w:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() + cameraComponent->getSpeed()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() + currCamComponent->getSpeed()));
 					cout << "W" << endl;
 					break;
 				case SDLK_s:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() - cameraComponent->getSpeed()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() - currCamComponent->getSpeed()));
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() + cameraComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() + currCamComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() - cameraComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() - currCamComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
 					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() - cameraComponent->getSpeed(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() - currCamComponent->getSpeed(), camTransform->getPosition()->getZ()));
 					break;
 				case SDLK_LCTRL:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() + cameraComponent->getSpeed(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() + currCamComponent->getSpeed(), camTransform->getPosition()->getZ()));
 				}
 				break;
 
 			case SDL_MOUSEMOTION:
 				// Handle mouse movement to update camera direction
-				cameraComponent->setYaw(cameraComponent->getYaw() + sdlEvent.motion.xrel * 0.1f);
-				cameraComponent->setPitch(cameraComponent->getPitch() + sdlEvent.motion.yrel * 0.1f);
-				cameraComponent->setPitch(glm::clamp(cameraComponent->getPitch(), -89.0f, 89.0f));
+				currCamComponent->setYaw(currCamComponent->getYaw() + sdlEvent.motion.xrel * 0.1f);
+				currCamComponent->setPitch(currCamComponent->getPitch() + sdlEvent.motion.yrel * 0.1f);
+				currCamComponent->setPitch(glm::clamp(currCamComponent->getPitch(), -89.0f, 89.0f));
 
 				break;
 			}

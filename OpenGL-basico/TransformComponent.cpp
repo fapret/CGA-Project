@@ -10,6 +10,16 @@ void TransformComponent::setPosition(Vector3* pos)
     this->position = pos;
 }
 
+Vector3* TransformComponent::getVelocity()
+{
+    return velocity;
+}
+
+void TransformComponent::setVelocity(Vector3* vel)
+{
+    this->velocity = vel;
+}
+
 Vector3* TransformComponent::getScale()
 {
     return scale;
@@ -35,6 +45,7 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
     this->position = new Vector3();
     this->rotation = new Vector3();
     this->scale = new Vector3(1.0f,1.0f,1.0f);
+    this->velocity = new Vector3(0.0f, 0.0f, 0.0f);
 }
 
 #ifdef USE_IMGUI
@@ -87,5 +98,21 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::Text("Z:");
     ImGui::SameLine();
     ImGui::InputFloat("##Z", &zValue3, 0.01f, 0.1f, "%.3f");
+
+    float xValue4 = this->velocity->getX();
+    float yValue4 = this->velocity->getY();
+    float zValue4 = this->velocity->getZ();
+    ImGui::Separator();
+    ImGui::Text("Velocity");
+    ImGui::Separator();
+    ImGui::Text("X:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##X", &xValue4, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Y:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Y", &yValue4, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Z:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Z", &zValue4, 0.01f, 0.1f, "%.3f");
 }
 #endif

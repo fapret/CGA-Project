@@ -22,6 +22,16 @@ EntityComponent::EntityComponent(std::string type)
     this->type = type;
 }
 
+void EntityComponent::setFatherEntity(Entity* father)
+{
+    this->father = father;
+}
+
+Entity* EntityComponent::getFatherEntity()
+{
+    return father;
+}
+
 void EntityComponent::draw()
 {
 }

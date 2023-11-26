@@ -1,4 +1,6 @@
 #pragma once
+#ifndef ENTITY
+#define ENTITY
 #include <string>
 #include <vector>
 #include "EntityComponent.h"
@@ -29,3 +31,4 @@ public:
 	void drawProperties();
 #endif
 };
+#endif

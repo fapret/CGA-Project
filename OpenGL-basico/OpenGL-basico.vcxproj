@@ -171,6 +171,7 @@
     <ClCompile Include="..\libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityComponent.cpp" />
     <ClCompile Include="GUIGenerator.cpp" />

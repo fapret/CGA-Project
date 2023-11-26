@@ -42,6 +42,16 @@ Entity* Hierarchy::findEntityByName(std::string name)
     return nullptr;
 }
 
+void Hierarchy::setActiveCamera(Entity* cam)
+{
+    this->activeCamera = cam;
+}
+
+Entity* Hierarchy::getActiveCamera()
+{
+    return activeCamera;
+}
+
 std::vector<Entity*> Hierarchy::getAllEntities()
 {
     return entities;

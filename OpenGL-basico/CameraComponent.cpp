@@ -6,6 +6,7 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->Speed = 0.1f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
+	this->isActive = false;
 }
 
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
@@ -14,6 +15,7 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 	this->Speed = 0.1f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
+	this->isActive = false;
 }
 
 float CameraComponent::getSpeed()
@@ -31,6 +33,11 @@ float CameraComponent::getPitch()
 	return pitch;
 }
 
+bool CameraComponent::getIsActive()
+{
+	return isActive;
+}
+
 void CameraComponent::setSpeed(float speed)
 {
 	this->Speed = speed;
@@ -46,6 +53,11 @@ void CameraComponent::setPitch(float pitch)
 	this->pitch = pitch;
 }
 
+void CameraComponent::setIsActive(bool status)
+{
+	this->isActive = status;
+}
+
 TransformComponent* CameraComponent::getTransform()
 {
 	return transform;
@@ -55,6 +67,17 @@ TransformComponent* CameraComponent::getTransform()
 void CameraComponent::EditorPropertyDraw()
 {
 	EntityComponent::EditorPropertyDraw();
+	ImGui::Text("Is Active Camera: %s", isActive ? "True" : "False");
+	if (getFatherEntity() != nullptr && !isActive && ImGui::Button("Set Camera as active")) {
+		// Code to execute when the button is pressed
+		Hierarchy& hierarchy = Hierarchy::getInstance();
+		if (hierarchy.getActiveCamera() != nullptr) {
+			CameraComponent* oldActive = (CameraComponent*) (hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0));
+			oldActive->setIsActive(false);
+		}
+		this->isActive = true;
+		hierarchy.setActiveCamera(getFatherEntity());
+	}
 	ImGui::Text("Speed:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##Speed", &Speed, 0.01f, 0.1f, "%.3f");
