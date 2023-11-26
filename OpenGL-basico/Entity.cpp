@@ -66,3 +66,16 @@ void Entity::addComponent(EntityComponent* component)
 {
 	this->components.push_back(component);
 }
+
+#ifdef USE_IMGUI
+void Entity::drawProperties()
+{
+	for (auto& component : components) {
+		char* namesAsChar = new char[component->getType().size() + 1];
+		strcpy_s(namesAsChar, component->getType().size() + 1, component->getType().c_str());
+		if (ImGui::CollapsingHeader(namesAsChar)) {
+			component->EditorPropertyDraw();
+		}
+	}
+}
+#endif

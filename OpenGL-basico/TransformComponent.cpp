@@ -36,3 +36,21 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
     this->rotation = new Vector3();
     this->scale = new Vector3(1.0f,1.0f,1.0f);
 }
+
+#ifdef USE_IMGUI
+void TransformComponent::EditorPropertyDraw()
+{
+    float xValue = this->position->getX();
+    float yValue = this->position->getY();
+    float zValue = this->position->getZ();
+    ImGui::Text("X:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##X", &xValue, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Y:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Y", &yValue, 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Z:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##Z", &zValue, 0.01f, 0.1f, "%.3f");
+}
+#endif

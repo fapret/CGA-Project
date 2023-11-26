@@ -74,3 +74,24 @@ TransformComponent* CameraComponent::getTransform()
 {
 	return transform;
 }
+
+#ifdef USE_IMGUI
+void CameraComponent::EditorPropertyDraw()
+{
+	ImGui::Text("Speed:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##Speed", &Speed, 0.01f, 0.1f, "%.3f");
+	ImGui::Text("X:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##X", &X, 0.01f, 0.1f, "%.3f");
+	ImGui::Text("Z:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##Z", &Z, 0.01f, 0.1f, "%.3f");
+	ImGui::Text("Yaw:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##Yaw", &yaw, 0.01f, 0.1f, "%.3f");
+	ImGui::Text("Pitch:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##Pitch", &pitch, 0.01f, 0.1f, "%.3f");
+}
+#endif

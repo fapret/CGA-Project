@@ -24,4 +24,7 @@ public:
 	void setYaw(float yaw);
 	void setPitch(float pitch);
 	TransformComponent* getTransform();
+#ifdef USE_IMGUI
+	void EditorPropertyDraw() override;
+#endif
 };

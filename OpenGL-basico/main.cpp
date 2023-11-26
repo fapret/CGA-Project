@@ -28,6 +28,7 @@
 #include "Mesh.h"
 #include "mundo.h"
 
+#include "Hierarchy.h"
 #include "Entity.h"
 #include "CameraComponent.h"
 
@@ -37,6 +38,11 @@ using namespace std;
 GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
+
+Hierarchy& hierarchy = Hierarchy::getInstance();
+#ifdef USE_IMGUI
+int selectedItem = -1;
+#endif
 
 std::string cameraName = "MainCamera";
 Entity* camara = new Entity(cameraName);
@@ -345,6 +351,7 @@ void cleanup(void)
 int main(int argc, char* argv[]) {
 	camara->addComponent(cameraComponent);//Agrego componente de camara a la camara
 	camara->addComponent(cameraComponent->getTransform());
+	hierarchy.addEntity(camara);
 
 	//INICIALIZACION
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
@@ -457,7 +464,18 @@ int main(int argc, char* argv[]) {
 		ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) * 0.15, static_cast<float>(windowHeight) * 0.75));
 		ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
-		// Add ImGui UI elements here
+		char** namesAsChar = new char* [hierarchy.getAllEntities().size()];
+		int i = 0;
+		for (auto& entity : hierarchy.getAllEntities()) {
+			namesAsChar[i] = new char[entity->getName().size() + 1];
+			strcpy_s(namesAsChar[i], entity->getName().size() + 1, entity->getName().c_str());
+			i++;
+		}
+
+		if (ImGui::ListBox("##Listbox", &selectedItem, namesAsChar, hierarchy.getAllEntities().size())) {
+			// Handle item selection here
+			// 'selectedItem' contains the index of the selected item
+		}
 
 		ImGui::End();
 
@@ -530,6 +548,10 @@ int main(int argc, char* argv[]) {
 		// Add ImGui UI elements here
 		if (ImGui::BeginTabBar("Tabs")) {
 			if (ImGui::BeginTabItem("Properties")) {
+				if (selectedItem >= 0) {
+					Entity* selectedEntity = hierarchy.getAllEntities().at(selectedItem);
+					selectedEntity->drawProperties();
+				}
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();

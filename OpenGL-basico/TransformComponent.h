@@ -15,4 +15,7 @@ public:
 	Vector3* getRotation();
 	void setRotation(Vector3* rot);
 	TransformComponent();
+#ifdef USE_IMGUI
+	void EditorPropertyDraw() override;
+#endif
 };
