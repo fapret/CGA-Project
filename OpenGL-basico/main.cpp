@@ -38,6 +38,7 @@ using namespace std;
 GLuint shaderprogram; // handle for shader program
 GLuint vao, vbo[2]; // handles for our VAO and two VBOs
 float r = 0;
+bool relativeMouse = true;
 
 Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
@@ -301,7 +302,7 @@ void draw(SDL_Window* window, Mundo * mundo, Vector3** jugador, int vert)
 	// Create view matrix for the camera
 	glm::mat4 view(1.0);
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-	view = glm::translate(view, glm::vec3(cameraComponent->getX(), 0.0f, cameraComponent->getZ()));
+	view = glm::translate(view, glm::vec3(cameraComponent->getX(), cameraComponent->getY(), cameraComponent->getZ()));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
@@ -364,7 +365,7 @@ int main(int argc, char* argv[]) {
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
-	//SDL_SetRelativeMouseMode(SDL_TRUE);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_Window* window = NULL;
 	SDL_GLContext gl_context;
 
@@ -412,8 +413,17 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_KEYDOWN:
 				switch (sdlEvent.key.keysym.sym) {
-				case SDLK_ESCAPE:
+				case SDLK_q:
 					exit(0);
+					break;
+				case SDLK_ESCAPE:
+					relativeMouse = !relativeMouse;
+					if (relativeMouse) {
+						SDL_SetRelativeMouseMode(SDL_TRUE);
+					}
+					else {
+						SDL_SetRelativeMouseMode(SDL_FALSE);
+					}
 					break;
 				case SDLK_w:
 					cameraComponent->setZ(cameraComponent->getZ() + cameraComponent->getSpeed());
@@ -434,6 +444,11 @@ int main(int argc, char* argv[]) {
 
 					cout << "D" << endl;
 					break;
+				case SDLK_SPACE:
+					cameraComponent->setY(cameraComponent->getY() - cameraComponent->getSpeed());
+					break;
+				case SDLK_LCTRL:
+					cameraComponent->setY(cameraComponent->getY() + cameraComponent->getSpeed());
 				}
 				break;
 

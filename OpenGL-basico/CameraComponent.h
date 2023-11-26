@@ -6,6 +6,7 @@ class CameraComponent : public EntityComponent {
 private:
 	float Speed;
 	float X;
+	float Y;
 	float Z;
 	float yaw;
 	float pitch;
@@ -16,11 +17,13 @@ public:
 	float getSpeed();
 	float getX();
 	float getZ();
+	float getY();
 	float getYaw();
 	float getPitch();
 	void setSpeed(float speed);
 	void setX(float x);
 	void setZ(float z);
+	void setY(float y);
 	void setYaw(float yaw);
 	void setPitch(float pitch);
 	TransformComponent* getTransform();

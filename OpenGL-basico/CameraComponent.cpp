@@ -35,6 +35,11 @@ float CameraComponent::getZ()
 	return Z;
 }
 
+float CameraComponent::getY()
+{
+	return Y;
+}
+
 float CameraComponent::getYaw()
 {
 	return yaw;
@@ -58,6 +63,11 @@ void CameraComponent::setX(float x)
 void CameraComponent::setZ(float z)
 {
 	this->Z = z;
+}
+
+void CameraComponent::setY(float y)
+{
+	this->Y = y;
 }
 
 void CameraComponent::setYaw(float yaw)
