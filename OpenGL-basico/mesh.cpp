@@ -18,6 +18,12 @@ MeshData LoadMeshData(const std::string& pFile)
 
 	for (unsigned int m = 0; m < scene->mNumMeshes; ++m) {
 		const aiMesh* mesh = scene->mMeshes[m];
+		for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
+			const aiFace& face = mesh->mFaces[i];
+			for (unsigned int j = 0; j < face.mNumIndices; ++j) {
+				meshData.indices.push_back(face.mIndices[j]);
+			}
+		}
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 			meshData.vertices.push_back(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
 			meshData.normals.push_back(glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z));
@@ -61,19 +67,25 @@ GLuint CreateMeshVAO(const MeshData& meshData, int mode)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * meshData.vertices.size(), meshData.vertices.data(), drawMode);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
 
 	// Normals
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * meshData.normals.size(), meshData.normals.data(), drawMode);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
 
 	// Texture coordinates
 	glBindBuffer(GL_ARRAY_BUFFER, vbo[2]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * meshData.texCoords.size(), meshData.texCoords.data(), drawMode);
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), nullptr);
+
+	// Indices
+	GLuint ebo;
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * meshData.indices.size(), meshData.indices.data(), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 
@@ -82,6 +94,6 @@ GLuint CreateMeshVAO(const MeshData& meshData, int mode)
 
 void RenderMeshVAO(GLuint vao, int faceAmount) {
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, faceAmount);
+	glDrawElements(GL_TRIANGLES, 3 * faceAmount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }

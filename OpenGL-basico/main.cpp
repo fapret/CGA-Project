@@ -115,6 +115,9 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	shaders.push_back(initShaders("../simple.vert", "../simple.frag"));
 	glEnable(GL_DEPTH_TEST); // enable depth testing
 	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
+	glFrontFace(GL_CCW);
+	glCullFace(GL_BACK);
+
 
 #ifdef USE_IMGUI
 	initFramebuffer();

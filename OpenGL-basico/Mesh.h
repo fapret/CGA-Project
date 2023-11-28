@@ -18,6 +18,7 @@ struct MeshData {
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec3> texCoords;
+    std::vector<unsigned int> indices;
 };
 
 MeshData LoadMeshData(const std::string& pFile);
