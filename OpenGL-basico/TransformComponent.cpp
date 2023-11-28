@@ -52,9 +52,9 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
 void TransformComponent::EditorPropertyDraw()
 {
     EntityComponent::EditorPropertyDraw();
-    float xValue = this->position->getX();
-    float yValue = this->position->getY();
-    float zValue = this->position->getZ();
+    float xValue = this->position->x;
+    float yValue = this->position->y;
+    float zValue = this->position->z;
     ImGui::Text("Position");
     ImGui::Separator();
     ImGui::Text("X:");
@@ -67,9 +67,9 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::SameLine();
     ImGui::InputFloat("##Z", &zValue, 0.01f, 0.1f, "%.3f");
 
-    float xValue2 = this->rotation->getX();
-    float yValue2 = this->rotation->getY();
-    float zValue2 = this->rotation->getZ();
+    float xValue2 = this->rotation->x;
+    float yValue2 = this->rotation->y;
+    float zValue2 = this->rotation->z;
     ImGui::Separator();
     ImGui::Text("Rotation");
     ImGui::Separator();
@@ -83,9 +83,9 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::SameLine();
     ImGui::InputFloat("##Z", &zValue2, 0.01f, 0.1f, "%.3f");
 
-    float xValue3 = this->scale->getX();
-    float yValue3 = this->scale->getY();
-    float zValue3 = this->scale->getZ();
+    float xValue3 = this->scale->x;
+    float yValue3 = this->scale->y;
+    float zValue3 = this->scale->z;
     ImGui::Separator();
     ImGui::Text("Scale");
     ImGui::Separator();
@@ -99,9 +99,9 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::SameLine();
     ImGui::InputFloat("##Z", &zValue3, 0.01f, 0.1f, "%.3f");
 
-    float xValue4 = this->velocity->getX();
-    float yValue4 = this->velocity->getY();
-    float zValue4 = this->velocity->getZ();
+    float xValue4 = this->velocity->x;
+    float yValue4 = this->velocity->y;
+    float zValue4 = this->velocity->z;
     ImGui::Separator();
     ImGui::Text("Velocity");
     ImGui::Separator();
