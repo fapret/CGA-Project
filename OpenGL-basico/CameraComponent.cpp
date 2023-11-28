@@ -1,5 +1,17 @@
 #include "CameraComponent.h"
 
+float CameraComponent::wrapAngle(float angle)
+{
+	constexpr float TwoPi = 2.0f * glm::pi<float>();
+	while (angle < -glm::pi<float>()) {
+		angle += TwoPi;
+	}
+	while (angle > glm::pi<float>()) {
+		angle -= TwoPi;
+	}
+	return angle;
+}
+
 CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 {
 	this->transform = new TransformComponent();
@@ -33,6 +45,20 @@ float CameraComponent::getPitch()
 	return pitch;
 }
 
+glm::vec3 CameraComponent::getViewDirection()
+{
+
+	float yawRad = glm::radians(yaw);
+	float pitchRad = glm::radians(pitch);
+
+	// Calculate the view direction
+	float x = glm::cos(yawRad) * glm::cos(pitchRad);
+	float y = glm::sin(pitchRad);
+	float z = glm::sin(yawRad) * glm::cos(pitchRad);
+
+	return glm::normalize(glm::vec3(x, y, z));
+}
+
 bool CameraComponent::getIsActive()
 {
 	return isActive;
@@ -45,7 +71,7 @@ void CameraComponent::setSpeed(float speed)
 
 void CameraComponent::setYaw(float yaw)
 {
-	this->yaw = yaw;
+	this->yaw = glm::degrees(wrapAngle(glm::radians(yaw)));
 }
 
 void CameraComponent::setPitch(float pitch)

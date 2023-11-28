@@ -2,6 +2,7 @@
 #include "EntityComponent.h"
 #include "TransformComponent.h"
 #include "Hierarchy.h"
+#include <SDL_stdinc.h>
 
 class CameraComponent : public EntityComponent {
 private:
@@ -10,12 +11,14 @@ private:
 	float pitch;
 	TransformComponent* transform;
 	bool isActive;
+	float wrapAngle(float angle);
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
 	float getSpeed();
 	float getYaw();
 	float getPitch();
+	glm::vec3 getViewDirection();
 	bool getIsActive();
 	void setSpeed(float speed);
 	void setYaw(float yaw);
