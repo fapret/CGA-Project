@@ -1,22 +1,24 @@
 #pragma once
 #include "EntityComponent.h"
-#include "Vector3.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class TransformComponent : public EntityComponent {
 private:
-	Vector3* position;
-	Vector3* scale;
-	Vector3* rotation;
-	Vector3* velocity;
+	glm::vec3* position;
+	glm::vec3* scale;
+	glm::vec3* rotation;
+	glm::vec3* velocity;
 public:
-	Vector3* getPosition();
-	void setPosition(Vector3* pos);
-	Vector3* getVelocity();
-	void setVelocity(Vector3* vel);
-	Vector3* getScale();
-	void setScale(Vector3* scale);
-	Vector3* getRotation();
-	void setRotation(Vector3* rot);
+	glm::vec3* getPosition();
+	void setPosition(glm::vec3* pos);
+	glm::vec3* getVelocity();
+	void setVelocity(glm::vec3* vel);
+	glm::vec3* getScale();
+	void setScale(glm::vec3* scale);
+	glm::vec3* getRotation();
+	void setRotation(glm::vec3* rot);
 	TransformComponent();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;

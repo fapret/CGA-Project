@@ -182,7 +182,6 @@
     <ClCompile Include="mundo.cpp" />
     <ClCompile Include="ShaderCommons.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\simple.frag" />
@@ -209,7 +208,6 @@
     <ClInclude Include="mundo.h" />
     <ClInclude Include="ShaderCommons.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

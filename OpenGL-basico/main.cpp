@@ -157,7 +157,7 @@ void draw(SDL_Window* window, Mundo * mundo)
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
 
 	TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
-	view = glm::translate(view, glm::vec3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
+	view = glm::translate(view, glm::vec3(camTransform->getPosition()->x, camTransform->getPosition()->y, camTransform->getPosition()->z));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
@@ -254,10 +254,8 @@ int main(int argc, char* argv[]) {
 	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
 	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
-	//int vertAmountJugador = 0;
 	Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
 	jugador->loadMesh("../models/jugador.obj");
-	//Vector3** jugador = DoTheImportThing("../models/jugador.obj", vertAmountJugador);//mesh.h
 
 	init(window, gl_context);
 
@@ -292,26 +290,26 @@ int main(int argc, char* argv[]) {
 					}
 					break;
 				case SDLK_w:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() + currCamComponent->getSpeed()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x, camTransform->getPosition()->y, camTransform->getPosition()->z + currCamComponent->getSpeed()));
 					cout << "W" << endl;
 					break;
 				case SDLK_s:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ() - currCamComponent->getSpeed()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x, camTransform->getPosition()->y, camTransform->getPosition()->z - currCamComponent->getSpeed()));
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() + currCamComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x + currCamComponent->getSpeed(), camTransform->getPosition()->y, camTransform->getPosition()->z));
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX() - currCamComponent->getSpeed(), camTransform->getPosition()->getY(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x - currCamComponent->getSpeed(), camTransform->getPosition()->y, camTransform->getPosition()->z));
 					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() - currCamComponent->getSpeed(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x, camTransform->getPosition()->y - currCamComponent->getSpeed(), camTransform->getPosition()->z));
 					break;
 				case SDLK_LCTRL:
-					camTransform->setPosition(new Vector3(camTransform->getPosition()->getX(), camTransform->getPosition()->getY() + currCamComponent->getSpeed(), camTransform->getPosition()->getZ()));
+					camTransform->setPosition(new glm::vec3(camTransform->getPosition()->x, camTransform->getPosition()->y + currCamComponent->getSpeed(), camTransform->getPosition()->z));
 				}
 				break;
 

@@ -1,6 +1,5 @@
 #pragma once
 #include "mesh.h"
-#include "Vector3.h"
 #include <SDL_opengl.h>
 
 
@@ -9,8 +8,8 @@ private:
 	float altCol;
 	float anchCol;
 	float profCol;
-	Vector3* pos;
-	Vector3* vel;
+	glm::vec3* pos;
+	glm::vec3* vel;
 	int disList;
 	GLuint vao;
 	MeshData meshData;
@@ -21,13 +20,13 @@ public:
 	float getAltCol();
 	float getAnchCol();
 	float getProfCol();
-	Vector3* getPos();
+	glm::vec3* getPos();
 	void setPos(float, float, float);
-	void setPos(Vector3*);
-	Vector3* getVel();
-	void setVel(Vector3*);
+	void setPos(glm::vec3*);
+	glm::vec3* getVel();
+	void setVel(glm::vec3*);
 	[[deprecated]]
-	void draw(Vector3**, int);
+	void draw(glm::vec3**, int);
 	void draw();
 	void loadMesh(const std::string& filename);
 };

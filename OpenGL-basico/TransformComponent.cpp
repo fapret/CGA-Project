@@ -1,51 +1,51 @@
 #include "TransformComponent.h"
 
-Vector3* TransformComponent::getPosition()
+glm::vec3* TransformComponent::getPosition()
 {
     return position;
 }
 
-void TransformComponent::setPosition(Vector3* pos)
+void TransformComponent::setPosition(glm::vec3* pos)
 {
     this->position = pos;
 }
 
-Vector3* TransformComponent::getVelocity()
+glm::vec3* TransformComponent::getVelocity()
 {
     return velocity;
 }
 
-void TransformComponent::setVelocity(Vector3* vel)
+void TransformComponent::setVelocity(glm::vec3* vel)
 {
     this->velocity = vel;
 }
 
-Vector3* TransformComponent::getScale()
+glm::vec3* TransformComponent::getScale()
 {
     return scale;
 }
 
-void TransformComponent::setScale(Vector3* scale)
+void TransformComponent::setScale(glm::vec3* scale)
 {
     this->scale = scale;
 }
 
-Vector3* TransformComponent::getRotation()
+glm::vec3* TransformComponent::getRotation()
 {
     return rotation;
 }
 
-void TransformComponent::setRotation(Vector3* rot)
+void TransformComponent::setRotation(glm::vec3* rot)
 {
     this->rotation = rot;
 }
 
 TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
 {
-    this->position = new Vector3();
-    this->rotation = new Vector3();
-    this->scale = new Vector3(1.0f,1.0f,1.0f);
-    this->velocity = new Vector3(0.0f, 0.0f, 0.0f);
+    this->position = new glm::vec3();
+    this->rotation = new glm::vec3();
+    this->scale = new glm::vec3(1.0f,1.0f,1.0f);
+    this->velocity = new glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 #ifdef USE_IMGUI
