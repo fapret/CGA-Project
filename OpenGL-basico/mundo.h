@@ -12,6 +12,8 @@ private:
 	Vector3* pos;
 	Vector3* vel;
 	int disList;
+	GLuint vao;
+	MeshData meshData;
 
 public:
 	Mundo(float, float, float);
@@ -24,5 +26,8 @@ public:
 	void setPos(Vector3*);
 	Vector3* getVel();
 	void setVel(Vector3*);
+	[[deprecated]]
 	void draw(Vector3**, int);
+	void draw();
+	void loadMesh(const std::string& filename);
 };

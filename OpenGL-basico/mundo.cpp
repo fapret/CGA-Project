@@ -8,11 +8,16 @@ Mundo::Mundo(float alt, float anch, float prof) {
 	pos = new Vector3(5, 0, 5);
 	vel = new Vector3(0, 0, 0);
 	disList = -1;
+	vao = 0;
 }
 
 Mundo::~Mundo() {
 	delete pos;
 	delete vel;
+
+	if (vao != 0) {
+		glDeleteVertexArrays(1, &vao);
+	}
 }
 
 float Mundo::getAltCol() {
@@ -48,6 +53,20 @@ void Mundo::setPos(float x, float y, float z) {
 }
 
 void Mundo::draw(Vector3** modelo, int caras) {
+#pragma warning(disable : 4996)
 	if (disList == -1) disList = drawFaces(modelo, caras);
 	if (disList != -1) glCallList(disList);
+#pragma warning(default : 4996)
 }
+
+void Mundo::draw() {
+	if (vao != 0) {
+		RenderMeshVAO(vao, meshData.vertices.size() / 3);
+	}
+}
+
+void Mundo::loadMesh(const std::string& filename) {
+	meshData = LoadMeshData(filename);
+	vao = CreateMeshVAO(meshData);
+}
+
