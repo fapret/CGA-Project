@@ -3,6 +3,7 @@
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
 #include "MeshComponent.h"
+#include "LightComponent.h"
 
 class EntityComponentCreator {
 private:

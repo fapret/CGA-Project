@@ -25,6 +25,9 @@ EntityComponent* EntityComponentCreator::createComponent(int index) {
 	case 3:
 		return new MeshComponent();
 		break;
+	case 4:
+		return new LightComponent();
+		break;
 	default:
 		return new EntityComponent();
 		break;
