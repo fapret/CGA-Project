@@ -300,11 +300,11 @@ int main(int argc, char* argv[]) {
 	object2->addComponent(meshComp2);
 	meshComp2->setFatherEntity(object2);
 	LOD lod20 = createLOD("../models/jugador.obj", 0);
-	meshComp->addLOD(lod20);
+	meshComp2->addLOD(lod20);
 	LOD lod21 = createLOD("../models/cube.obj", 10);
 	meshComp2->addLOD(lod21);
 	LOD lod22 = createLOD("../models/sphere.obj", 20);
-	meshComp->addLOD(lod22);
+	meshComp2->addLOD(lod22);
 
 	init(window, gl_context);
 
