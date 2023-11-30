@@ -42,6 +42,7 @@ GLuint initShaders(char* vertFile, char* fragFile)
 
 	glBindAttribLocation(p, 0, "in_Position"); // bind position attribute to location 0
 	glBindAttribLocation(p, 1, "in_Color"); // bind color attribute to location 1
+	glBindAttribLocation(p, 2, "in_uvPositions"); // bind color attribute to location 2
 
 	glLinkProgram(p); // link the shader program and test for errors
 	glGetProgramiv(p, GL_LINK_STATUS, &linked);
