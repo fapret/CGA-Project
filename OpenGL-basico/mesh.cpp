@@ -1,4 +1,5 @@
 #include "mesh.h"
+#include "Hierarchy.h"
 
 
 std::vector<MeshData> LoadMeshData(const std::string& pFile)
@@ -36,8 +37,44 @@ std::vector<MeshData> LoadMeshData(const std::string& pFile)
 			}
 		}
 
+		if (mesh->mMaterialIndex > 0) {
+			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+			
+
+			aiColor3D diffuseColor(0.f, 0.f, 0.f);
+			if (material->Get(AI_MATKEY_COLOR_DIFFUSE, diffuseColor) == AI_SUCCESS) {
+				std::cout << "Diffuse Color: " << diffuseColor.r << ", " << diffuseColor.g << ", " << diffuseColor.b << std::endl;
+			}
+
+			// Process other material properties...
+
+			// Check if the material has a texture
+			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+				aiString texturePath;
+				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
+					GLuint textureID;
+					glActiveTexture(GL_TEXTURE0);
+					glGenTextures(1, &textureID);
+					glBindTexture(GL_TEXTURE_2D, textureID);
+
+					FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(texturePath.C_Str());
+					FIBITMAP* bitmap = FreeImage_Load(fif, texturePath.C_Str());
+					bitmap = FreeImage_ConvertTo24Bits(bitmap);
+					int width = FreeImage_GetWidth(bitmap);
+					int height = FreeImage_GetHeight(bitmap);
+					void* image = FreeImage_GetBits(bitmap);
+
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					meshData.textureId = textureID;
+				}
+			}
+		}
+
 		meshDataArray.push_back(meshData);
 	}
+
 
 	return meshDataArray;
 }
@@ -109,15 +146,21 @@ std::vector<GLuint> CreateMultipleMeshVAO(const std::vector<MeshData>& meshData,
 	return vaos;
 }
 
-void RenderMeshVAO(GLuint vao, int faceAmount) {
+void RenderMeshVAO(GLuint vao, int faceAmount, GLuint textureId) {
 	glBindVertexArray(vao);
+	
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	Hierarchy& hierarchy = Hierarchy::getInstance();
+	GLuint textureLocation = glGetUniformLocation(hierarchy.getShaders()[0], "textureSampler");
+	glUniform1i(textureLocation, 0);
 	glDrawElements(GL_TRIANGLES, 3 * faceAmount, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 }
 
-void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts)
+void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts, std::vector<GLuint> textureIds)
 {
 	for (size_t i = 0; i < vaos.size(); ++i) {
-		RenderMeshVAO(vaos[i], faceAmounts[i]);
+		RenderMeshVAO(vaos[i], faceAmounts[i], textureIds[i]);
 	}
 }

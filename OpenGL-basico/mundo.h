@@ -13,6 +13,7 @@ private:
 	int disList;
 	std::vector<GLuint> vao;
 	std::vector<MeshData> meshData;
+	std::vector<GLuint> textureIds;
 
 public:
 	Mundo(float, float, float);

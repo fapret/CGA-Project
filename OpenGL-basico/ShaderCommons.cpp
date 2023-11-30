@@ -7,6 +7,8 @@ GLuint initShaders(char* vertFile, char* fragFile)
 	v = glCreateShader(GL_VERTEX_SHADER); // Create vertex shader handle
 	f = glCreateShader(GL_FRAGMENT_SHADER);	// " fragment shader handle
 
+	
+
 	const char* vertSource = loadFile(vertFile); // load vertex shader source
 	const char* fragSource = loadFile(fragFile);  // load frag shader source
 
@@ -41,8 +43,9 @@ GLuint initShaders(char* vertFile, char* fragFile)
 	glAttachShader(p, f); // attach fragment shader to program
 
 	glBindAttribLocation(p, 0, "in_Position"); // bind position attribute to location 0
-	glBindAttribLocation(p, 1, "in_Color"); // bind color attribute to location 1
-	glBindAttribLocation(p, 2, "in_uvPositions"); // bind color attribute to location 2
+	glBindAttribLocation(p, 1, "in_Normal"); // bind color attribute to location 1
+	glBindAttribLocation(p, 2, "in_TextureCoord"); // bind color attribute to location 2
+
 
 	glLinkProgram(p); // link the shader program and test for errors
 	glGetProgramiv(p, GL_LINK_STATUS, &linked);
@@ -53,6 +56,7 @@ GLuint initShaders(char* vertFile, char* fragFile)
 	}
 
 	glUseProgram(p);  // Make the shader program the current active program
+	
 
 	delete[] vertSource; // Don't forget to free allocated memory
 	delete[] fragSource; // We allocated this in the loadFile function...

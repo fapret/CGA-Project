@@ -56,3 +56,15 @@ std::vector<Entity*> Hierarchy::getAllEntities()
 {
     return entities;
 }
+
+std::vector<GLuint> Hierarchy::getShaders()
+{
+    return shaders;
+}
+
+void Hierarchy::addShader(GLuint shaderId)
+{
+    shaders.push_back(shaderId);
+}
+
+

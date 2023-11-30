@@ -59,12 +59,15 @@ void Mundo::draw() {
 		for (const auto& mesh : meshData) {
 			faceAmounts.push_back(mesh.vertices.size());
 		}
-		RenderMultipleMeshVAO(vao, faceAmounts);
+		RenderMultipleMeshVAO(vao, faceAmounts, textureIds);
 	}
 }
 
 void Mundo::loadMesh(const std::string& filename) {
 	meshData = LoadMeshData(filename);
+	for (int i = 0; i < meshData.size(); i++) {
+		textureIds.push_back(meshData[i].textureId);
+	}
 	vao = CreateMultipleMeshVAO(meshData);
 }
 

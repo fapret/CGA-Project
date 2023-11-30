@@ -1,11 +1,14 @@
 #pragma once
 #include "Entity.h"
+#include <glad/glad.h>
+
 
 class Hierarchy {
 private:
 	std::vector<Entity*> entities;
 	Hierarchy() {}
 	Entity* activeCamera;
+	std::vector<GLuint> shaders;
 public:
 	static Hierarchy& getInstance();
 	Hierarchy(const Hierarchy&) = delete;
@@ -18,4 +21,6 @@ public:
 	void setActiveCamera(Entity* cam);
 	Entity* getActiveCamera();
 	std::vector<Entity*> getAllEntities();
+	std::vector<GLuint> getShaders();
+	void addShader(GLuint shaderId);
 };

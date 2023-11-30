@@ -18,6 +18,7 @@ struct MeshData {
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec3> texCoords;
+    GLuint textureId;
     std::vector<unsigned int> indices;
 };
 
@@ -27,6 +28,6 @@ GLuint CreateMeshVAO(const MeshData& meshData, int mode = 1);
 
 std::vector<GLuint> CreateMultipleMeshVAO(const std::vector<MeshData>& meshData, int mode = 1);
 
-void RenderMeshVAO(GLuint vao, int faceAmount);
+void RenderMeshVAO(GLuint vao, int faceAmount, GLuint textureId);
 
-void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts);
+void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts, std::vector<GLuint> textureIds);

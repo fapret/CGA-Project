@@ -15,7 +15,7 @@ float CameraComponent::wrapAngle(float angle)
 CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 {
 	this->transform = new TransformComponent();
-	this->Speed = 0.1f;
+	this->Speed = 70.1f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 	this->isActive = false;

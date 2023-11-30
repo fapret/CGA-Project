@@ -38,7 +38,7 @@ using namespace std;
 
 float r = 0;
 bool relativeMouse = true;
-std::vector<GLuint> shaders;
+
 
 Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
@@ -115,7 +115,7 @@ void exitFatalError(char* message)
 
 void init(SDL_Window* window, SDL_GLContext gl_context)
 {
-	shaders.push_back(initShaders("../simple.vert", "../simple.frag"));
+	hierarchy.addShader(initShaders("../simple.vert", "../simple.frag"));
 	glEnable(GL_DEPTH_TEST); // enable depth testing
 	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
 	glFrontFace(GL_CCW);
@@ -148,6 +148,8 @@ void draw(SDL_Window* window, Mundo * mundo)
 #endif
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
+	glDisable(GL_CULL_FACE);
+
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -155,7 +157,7 @@ void draw(SDL_Window* window, Mundo * mundo)
 
 	// Create perspective projection matrix
 
-	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 100.f);
+	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 10000.f);
 	CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
 	projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
 	projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -172,13 +174,13 @@ void draw(SDL_Window* window, Mundo * mundo)
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
 
-	int projectionIndex = glGetUniformLocation(shaders[0], "projection");
+	int projectionIndex = glGetUniformLocation(hierarchy.getShaders()[0], "projection");
 	glUniformMatrix4fv(projectionIndex, 1, GL_FALSE, glm::value_ptr(projection));
 	// pass model as uniform into shader
-	int viewIndex = glGetUniformLocation(shaders[0], "view");
+	int viewIndex = glGetUniformLocation(hierarchy.getShaders()[0], "view");
 	glUniformMatrix4fv(viewIndex, 1, GL_FALSE, glm::value_ptr(view));
 	// pass model as uniform into shader
-	int modelIndex = glGetUniformLocation(shaders[0], "model");
+	int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
 	// Draw the 3D model
@@ -198,7 +200,7 @@ void cleanup(void)
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 
-	for each (GLuint var in shaders)
+	for each (GLuint var in hierarchy.getShaders())
 	{
 		glDeleteProgram(var);
 	}
@@ -261,7 +263,7 @@ int main(int argc, char* argv[]) {
 	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
 	Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
-	jugador->loadMesh("../models/Bayard4.obj");
+	jugador->loadMesh("../models/sponza.obj");
 
 	init(window, gl_context);
 

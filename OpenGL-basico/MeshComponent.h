@@ -11,6 +11,7 @@ struct LOD {
 	std::vector<MeshData> meshData;
 	float viewDistance;
 	std::vector<int> faceAmount;
+	std::vector<GLuint> textureIds;
 };
 
 class MeshComponent : public EntityComponent {

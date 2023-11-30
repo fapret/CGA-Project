@@ -45,7 +45,7 @@ void MeshComponent::draw()
 		}
 
 		if (selectedLOD) {
-			RenderMultipleMeshVAO(selectedLOD->vao, selectedLOD->faceAmount);
+			RenderMultipleMeshVAO(selectedLOD->vao, selectedLOD->faceAmount, selectedLOD->textureIds);
 		}
 
 	}
