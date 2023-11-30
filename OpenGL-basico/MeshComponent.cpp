@@ -47,10 +47,10 @@ void MeshComponent::draw()
 		if (selectedLOD) {
 			glm::mat4 model = glm::mat4(1.0f);
 			model = glm::translate(model, glm::vec3(transform->getPosition().x, transform->getPosition().y, transform->getPosition().z));
-			//model = glm::rotate(model, glm::radians(transform->getRotation().x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotate around X axis
-			//model = glm::rotate(model, glm::radians(transform->getRotation().y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate around Y axis
-			//model = glm::rotate(model, glm::radians(transform->getRotation().z), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotate around Z axis
-			//model = glm::scale(model, glm::vec3(transform->getScale().x, transform->getScale().y, transform->getScale().z));
+			model = glm::rotate(model, glm::radians(transform->getRotation().x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotate around X axis
+			model = glm::rotate(model, glm::radians(transform->getRotation().y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate around Y axis
+			model = glm::rotate(model, glm::radians(transform->getRotation().z), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotate around Z axis
+			model = glm::scale(model, glm::vec3(transform->getScale().x, transform->getScale().y, transform->getScale().z));
 			int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 			glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 			RenderMultipleMeshVAO(selectedLOD->vao, selectedLOD->faceAmount, selectedLOD->textureIds);

@@ -74,25 +74,25 @@ void TransformComponent::EditorPropertyDraw()
     ImGui::Separator();
     ImGui::Text("X:");
     ImGui::SameLine();
-    ImGui::InputFloat("##X", &rotationX, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##RX", &rotationX, 0.01f, 0.1f, "%.3f");
     ImGui::Text("Y:");
     ImGui::SameLine();
-    ImGui::InputFloat("##Y", &rotationY, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##RY", &rotationY, 0.01f, 0.1f, "%.3f");
     ImGui::Text("Z:");
     ImGui::SameLine();
-    ImGui::InputFloat("##Z", &rotationZ, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##RZ", &rotationZ, 0.01f, 0.1f, "%.3f");
 
     ImGui::Separator();
     ImGui::Text("Scale");
     ImGui::Separator();
     ImGui::Text("X:");
     ImGui::SameLine();
-    ImGui::InputFloat("##X", &scaleX, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##SX", &scaleX, 0.01f, 0.1f, "%.3f");
     ImGui::Text("Y:");
     ImGui::SameLine();
-    ImGui::InputFloat("##Y", &scaleY, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##SY", &scaleY, 0.01f, 0.1f, "%.3f");
     ImGui::Text("Z:");
     ImGui::SameLine();
-    ImGui::InputFloat("##Z", &scaleZ, 0.01f, 0.1f, "%.3f");
+    ImGui::InputFloat("##SZ", &scaleZ, 0.01f, 0.1f, "%.3f");
 }
 #endif
