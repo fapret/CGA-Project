@@ -274,6 +274,7 @@ int main(int argc, char* argv[]) {
 	hierarchy.addEntity(object);
 	MeshComponent* meshComp = new MeshComponent();
 	object->addComponent(meshComp);
+	meshComp->setFatherEntity(object);
 	LOD lod0;
 	lod0.meshData = LoadMeshData("../models/jugador.obj");
 	lod0.viewDistance = 0;
