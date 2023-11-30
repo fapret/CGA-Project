@@ -49,6 +49,10 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
     this->scaleZ = 1.0f;
 }
 
+void TransformComponent::draw()
+{
+}
+
 #ifdef USE_IMGUI
 void TransformComponent::EditorPropertyDraw()
 {

@@ -26,7 +26,6 @@
 #include <assimp/Importer.hpp>
 
 #include "Mesh.h"
-#include "mundo.h"
 #include "ShaderCommons.h"
 
 #include "Hierarchy.h"
@@ -141,7 +140,7 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 }
 
 
-void draw(SDL_Window* window, Mundo * mundo)
+void draw(SDL_Window* window)
 {
 #ifdef USE_IMGUI
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -184,7 +183,11 @@ void draw(SDL_Window* window, Mundo * mundo)
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
 	// Draw the 3D model
-	mundo->draw();
+	std::vector<Entity*> entities = hierarchy.getAllEntities();
+	for (size_t i = 0; i < entities.size(); i++)
+	{
+		entities[i]->draw();
+	}
 
 	// Swap buffers and present
 	//SDL_GL_SwapWindow(window);
@@ -262,8 +265,48 @@ int main(int argc, char* argv[]) {
 	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
 	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
-	Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
-	jugador->loadMesh("../models/sponza.obj");
+	//Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
+	//jugador->loadMesh("../models/sponza.obj");
+
+	//Borrar luego
+	std::string objectName = "ObjetoPrueba";
+	Entity* object = new Entity(objectName);
+	hierarchy.addEntity(object);
+	MeshComponent* meshComp = new MeshComponent();
+	object->addComponent(meshComp);
+	LOD lod0;
+	lod0.meshData = LoadMeshData("../models/jugador.obj");
+	lod0.viewDistance = 0;
+	for (int i = 0; i < lod0.meshData.size(); i++) {
+		lod0.textureIds.push_back(lod0.meshData[i].textureId);
+	}
+	for (const auto& mesh : lod0.meshData) {
+		lod0.faceAmount.push_back(mesh.vertices.size());
+	}
+	lod0.vao = CreateMultipleMeshVAO(lod0.meshData);
+	meshComp->addLOD(lod0);
+	LOD lod1;
+	lod1.meshData = LoadMeshData("../models/cube.obj");
+	lod1.viewDistance = 10;
+	for (int i = 0; i < lod1.meshData.size(); i++) {
+		lod1.textureIds.push_back(lod1.meshData[i].textureId);
+	}
+	for (const auto& mesh : lod1.meshData) {
+		lod1.faceAmount.push_back(mesh.vertices.size());
+	}
+	lod1.vao = CreateMultipleMeshVAO(lod1.meshData);
+	meshComp->addLOD(lod1);
+	LOD lod2;
+	lod2.meshData = LoadMeshData("../models/sphere.obj");
+	lod2.viewDistance = 20;
+	for (int i = 0; i < lod2.meshData.size(); i++) {
+		lod2.textureIds.push_back(lod2.meshData[i].textureId);
+	}
+	for (const auto& mesh : lod2.meshData) {
+		lod2.faceAmount.push_back(mesh.vertices.size());
+	}
+	lod2.vao = CreateMultipleMeshVAO(lod2.meshData);
+	meshComp->addLOD(lod2);
 
 	init(window, gl_context);
 
@@ -383,7 +426,7 @@ int main(int argc, char* argv[]) {
 		}
 #endif
 		//update();
-		draw(window, jugador); // call the draw function
+		draw(window); // call the draw function
 #ifdef USE_IMGUI
 		ImGui::Image((void*)(intptr_t)texture, ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();

@@ -149,10 +149,12 @@ std::vector<GLuint> CreateMultipleMeshVAO(const std::vector<MeshData>& meshData,
 void RenderMeshVAO(GLuint vao, int faceAmount, GLuint textureId) {
 	glBindVertexArray(vao);
 	
-	glBindTexture(GL_TEXTURE_2D, textureId);
-	Hierarchy& hierarchy = Hierarchy::getInstance();
-	GLuint textureLocation = glGetUniformLocation(hierarchy.getShaders()[0], "textureSampler");
-	glUniform1i(textureLocation, 0);
+	if (textureId > -1) {
+		glBindTexture(GL_TEXTURE_2D, textureId);
+		Hierarchy& hierarchy = Hierarchy::getInstance();
+		GLuint textureLocation = glGetUniformLocation(hierarchy.getShaders()[0], "textureSampler");
+		glUniform1i(textureLocation, 0);
+	}
 	glDrawElements(GL_TRIANGLES, 3 * faceAmount, GL_UNSIGNED_INT, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
@@ -161,6 +163,9 @@ void RenderMeshVAO(GLuint vao, int faceAmount, GLuint textureId) {
 void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts, std::vector<GLuint> textureIds)
 {
 	for (size_t i = 0; i < vaos.size(); ++i) {
-		RenderMeshVAO(vaos[i], faceAmounts[i], textureIds[i]);
+		if(i < textureIds.size())
+			RenderMeshVAO(vaos.at(i), faceAmounts.at(i), textureIds.at(i));
+		else
+			RenderMeshVAO(vaos.at(i), faceAmounts.at(i), -1);
 	}
 }
