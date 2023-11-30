@@ -472,6 +472,9 @@ int main(int argc, char* argv[]) {
 				if (ImGui::Checkbox("Limit FPS", &checkboxValue)) {
 					SDL_GL_SetSwapInterval(checkboxValue);  // Disable vsync
 				}
+				if (ImGui::Checkbox("WireFrame", &showWireframe)) {
+					SDL_GL_SetSwapInterval(showWireframe);
+				}
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("Console")) {
