@@ -279,6 +279,7 @@ int main(int argc, char* argv[]) {
 #ifdef USE_IMGUI
 			ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 #endif
+			glm::vec3 viewDirection = currCamComponent->getViewDirection();
 			switch (sdlEvent.type) {
 			case SDL_QUIT:
 				running = false;
@@ -306,11 +307,13 @@ int main(int argc, char* argv[]) {
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					camTransform->setPosition(camTransform->getPosition() + currCamComponent->getViewDirection() * currCamComponent->getSpeed());
+					viewDirection.y = 0.0f;
+					camTransform->setPosition(camTransform->getPosition() + viewDirection * currCamComponent->getSpeed());
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					camTransform->setPosition(camTransform->getPosition() - currCamComponent->getViewDirection() * currCamComponent->getSpeed());
+					viewDirection.y = 0.0f;
+					camTransform->setPosition(camTransform->getPosition() - viewDirection * currCamComponent->getSpeed());
 					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
