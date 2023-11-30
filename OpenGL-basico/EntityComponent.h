@@ -20,7 +20,7 @@ public:
 	std::string getId();
 	EntityComponent();
 	EntityComponent(std::string type);
-	void setFatherEntity(Entity* father);
+	virtual void setFatherEntity(Entity* father);
 	Entity* getFatherEntity();
 	virtual void draw();
 #ifdef USE_IMGUI

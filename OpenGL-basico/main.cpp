@@ -32,6 +32,7 @@
 #include "Hierarchy.h"
 #include "Entity.h"
 #include "CameraComponent.h"
+#include "EntityComponentCreator.h"
 
 using namespace std;
 
@@ -42,6 +43,7 @@ std::vector<GLuint> shaders;
 Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
 int selectedItem = -1;
+int selectedComponent = -1;
 #endif
 
 std::string cameraName = "MainCamera";
@@ -213,15 +215,11 @@ int main(int argc, char* argv[]) {
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
 
-	//Test
-	std::string cameraName2 = "SecondaryCamera";
-	Entity* camara2 = new Entity(cameraName2);
-	CameraComponent* secCameraComponent = new CameraComponent();
-	camara2->addComponent(secCameraComponent);
-	camara2->addComponent(secCameraComponent->getTransform());
-	secCameraComponent->setIsActive(false);
-	secCameraComponent->setFatherEntity(camara2);
-	hierarchy.addEntity(camara2);
+#ifdef USE_IMGUI
+	bool createEntityWindow = false;
+	bool createComponentWindow = false;
+	char entityNameBuffer[256] = "";
+#endif
 
 	//INICIALIZACION
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0) {
@@ -318,10 +316,11 @@ int main(int argc, char* argv[]) {
 
 			case SDL_MOUSEMOTION:
 				// Handle mouse movement to update camera direction
-				currCamComponent->setYaw(currCamComponent->getYaw() + sdlEvent.motion.xrel * 0.1f);
-				currCamComponent->setPitch(currCamComponent->getPitch() + sdlEvent.motion.yrel * 0.1f);
-				currCamComponent->setPitch(glm::clamp(currCamComponent->getPitch(), -89.0f, 89.0f));
-
+				if (relativeMouse) {
+					currCamComponent->setYaw(currCamComponent->getYaw() + sdlEvent.motion.xrel * 0.1f);
+					currCamComponent->setPitch(currCamComponent->getPitch() + sdlEvent.motion.yrel * 0.1f);
+					currCamComponent->setPitch(glm::clamp(currCamComponent->getPitch(), -89.0f, 89.0f));
+				}
 				break;
 			}
 
@@ -346,6 +345,9 @@ int main(int argc, char* argv[]) {
 		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_None)) {
 			//cout << "Hierarchy focused" << endl;
 		}
+		if (ImGui::Button("Create")) {
+			createEntityWindow = true;
+		}
 
 		char** namesAsChar = new char* [hierarchy.getAllEntities().size()];
 		int i = 0;
@@ -355,6 +357,7 @@ int main(int argc, char* argv[]) {
 			i++;
 		}
 
+		ImGui::SetNextItemWidth(-1.0f);
 		if (ImGui::ListBox("##Listbox", &selectedItem, namesAsChar, hierarchy.getAllEntities().size())) {
 			// Handle item selection here
 			// 'selectedItem' contains the index of the selected item
@@ -436,6 +439,9 @@ int main(int argc, char* argv[]) {
 			if (ImGui::BeginTabItem("Properties")) {
 				if (selectedItem >= 0) {
 					Entity* selectedEntity = hierarchy.getAllEntities().at(selectedItem);
+					if (ImGui::Button("Add Component")) {
+						createComponentWindow = true;
+					}
 					selectedEntity->drawProperties();
 				}
 				ImGui::EndTabItem();
@@ -444,6 +450,55 @@ int main(int argc, char* argv[]) {
 		}
 
 		ImGui::End();
+
+		if (createEntityWindow) {
+			ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.5, static_cast<float>(windowHeight) * 0.5), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+			ImGui::Begin("Create Entity", NULL, ImGuiWindowFlags_NoResize);
+			ImGui::Text("Write Entity Name:");
+			ImGui::SetNextItemWidth(-1.0f);
+			ImGui::InputText("##Entity Name", entityNameBuffer, sizeof(entityNameBuffer));
+			if (ImGui::Button("Create")) {
+				createEntityWindow = false;
+				Entity* entity = new Entity(entityNameBuffer);
+				hierarchy.addEntity(entity);
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel")) {
+				createEntityWindow = false;
+			}
+			ImGui::End();
+			ImGui::SetWindowFocus("Create Entity");
+		}
+
+		if (createComponentWindow) {
+			ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 0.5, static_cast<float>(windowHeight) * 0.5), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+			ImGui::Begin("Create Component", NULL, ImGuiWindowFlags_NoResize);
+
+			EntityComponentCreator& componentCreator = EntityComponentCreator::getInstance();
+
+			ImGui::SetNextItemWidth(-1.0f);
+			if (ImGui::ListBox("##ComponentsListbox", &selectedComponent, componentCreator.componentNames, componentCreator.componentNamesSize, 6)) {
+				// Handle item selection here
+				// 'selectedItem' contains the index of the selected item
+			}
+
+			if (ImGui::Button("Create")) {
+				if (selectedComponent >= 0) {
+					createComponentWindow = false;
+					EntityComponent* createdComp = componentCreator.createComponent(selectedComponent);
+					Entity* selectedEntity = hierarchy.getAllEntities().at(selectedItem);
+					createdComp->setFatherEntity(selectedEntity);
+					selectedEntity->addComponent(createdComp);
+				}
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Cancel")) {
+				createComponentWindow = false;
+			}
+			ImGui::End();
+			ImGui::SetWindowFocus("Create Component");
+		}
+
 		ImGui::Render();
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

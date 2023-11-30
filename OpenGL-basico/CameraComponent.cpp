@@ -89,6 +89,15 @@ TransformComponent* CameraComponent::getTransform()
 	return transform;
 }
 
+void CameraComponent::setFatherEntity(Entity* father)
+{
+	EntityComponent::setFatherEntity(father);
+	std::vector<EntityComponent*> transformList = father->findComponentsByType("TransformComponent");
+	if (transformList.size() == 0) {
+		father->addComponent(transform);
+	}
+}
+
 #ifdef USE_IMGUI
 void CameraComponent::EditorPropertyDraw()
 {
