@@ -148,11 +148,22 @@ void draw(SDL_Window* window)
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 	glDisable(GL_CULL_FACE);
-
+	//glFrontFace(GL_CCW);
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
+
+	//Test fog
+	glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_EXP2); // You can use GL_EXP or GL_EXP2 for different fog modes
+	GLfloat fogColor[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	glFogfv(GL_FOG_COLOR, fogColor); // fogColor is a GLfloat array (e.g., {0.5, 0.5, 0.5, 1.0})
+	glFogf(GL_FOG_DENSITY, 0.2);   // Adjust fog density as needed
+	glFogf(GL_FOG_START, 1.0);     // Start distance of fog
+	glFogf(GL_FOG_END, 5.0);       // End distance of fog
 
 	// Create perspective projection matrix
 
@@ -275,39 +286,25 @@ int main(int argc, char* argv[]) {
 	MeshComponent* meshComp = new MeshComponent();
 	object->addComponent(meshComp);
 	meshComp->setFatherEntity(object);
-	LOD lod0;
-	lod0.meshData = LoadMeshData("../models/jugador.obj");
-	lod0.viewDistance = 0;
-	for (int i = 0; i < lod0.meshData.size(); i++) {
-		lod0.textureIds.push_back(lod0.meshData[i].textureId);
-	}
-	for (const auto& mesh : lod0.meshData) {
-		lod0.faceAmount.push_back(mesh.vertices.size());
-	}
-	lod0.vao = CreateMultipleMeshVAO(lod0.meshData);
+	LOD lod0 = createLOD("../models/jugador.obj", 0);
 	meshComp->addLOD(lod0);
-	LOD lod1;
-	lod1.meshData = LoadMeshData("../models/cube.obj");
-	lod1.viewDistance = 10;
-	for (int i = 0; i < lod1.meshData.size(); i++) {
-		lod1.textureIds.push_back(lod1.meshData[i].textureId);
-	}
-	for (const auto& mesh : lod1.meshData) {
-		lod1.faceAmount.push_back(mesh.vertices.size());
-	}
-	lod1.vao = CreateMultipleMeshVAO(lod1.meshData);
+	LOD lod1 = createLOD("../models/cube.obj", 10);
 	meshComp->addLOD(lod1);
-	LOD lod2;
-	lod2.meshData = LoadMeshData("../models/sphere.obj");
-	lod2.viewDistance = 20;
-	for (int i = 0; i < lod2.meshData.size(); i++) {
-		lod2.textureIds.push_back(lod2.meshData[i].textureId);
-	}
-	for (const auto& mesh : lod2.meshData) {
-		lod2.faceAmount.push_back(mesh.vertices.size());
-	}
-	lod2.vao = CreateMultipleMeshVAO(lod2.meshData);
+	LOD lod2 = createLOD("../models/sphere.obj", 20);
 	meshComp->addLOD(lod2);
+
+	std::string objectName2 = "ObjetoPrueba2";
+	Entity* object2 = new Entity(objectName2);
+	hierarchy.addEntity(object2);
+	MeshComponent* meshComp2 = new MeshComponent();
+	object2->addComponent(meshComp2);
+	meshComp2->setFatherEntity(object2);
+	LOD lod20 = createLOD("../models/jugador.obj", 0);
+	meshComp->addLOD(lod20);
+	LOD lod21 = createLOD("../models/cube.obj", 10);
+	meshComp2->addLOD(lod21);
+	LOD lod22 = createLOD("../models/sphere.obj", 20);
+	meshComp->addLOD(lod22);
 
 	init(window, gl_context);
 

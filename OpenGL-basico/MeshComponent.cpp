@@ -90,3 +90,18 @@ void MeshComponent::EditorPropertyDraw()
 	EntityComponent::EditorPropertyDraw();
 }
 #endif
+
+LOD createLOD(const std::string& pFile, float viewDistance)
+{
+	LOD lod;
+	lod.meshData = LoadMeshData(pFile);
+	lod.viewDistance = viewDistance;
+	for (int i = 0; i < lod.meshData.size(); i++) {
+		lod.textureIds.push_back(lod.meshData[i].textureId);
+	}
+	for (const auto& mesh : lod.meshData) {
+		lod.faceAmount.push_back(mesh.vertices.size());
+	}
+	lod.vao = CreateMultipleMeshVAO(lod.meshData);
+	return LOD();
+}

@@ -1,6 +1,6 @@
 #include "EntityComponentCreator.h"
 
-EntityComponentCreator::EntityComponentCreator() : componentNames{ "CameraComponent", "TransformComponent", "ColliderComponent", "MeshComponent" }, componentNamesSize(4)
+EntityComponentCreator::EntityComponentCreator() : componentNames{ "CameraComponent", "TransformComponent", "ColliderComponent", "MeshComponent", "LightComponent"}, componentNamesSize(4)
 {
 }
 
