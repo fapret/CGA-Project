@@ -6,15 +6,18 @@
 
 class TransformComponent : public EntityComponent {
 private:
-	glm::vec3 position;
-	glm::vec3 scale;
-	glm::vec3 rotation;
-	glm::vec3 velocity;
+	float posX;
+	float posY;
+	float posZ;
+	float scaleX;
+	float scaleY;
+	float scaleZ;
+	float rotationX;
+	float rotationY;
+	float rotationZ;
 public:
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 pos);
-	glm::vec3 getVelocity();
-	void setVelocity(glm::vec3 vel);
 	glm::vec3 getScale();
 	void setScale(glm::vec3 scale);
 	glm::vec3 getRotation();

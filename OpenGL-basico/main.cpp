@@ -44,6 +44,7 @@ Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
 int selectedItem = -1;
 int selectedComponent = -1;
+bool showWireframe = false;
 #endif
 
 std::string cameraName = "MainCamera";
@@ -147,6 +148,10 @@ void draw(SDL_Window* window, Mundo * mundo)
 #endif
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
+#ifdef USE_IMGUI
+	if(showWireframe)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+#endif
 
 	// Create perspective projection matrix
 
@@ -256,7 +261,7 @@ int main(int argc, char* argv[]) {
 	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
 	Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
-	jugador->loadMesh("../models/jugador.obj");
+	jugador->loadMesh("../models/Bayard4.obj");
 
 	init(window, gl_context);
 

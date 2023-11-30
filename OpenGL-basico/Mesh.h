@@ -21,8 +21,12 @@ struct MeshData {
     std::vector<unsigned int> indices;
 };
 
-MeshData LoadMeshData(const std::string& pFile);
+std::vector<MeshData> LoadMeshData(const std::string& pFile);
 
 GLuint CreateMeshVAO(const MeshData& meshData, int mode = 1);
 
+std::vector<GLuint> CreateMultipleMeshVAO(const std::vector<MeshData>& meshData, int mode = 1);
+
 void RenderMeshVAO(GLuint vao, int faceAmount);
+
+void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts);

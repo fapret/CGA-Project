@@ -11,8 +11,8 @@ private:
 	glm::vec3* pos;
 	glm::vec3* vel;
 	int disList;
-	GLuint vao;
-	MeshData meshData;
+	std::vector<GLuint> vao;
+	std::vector<MeshData> meshData;
 
 public:
 	Mundo(float, float, float);

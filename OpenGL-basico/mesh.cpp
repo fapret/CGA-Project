@@ -1,7 +1,7 @@
 #include "mesh.h"
 
 
-MeshData LoadMeshData(const std::string& pFile)
+std::vector<MeshData> LoadMeshData(const std::string& pFile)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pFile,
@@ -9,14 +9,16 @@ MeshData LoadMeshData(const std::string& pFile)
 		aiProcess_Triangulate |
 		aiProcess_SortByPType);
 
-	MeshData meshData;
+	std::vector<MeshData> meshDataArray;
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
-		return meshData;
+		return meshDataArray;
 	}
 
 	for (unsigned int m = 0; m < scene->mNumMeshes; ++m) {
+		MeshData meshData;
+
 		const aiMesh* mesh = scene->mMeshes[m];
 		for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
 			const aiFace& face = mesh->mFaces[i];
@@ -24,6 +26,7 @@ MeshData LoadMeshData(const std::string& pFile)
 				meshData.indices.push_back(face.mIndices[j]);
 			}
 		}
+
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
 			meshData.vertices.push_back(glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z));
 			meshData.normals.push_back(glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z));
@@ -32,9 +35,11 @@ MeshData LoadMeshData(const std::string& pFile)
 				meshData.texCoords.push_back(glm::vec3(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y, 0.0f));
 			}
 		}
+
+		meshDataArray.push_back(meshData);
 	}
 
-	return meshData;
+	return meshDataArray;
 }
 
 GLuint CreateMeshVAO(const MeshData& meshData, int mode)
@@ -92,8 +97,27 @@ GLuint CreateMeshVAO(const MeshData& meshData, int mode)
 	return vao;
 }
 
+
+std::vector<GLuint> CreateMultipleMeshVAO(const std::vector<MeshData>& meshData, int mode) {
+	std::vector<GLuint> vaos;
+
+	for (const auto& data : meshData) {
+		GLuint vao = CreateMeshVAO(data, mode);
+		vaos.push_back(vao);
+	}
+
+	return vaos;
+}
+
 void RenderMeshVAO(GLuint vao, int faceAmount) {
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, 3 * faceAmount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmounts)
+{
+	for (size_t i = 0; i < vaos.size(); ++i) {
+		RenderMeshVAO(vaos[i], faceAmounts[i]);
+	}
 }

@@ -8,15 +8,16 @@ Mundo::Mundo(float alt, float anch, float prof) {
 	pos = new glm::vec3(5, 0, 5);
 	vel = new glm::vec3(0, 0, 0);
 	disList = -1;
-	vao = 0;
 }
 
 Mundo::~Mundo() {
 	delete pos;
 	delete vel;
 
-	if (vao != 0) {
-		glDeleteVertexArrays(1, &vao);
+	if (!vao.empty()) {
+		for (const auto& vaoint : vao) {
+			glDeleteVertexArrays(1, &vaoint);
+		}
 	}
 }
 
@@ -53,13 +54,17 @@ void Mundo::setPos(float x, float y, float z) {
 }
 
 void Mundo::draw() {
-	if (vao != 0) {
-		RenderMeshVAO(vao, meshData.vertices.size());
+	if (!vao.empty()) {
+		std::vector<int> faceAmounts;
+		for (const auto& mesh : meshData) {
+			faceAmounts.push_back(mesh.vertices.size());
+		}
+		RenderMultipleMeshVAO(vao, faceAmounts);
 	}
 }
 
 void Mundo::loadMesh(const std::string& filename) {
 	meshData = LoadMeshData(filename);
-	vao = CreateMeshVAO(meshData);
+	vao = CreateMultipleMeshVAO(meshData);
 }
 
