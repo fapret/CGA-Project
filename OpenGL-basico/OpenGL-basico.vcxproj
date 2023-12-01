@@ -76,8 +76,8 @@
     <ExecutablePath>$(VC_ExecutablePath_x64);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\libraries\Freeimage;..\include;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\libraries\glad;..\libraries\assimp;..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\include\bullet;..\libraries\Freeimage;..\include;..\libraries\SDL2-2.0.12\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\libraries\bullet;..\libraries\glad;..\libraries\assimp;..\libraries\SDL2-2.0.12\lib\x64;..\libraries\Freeimage;$(LibraryPath)</LibraryPath>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseEditor|x64'">
@@ -170,6 +170,7 @@
     <ClCompile Include="..\libraries\imgui\imgui_impl_sdl2.cpp" />
     <ClCompile Include="..\libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="..\libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Entity.h" />
