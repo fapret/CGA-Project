@@ -178,6 +178,7 @@
     <ClCompile Include="EntityComponentCreator.cpp" />
     <ClCompile Include="GUIGenerator.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="EntityComponentCreator.h" />
     <ClInclude Include="GUIGenerator.h" />
     <ClInclude Include="Hierarchy.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="mundo.h" />

@@ -26,7 +26,6 @@
 #include <assimp/Importer.hpp>
 
 #include "Mesh.h"
-#include "mundo.h"
 #include "ShaderCommons.h"
 
 #include "Hierarchy.h"
@@ -141,7 +140,7 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 }
 
 
-void draw(SDL_Window* window, Mundo * mundo)
+void draw(SDL_Window* window)
 {
 #ifdef USE_IMGUI
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
@@ -149,11 +148,22 @@ void draw(SDL_Window* window, Mundo * mundo)
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 	glDisable(GL_CULL_FACE);
-
+	//glFrontFace(GL_CCW);
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
+
+	//Test fog
+	glEnable(GL_FOG);
+	glFogi(GL_FOG_MODE, GL_EXP2); // You can use GL_EXP or GL_EXP2 for different fog modes
+	GLfloat fogColor[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	glFogfv(GL_FOG_COLOR, fogColor); // fogColor is a GLfloat array (e.g., {0.5, 0.5, 0.5, 1.0})
+	glFogf(GL_FOG_DENSITY, 0.2);   // Adjust fog density as needed
+	glFogf(GL_FOG_START, 1.0);     // Start distance of fog
+	glFogf(GL_FOG_END, 5.0);       // End distance of fog
 
 	// Create perspective projection matrix
 
@@ -184,7 +194,11 @@ void draw(SDL_Window* window, Mundo * mundo)
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
 	// Draw the 3D model
-	mundo->draw();
+	std::vector<Entity*> entities = hierarchy.getAllEntities();
+	for (size_t i = 0; i < entities.size(); i++)
+	{
+		entities[i]->draw();
+	}
 
 	// Swap buffers and present
 	//SDL_GL_SwapWindow(window);
@@ -262,8 +276,35 @@ int main(int argc, char* argv[]) {
 	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
 	cout << "Version: " << glGetString(GL_VERSION) << endl;
 
-	Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
-	jugador->loadMesh("../models/sponza.obj");
+	//Mundo* jugador = new Mundo(4.0, 0.3, 0.2);
+	//jugador->loadMesh("../models/sponza.obj");
+
+	//Borrar luego
+	std::string objectName = "ObjetoPrueba";
+	Entity* object = new Entity(objectName);
+	hierarchy.addEntity(object);
+	MeshComponent* meshComp = new MeshComponent();
+	object->addComponent(meshComp);
+	meshComp->setFatherEntity(object);
+	LOD lod0 = createLOD("../models/jugador.obj", 0);
+	meshComp->addLOD(lod0);
+	LOD lod1 = createLOD("../models/cube.obj", 10);
+	meshComp->addLOD(lod1);
+	LOD lod2 = createLOD("../models/sphere.obj", 20);
+	meshComp->addLOD(lod2);
+
+	std::string objectName2 = "ObjetoPrueba2";
+	Entity* object2 = new Entity(objectName2);
+	hierarchy.addEntity(object2);
+	MeshComponent* meshComp2 = new MeshComponent();
+	object2->addComponent(meshComp2);
+	meshComp2->setFatherEntity(object2);
+	LOD lod20 = createLOD("../models/jugador.obj", 0);
+	meshComp2->addLOD(lod20);
+	LOD lod21 = createLOD("../models/cube.obj", 10);
+	meshComp2->addLOD(lod21);
+	LOD lod22 = createLOD("../models/sphere.obj", 20);
+	meshComp2->addLOD(lod22);
 
 	init(window, gl_context);
 
@@ -279,6 +320,7 @@ int main(int argc, char* argv[]) {
 #ifdef USE_IMGUI
 			ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 #endif
+			glm::vec3 viewDirection = currCamComponent->getViewDirection();
 			switch (sdlEvent.type) {
 			case SDL_QUIT:
 				running = false;
@@ -306,11 +348,13 @@ int main(int argc, char* argv[]) {
 					cout << "S" << endl;
 					break;
 				case SDLK_a:
-					camTransform->setPosition(camTransform->getPosition() + currCamComponent->getViewDirection() * currCamComponent->getSpeed());
+					viewDirection.y = 0.0f;
+					camTransform->setPosition(camTransform->getPosition() + viewDirection * currCamComponent->getSpeed());
 					cout << "A" << endl;
 					break;
 				case SDLK_d:
-					camTransform->setPosition(camTransform->getPosition() - currCamComponent->getViewDirection() * currCamComponent->getSpeed());
+					viewDirection.y = 0.0f;
+					camTransform->setPosition(camTransform->getPosition() - viewDirection * currCamComponent->getSpeed());
 					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
@@ -380,7 +424,7 @@ int main(int argc, char* argv[]) {
 		}
 #endif
 		//update();
-		draw(window, jugador); // call the draw function
+		draw(window); // call the draw function
 #ifdef USE_IMGUI
 		ImGui::Image((void*)(intptr_t)texture, ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
@@ -424,6 +468,9 @@ int main(int argc, char* argv[]) {
 			if (ImGui::BeginTabItem("OpenGL Configuration")) {
 				if (ImGui::Checkbox("Limit FPS", &checkboxValue)) {
 					SDL_GL_SetSwapInterval(checkboxValue);  // Disable vsync
+				}
+				if (ImGui::Checkbox("WireFrame", &showWireframe)) {
+					SDL_GL_SetSwapInterval(showWireframe);
 				}
 				ImGui::EndTabItem();
 			}

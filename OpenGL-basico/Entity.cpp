@@ -67,6 +67,14 @@ void Entity::addComponent(EntityComponent* component)
 	this->components.push_back(component);
 }
 
+void Entity::draw()
+{
+	for (size_t i = 0; i < components.size(); i++)
+	{
+		components[i]->draw();
+	}
+}
+
 #ifdef USE_IMGUI
 void Entity::drawProperties()
 {

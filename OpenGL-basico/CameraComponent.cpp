@@ -89,6 +89,10 @@ TransformComponent* CameraComponent::getTransform()
 	return transform;
 }
 
+void CameraComponent::draw()
+{
+}
+
 void CameraComponent::setFatherEntity(Entity* father)
 {
 	EntityComponent::setFatherEntity(father);

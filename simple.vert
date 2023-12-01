@@ -12,5 +12,5 @@ out vec3 vertex_color;
 void main(void){
     mat4 MVP = projection * view* model;
 	gl_Position = MVP * vec4(in_Position,1.0);
-	vertex_color = in_Normal;
+	vertex_color = -in_Normal;
 }

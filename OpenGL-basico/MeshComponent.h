@@ -14,6 +14,8 @@ struct LOD {
 	std::vector<GLuint> textureIds;
 };
 
+LOD createLOD(const std::string& pFile, float viewDistance);
+
 class MeshComponent : public EntityComponent {
 private:
 	float maxViewDistance;

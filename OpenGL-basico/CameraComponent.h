@@ -25,6 +25,7 @@ public:
 	void setPitch(float pitch);
 	void setIsActive(bool status);
 	TransformComponent* getTransform();
+	void draw() override;
 	void setFatherEntity(Entity* father) override;
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
