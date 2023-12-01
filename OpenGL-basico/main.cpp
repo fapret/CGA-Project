@@ -166,9 +166,8 @@ void draw(SDL_Window* window)
 	glFogf(GL_FOG_END, 5.0);       // End distance of fog
 
 	// Create perspective projection matrix
-
-	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 10000.f);
 	CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
+	glm::mat4 projection = glm::perspective(camComp->getFOV(), 4.0f / 3.0f, 1.0f, 10000.f);
 	projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
 	projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
 

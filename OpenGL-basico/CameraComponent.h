@@ -12,18 +12,21 @@ private:
 	TransformComponent* transform;
 	bool isActive;
 	float wrapAngle(float angle);
+	float FOV;
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
 	float getSpeed();
 	float getYaw();
 	float getPitch();
+	float getFOV();
 	glm::vec3 getViewDirection();
 	bool getIsActive();
 	void setSpeed(float speed);
 	void setYaw(float yaw);
 	void setPitch(float pitch);
 	void setIsActive(bool status);
+	void setFOV(float amount);
 	TransformComponent* getTransform();
 	void draw() override;
 	void setFatherEntity(Entity* father) override;

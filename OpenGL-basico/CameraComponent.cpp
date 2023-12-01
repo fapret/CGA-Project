@@ -19,6 +19,7 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 	this->isActive = false;
+	this->FOV = 45.0f;
 }
 
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
@@ -28,6 +29,7 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 	this->isActive = false;
+	this->FOV = 45.0f;
 }
 
 float CameraComponent::getSpeed()
@@ -43,6 +45,11 @@ float CameraComponent::getYaw()
 float CameraComponent::getPitch()
 {
 	return pitch;
+}
+
+float CameraComponent::getFOV()
+{
+	return FOV;
 }
 
 glm::vec3 CameraComponent::getViewDirection()
@@ -82,6 +89,11 @@ void CameraComponent::setPitch(float pitch)
 void CameraComponent::setIsActive(bool status)
 {
 	this->isActive = status;
+}
+
+void CameraComponent::setFOV(float amount)
+{
+	this->FOV = amount;
 }
 
 TransformComponent* CameraComponent::getTransform()
@@ -126,5 +138,8 @@ void CameraComponent::EditorPropertyDraw()
 	ImGui::Text("Pitch:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##Pitch", &pitch, 0.01f, 0.1f, "%.3f");
+	ImGui::Text("FOV:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##FOV", &FOV, 0.1f, 1.0f, "%.1f");
 }
 #endif
