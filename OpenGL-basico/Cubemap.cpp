@@ -78,7 +78,7 @@ void Cubemap::draw()
     glm::mat4 view = glm::lookAt(cam->getTransform()->getPosition(), cam->getTransform()->getPosition() + cam->getViewDirection(), glm::vec3(0, 1, 0));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
 
-    glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 1.0f, 10000.f);
+    glm::mat4 projection = glm::perspective(cam->getFOV(), 4.0f / 3.0f, 1.0f, 10000.f);
     CameraComponent* camComp = (CameraComponent*)Hierarchy::getInstance().getActiveCamera()->findComponentsByType("CameraComponent").at(0);
     projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
     projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
