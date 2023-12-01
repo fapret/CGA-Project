@@ -187,6 +187,8 @@
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\cubemap.frag" />
+    <None Include="..\cubemap.vert" />
     <None Include="..\simple.frag" />
     <None Include="..\simple.vert" />
   </ItemGroup>

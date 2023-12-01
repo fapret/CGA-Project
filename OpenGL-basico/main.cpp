@@ -33,6 +33,8 @@
 #include "CameraComponent.h"
 #include "EntityComponentCreator.h"
 
+#include "Cubemap.h"
+
 using namespace std;
 
 float r = 0;
@@ -49,6 +51,8 @@ bool showWireframe = false;
 std::string cameraName = "MainCamera";
 Entity* camara = new Entity(cameraName);
 CameraComponent* cameraComponent = new CameraComponent();//Se agrega en el main
+
+Cubemap* skybox = new Cubemap();
 
 #ifdef USE_IMGUI
 GLuint framebuffer;
@@ -115,6 +119,18 @@ void exitFatalError(char* message)
 void init(SDL_Window* window, SDL_GLContext gl_context)
 {
 	hierarchy.addShader(initShaders("../simple.vert", "../simple.frag"));
+	hierarchy.addShader(initShaders("../cubemap.vert", "../cubemap.frag", false));
+
+	// Example file paths
+	const char* posXPath = "../top.jpg";
+	const char* negXPath = "../bottom.jpg";
+	const char* posYPath = "../back.jpg";
+	const char* negYPath = "../front.jpg";
+	const char* posZPath = "../left.jpg";
+	const char* negZPath = "../right.jpg";
+
+	std::vector<const char*> faces = { posXPath, negXPath, posYPath, negYPath, posZPath, negZPath };
+	skybox->loadCubemap(faces);
 	glEnable(GL_DEPTH_TEST); // enable depth testing
 	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
 	glFrontFace(GL_CCW);
@@ -149,6 +165,7 @@ void draw(SDL_Window* window)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 	glDisable(GL_CULL_FACE);
 	//glFrontFace(GL_CCW);
+	skybox->draw();
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

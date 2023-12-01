@@ -5,7 +5,7 @@
 #include <iostream>
 #include <fstream>
 
-GLuint initShaders(char* vertFile, char* fragFile);
+GLuint initShaders(char* vertFile, char* fragFile, bool activate = true);
 
 void printShaderError(GLint shader);
 

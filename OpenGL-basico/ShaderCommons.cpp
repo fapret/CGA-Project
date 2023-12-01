@@ -1,6 +1,6 @@
 #include "ShaderCommons.h"
 
-GLuint initShaders(char* vertFile, char* fragFile)
+GLuint initShaders(char* vertFile, char* fragFile, bool activate)
 {
 	GLuint p, f, v;	// Handles for shader program & vertex and fragment shaders
 
@@ -55,7 +55,8 @@ GLuint initShaders(char* vertFile, char* fragFile)
 		printShaderError(p);
 	}
 
-	glUseProgram(p);  // Make the shader program the current active program
+	if(activate)
+		glUseProgram(p);  // Make the shader program the current active program
 	
 
 	delete[] vertSource; // Don't forget to free allocated memory
