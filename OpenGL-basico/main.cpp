@@ -286,11 +286,11 @@ int main(int argc, char* argv[]) {
 	MeshComponent* meshComp = new MeshComponent();
 	object->addComponent(meshComp);
 	meshComp->setFatherEntity(object);
-	LOD lod0 = createLOD("../models/jugador.obj", 0);
+	LOD lod0 = createLOD("../models/jugador.obj", 0.0f);
 	meshComp->addLOD(lod0);
-	LOD lod1 = createLOD("../models/cube.obj", 10);
+	LOD lod1 = createLOD("../models/cube.obj", 10.0f);
 	meshComp->addLOD(lod1);
-	LOD lod2 = createLOD("../models/sphere.obj", 20);
+	LOD lod2 = createLOD("../models/sphere.obj", 20.0f);
 	meshComp->addLOD(lod2);
 
 	std::string objectName2 = "ObjetoPrueba2";
@@ -299,11 +299,11 @@ int main(int argc, char* argv[]) {
 	MeshComponent* meshComp2 = new MeshComponent();
 	object2->addComponent(meshComp2);
 	meshComp2->setFatherEntity(object2);
-	LOD lod20 = createLOD("../models/jugador.obj", 0);
+	LOD lod20 = createLOD("../models/jugador.obj", 0.0f);
 	meshComp2->addLOD(lod20);
-	LOD lod21 = createLOD("../models/cube.obj", 10);
+	LOD lod21 = createLOD("../models/cube.obj", 10.0f);
 	meshComp2->addLOD(lod21);
-	LOD lod22 = createLOD("../models/sphere.obj", 20);
+	LOD lod22 = createLOD("../models/sphere.obj", 20.0f);
 	meshComp2->addLOD(lod22);
 
 	init(window, gl_context);
@@ -341,21 +341,17 @@ int main(int argc, char* argv[]) {
 					break;
 				case SDLK_w:
 					camTransform->setPosition(camTransform->getPosition() + glm::normalize(glm::cross(currCamComponent->getViewDirection(), glm::vec3(0, 1, 0))) * currCamComponent->getSpeed());
-					cout << "W" << endl;
 					break;
 				case SDLK_s:
 					camTransform->setPosition(camTransform->getPosition() - glm::normalize(glm::cross(currCamComponent->getViewDirection(), glm::vec3(0, 1, 0))) * currCamComponent->getSpeed());
-					cout << "S" << endl;
 					break;
 				case SDLK_a:
 					viewDirection.y = 0.0f;
 					camTransform->setPosition(camTransform->getPosition() + viewDirection * currCamComponent->getSpeed());
-					cout << "A" << endl;
 					break;
 				case SDLK_d:
 					viewDirection.y = 0.0f;
 					camTransform->setPosition(camTransform->getPosition() - viewDirection * currCamComponent->getSpeed());
-					cout << "D" << endl;
 					break;
 				case SDLK_SPACE:
 					camTransform->setPosition(camTransform->getPosition() - glm::vec3(0.0f, 1.0f, 0.0f) * currCamComponent->getSpeed());
