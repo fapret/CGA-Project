@@ -122,12 +122,12 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	hierarchy.addShader(initShaders("../cubemap.vert", "../cubemap.frag", false));
 
 	// Example file paths
-	const char* posXPath = "../top.jpg";
-	const char* negXPath = "../bottom.jpg";
-	const char* posYPath = "../back.jpg";
-	const char* negYPath = "../front.jpg";
-	const char* posZPath = "../left.jpg";
-	const char* negZPath = "../right.jpg";
+	const char* negXPath = "../left.jpg";
+	const char* posXPath = "../right.jpg";
+	const char* posYPath = "../top.jpg";
+	const char* negYPath = "../bottom.jpg";
+	const char* negZPath = "../back.jpg";
+	const char* posZPath = "../front.jpg";
 
 	std::vector<const char*> faces = { posXPath, negXPath, posYPath, negYPath, posZPath, negZPath };
 	skybox->loadCubemap(faces);

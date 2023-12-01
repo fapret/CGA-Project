@@ -18,6 +18,8 @@ GLuint Cubemap::loadCubemap(std::vector<const char*> faces)
             continue;
         }
 
+        FreeImage_FlipVertical(image);
+
         width = FreeImage_GetWidth(image);
         height = FreeImage_GetHeight(image);
         nrChannels = FreeImage_GetBPP(image) / 8;
