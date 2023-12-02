@@ -114,6 +114,28 @@ void CameraComponent::setFatherEntity(Entity* father)
 	}
 }
 
+void CameraComponent::update()
+{
+	glm::mat4 projectionM = glm::perspective(FOV, 4.0f / 3.0f, 1.0f, 10000.f);
+	projectionM = glm::rotate(projectionM, glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
+	projectionM = glm::rotate(projectionM, glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+	this->projection = projectionM;
+
+	glm::mat4 viewM(1.0);
+	this->view = glm::translate(viewM, glm::vec3(transform->getPosition().x, transform->getPosition().y, transform->getPosition().z));
+
+}
+
+glm::mat4 CameraComponent::getProjection()
+{
+	return projection;
+}
+
+glm::mat4 CameraComponent::getView()
+{
+	return view;
+}
+
 #ifdef USE_IMGUI
 void CameraComponent::EditorPropertyDraw()
 {
@@ -123,7 +145,7 @@ void CameraComponent::EditorPropertyDraw()
 		// Code to execute when the button is pressed
 		Hierarchy& hierarchy = Hierarchy::getInstance();
 		if (hierarchy.getActiveCamera() != nullptr) {
-			CameraComponent* oldActive = (CameraComponent*) (hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0));
+			CameraComponent* oldActive = (CameraComponent*)(hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0));
 			oldActive->setIsActive(false);
 		}
 		this->isActive = true;
