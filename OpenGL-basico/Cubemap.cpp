@@ -103,43 +103,6 @@ float skyboxVertices[] = {
 
 void Cubemap::draw()
 {
-    /*
-    //glDepthFunc(GL_LEQUAL);
-    glDepthMask(GL_FALSE);
-    GLuint shaderProgram = Hierarchy::getInstance().getShaders().at(1);
-    glUseProgram(shaderProgram);  // Use your shader program for the skybox
-
-    // Get the active camera from your Hierarchy singleton
-    Entity* activeCamera = Hierarchy::getInstance().getActiveCamera();
-
-    // Construct the view matrix manually using camera components
-    CameraComponent* cam = (CameraComponent*) activeCamera->findComponentsByType("CameraComponent").at(0);
-    glm::mat4 view = glm::translate(glm::mat4(1.0), -cam->getTransform()->getPosition()); // Translate
-    view = glm::rotate(view, glm::radians(cam->getPitch()), glm::vec3(1, 0, 0)); // Rotate around X-axis
-    view = glm::rotate(view, glm::radians(cam->getYaw()), glm::vec3(0, 1, 0));  // Rotate around Y-axis
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -1.0f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(view));
-
-    glm::mat4 projection = glm::perspective(cam->getFOV(), 4.0f / 3.0f, 1.0f, 10000.f);
-    CameraComponent* camComp = (CameraComponent*)Hierarchy::getInstance().getActiveCamera()->findComponentsByType("CameraComponent").at(0);
-    projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
-    projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-
-    glUniform1i(glGetUniformLocation(shaderProgram, "skybox"), 0);
-
-    glBindVertexArray(skyboxVAO);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
-
-    glDrawArrays(GL_TRIANGLES, 0, 36); // Assuming you have a VAO with cube vertices
-
-    glBindVertexArray(0);
-
-    GLuint defaultShader = Hierarchy::getInstance().getShaders().at(0);
-    glUseProgram(defaultShader);
-    //glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    */
 
     glDepthMask(GL_FALSE);
     GLuint shaderProgram = Hierarchy::getInstance().getShaders().at(1);
@@ -151,10 +114,6 @@ void Cubemap::draw()
     glm::vec3 right = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), cam->getViewDirection()));
     glm::vec3 up = glm::normalize(glm::cross(cam->getViewDirection(), right));
     glm::mat4 view(1.0);
-    //glm::mat4 view = glm::translate(glm::mat4(1.0), cam->getTransform()->getPosition()); // Translate
-    //view = glm::rotate(view, glm::radians(cam->getPitch()), glm::vec3(1, 0, 0)); // Rotate around X-axis
-    //view = glm::rotate(view, glm::radians(cam->getYaw()), glm::vec3(0, 1, 0));  // Rotate around Y-axis
-    //glm::mat4 view = glm::lookAt(cam->getTransform()->getPosition(), cam->getTransform()->getPosition() + cam->getViewDirection(), up);
     glm::mat4 projection = glm::perspective(cam->getFOV(), 4.0f / 3.0f, 0.1f, 10000.f);
     projection = glm::rotate(projection, glm::radians(cam->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
     projection = glm::rotate(projection, glm::radians(cam->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
