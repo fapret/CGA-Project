@@ -1,7 +1,125 @@
 #include "mesh.h"
-#include "Hierarchy.h"
 
 
+
+
+
+/*
+void MeshData::LoadMeshData(const std::string & pFile, int drawMode) {
+
+	GLuint mode;
+	switch (drawMode)
+	{
+	case 1:
+		mode = GL_STATIC_DRAW;
+		break;
+	case 2:
+		mode = GL_STREAM_DRAW;
+		break;
+	case 3:
+		mode = GL_DYNAMIC_DRAW;
+		break;
+	default:
+		mode = GL_STATIC_DRAW;
+	}
+
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(pFile,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_SortByPType);
+
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+		std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
+		return;
+	}
+
+	for (unsigned int m = 0; m < scene->mNumMeshes; m++) {
+		// crear un VAO, VBO y texture id 
+		
+
+		// texutra
+		GLuint texId;
+		glGenTextures(1, &texId);
+		glBindTexture(GL_TEXTURE_2D, texId);
+		this->textureIds.push_back(texId);
+
+		if (scene->mMeshes[m]->mMaterialIndex > 0) {
+			// check si el material tiene textura, si no usar un default
+			aiMaterial* material = scene->mMaterials[scene->mMeshes[m]->mMaterialIndex];
+			
+			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+				aiString texturePath;
+				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
+					// el material tiene una textura
+					FREE_IMAGE_FORMAT fif = FreeImage_GetFIFFromFilename(texturePath.C_Str());
+					FIBITMAP* bitmap = FreeImage_Load(fif, texturePath.C_Str());
+
+					bitmap = FreeImage_ConvertTo24Bits(bitmap);
+					int width = FreeImage_GetWidth(bitmap);
+					int height = FreeImage_GetHeight(bitmap);
+					void* image = FreeImage_GetBits(bitmap);
+
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+					FreeImage_Unload(bitmap);
+				}
+			}
+		}
+
+		// VAO
+		GLuint vaoId;
+		glGenVertexArrays(1, &vaoId);
+		this->VAO.push_back(vaoId);
+		glBindVertexArray(vaoId);
+
+		// VBO
+		GLuint vboId;
+		glGenBuffers(1, &vboId);
+		this->VBO.push_back(vboId);
+		glBindBuffer(GL_ARRAY_BUFFER, vboId);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * scene->mMeshes[m]->mNumVertices * 3, scene->mMeshes[m]->mVertices, mode);
+
+
+		// Attribute Pointer
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+
+		// EBO
+		GLuint eboId;
+		glGenBuffers(1, &eboId);
+		this->EBO.push_back(eboId);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eboId);
+		this->eboSize.push_back(scene->mMeshes[m]->mFaces[0].mNumIndices);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * scene->mMeshes[m]->mNumFaces * 3, scene->mMeshes[m]->mFaces[0].mIndices, mode);
+
+		// Unbind VBO and VAO (optional but recommended)
+
+	}
+}
+
+void MeshData::RenderMesh()
+{
+	GLuint shaderProgram = Hierarchy::getInstance().getShaders().at(0);
+	glUseProgram(shaderProgram);
+
+	Entity* activeCamera = Hierarchy::getInstance().getActiveCamera();
+	CameraComponent* cam = (CameraComponent*)activeCamera->findComponentsByType("CameraComponent").at(0);
+
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"), 1, GL_FALSE, glm::value_ptr(cam->getView()));
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+
+	for (int i = 0; i < VAO.size(); i++) {
+		glUniform1i(glGetUniformLocation(shaderProgram, "textureBuff"), 0);
+
+		glBindVertexArray(VAO.at(i));
+		glDrawElements(GL_TRIANGLES, eboSize.at(i), GL_UNSIGNED_INT, 0);
+	}
+}
+*/
+
+
+/*
 std::vector<MeshData> LoadMeshData(const std::string& pFile)
 {
 	Assimp::Importer importer;
@@ -169,3 +287,4 @@ void RenderMultipleMeshVAO(std::vector<GLuint> vaos, std::vector<int> faceAmount
 			RenderMeshVAO(vaos.at(i), faceAmounts.at(i), -1);
 	}
 }
+*/

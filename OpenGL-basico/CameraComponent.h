@@ -13,6 +13,8 @@ private:
 	bool isActive;
 	float wrapAngle(float angle);
 	float FOV;
+	glm::mat4 projection;
+	glm::mat4 view;
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
@@ -30,6 +32,9 @@ public:
 	TransformComponent* getTransform();
 	void draw() override;
 	void setFatherEntity(Entity* father) override;
+	void update();
+	glm::mat4 getProjection();
+	glm::mat4 getView();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

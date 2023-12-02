@@ -8,10 +8,11 @@
 
 struct LOD {
 	std::vector<GLuint> vao;
-	std::vector<MeshData> meshData;
+	std::vector<Mesh *> meshData;
 	float viewDistance;
 	std::vector<int> faceAmount;
 	std::vector<GLuint> textureIds;
+	int numOfMeshes;
 };
 
 LOD createLOD(const std::string& pFile, float viewDistance);

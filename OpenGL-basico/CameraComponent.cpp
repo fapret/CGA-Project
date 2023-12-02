@@ -114,6 +114,26 @@ void CameraComponent::setFatherEntity(Entity* father)
 	}
 }
 
+void CameraComponent::update()
+{
+	this->projection = glm::perspective(FOV, 4.0f / 3.0f, 1.0f, 10000.f);
+	this->projection = glm::rotate(this->projection, glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
+	this->projection = glm::rotate(this->projection, glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	this->view = glm::translate(view, glm::vec3(transform->getPosition().x, transform->getPosition().y, transform->getPosition().z));
+
+}
+
+glm::mat4 CameraComponent::getProjection()
+{
+	return projection;
+}
+
+glm::mat4 CameraComponent::getView()
+{
+	return view;
+}
+
 #ifdef USE_IMGUI
 void CameraComponent::EditorPropertyDraw()
 {

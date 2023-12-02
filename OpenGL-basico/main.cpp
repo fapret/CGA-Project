@@ -184,18 +184,14 @@ void draw(SDL_Window* window)
 
 	// Create perspective projection matrix
 	CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
-	glm::mat4 projection = glm::perspective(camComp->getFOV(), 4.0f / 3.0f, 1.0f, 10000.f);
-	projection = glm::rotate(projection, glm::radians(camComp->getPitch()), glm::vec3(1.0f, 0.0f, 0.0f));
-	projection = glm::rotate(projection, glm::radians(camComp->getYaw()), glm::vec3(0.0f, 1.0f, 0.0f));
+	camComp->update();
 
+	glm::mat4 projection = camComp->getProjection();
 	//projection = glm::translate(projection, glm::vec3(cameraX, 0.0f, cameraZ));
 
 	// Create view matrix for the camera
-	glm::mat4 view(1.0);
+	glm::mat4 view = camComp->getView();
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -4.0f));
-
-	TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
-	view = glm::translate(view, glm::vec3(camTransform->getPosition().x, camTransform->getPosition().y, camTransform->getPosition().z));
 
 	// Create model matrix for model transformations
 	glm::mat4 model(1.0);
