@@ -15,7 +15,6 @@
 #include <iostream>
 #include "CameraComponent.h"
 #include "Hierarchy.h"
-#include "Shader.h"
 
 #define MAX_BONE_INFLUENCE 4
 
@@ -44,8 +43,10 @@ struct Vertex {
 struct Texture {
     GLuint id;
     std::string type;
+    std::string path;
 
     Texture(GLuint id, std::string type) : id(id), type(type) {}
+    Texture(){}
 
 };
 

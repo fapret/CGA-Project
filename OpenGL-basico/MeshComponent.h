@@ -13,6 +13,7 @@ struct LOD {
 	std::vector<int> faceAmount;
 	std::vector<GLuint> textureIds;
 	int numOfMeshes;
+	std::vector<Texture> textures_loaded;
 };
 
 LOD createLOD(const std::string& pFile, float viewDistance);

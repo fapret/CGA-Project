@@ -1,7 +1,12 @@
 #version 400 core
 
-in  vec3 vertex_color;
+out vec4 FragColor;
 
-void main(void) {
-    gl_FragColor = vec4(vertex_color,1.0);
+in vec2 TexCoords;
+
+uniform sampler2D texture_diffuse1;
+
+void main()
+{    
+    FragColor = texture(texture_diffuse1, TexCoords);
 }

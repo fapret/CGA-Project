@@ -132,8 +132,8 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	std::vector<const char*> faces = { posXPath, negXPath, posYPath, negYPath, posZPath, negZPath };
 	skybox->loadCubemap(faces);
 	glEnable(GL_DEPTH_TEST); // enable depth testing
-	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
-	glFrontFace(GL_CCW);
+	//glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
+	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 
 
@@ -318,6 +318,17 @@ int main(int argc, char* argv[]) {
 	meshComp2->addLOD(lod21);
 	LOD lod22 = createLOD("../models/sphere.obj", 20.0f);
 	meshComp2->addLOD(lod22);
+
+	/*
+	std::string sponzaName = "Sponza";
+	Entity* sponza = new Entity(sponzaName);
+	hierarchy.addEntity(sponza);
+	MeshComponent* meshSponza = new MeshComponent();
+	sponza->addComponent(meshSponza);
+	meshSponza->setFatherEntity(sponza);
+	LOD lod0sponza = createLOD("../models/sponza.obj", 0.0f);
+	meshSponza->addLOD(lod0sponza);
+	*/
 
 	init(window, gl_context);
 
