@@ -34,6 +34,7 @@
 #include "EntityComponentCreator.h"
 
 #include "Cubemap.h"
+#include "GameState.h"
 
 using namespace std;
 
@@ -303,42 +304,7 @@ int main(int argc, char* argv[]) {
 	//jugador->loadMesh("../models/sponza.obj");
 
 	//Borrar luego
-	std::string objectName = "ObjetoPrueba";
-	Entity* object = new Entity(objectName);
-	hierarchy.addEntity(object);
-	MeshComponent* meshComp = new MeshComponent();
-	object->addComponent(meshComp);
-	meshComp->setFatherEntity(object);
-	LOD lod0 = createLOD("../models/jugador.obj", 0.0f);
-	meshComp->addLOD(lod0);
-	LOD lod1 = createLOD("../models/cube.obj", 10.0f);
-	meshComp->addLOD(lod1);
-	LOD lod2 = createLOD("../models/sphere.obj", 20.0f);
-	meshComp->addLOD(lod2);
-
-	std::string objectName2 = "ObjetoPrueba2";
-	Entity* object2 = new Entity(objectName2);
-	hierarchy.addEntity(object2);
-	MeshComponent* meshComp2 = new MeshComponent();
-	object2->addComponent(meshComp2);
-	meshComp2->setFatherEntity(object2);
-	LOD lod20 = createLOD("../models/sponza.obj", 0.0f);
-	meshComp2->addLOD(lod20);
-	//LOD lod21 = createLOD("../models/cube.obj", 10.0f);
-	//meshComp2->addLOD(lod21);
-	//LOD lod22 = createLOD("../models/sphere.obj", 20.0f);
-	//meshComp2->addLOD(lod22);
-
-	/*
-	std::string sponzaName = "Sponza";
-	Entity* sponza = new Entity(sponzaName);
-	hierarchy.addEntity(sponza);
-	MeshComponent* meshSponza = new MeshComponent();
-	sponza->addComponent(meshSponza);
-	meshSponza->setFatherEntity(sponza);
-	LOD lod0sponza = createLOD("../models/sponza.obj", 0.0f);
-	meshSponza->addLOD(lod0sponza);
-	*/
+	loadState();
 
 	init(window, gl_context);
 
