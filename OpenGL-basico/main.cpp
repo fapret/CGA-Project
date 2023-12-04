@@ -132,8 +132,8 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	std::vector<const char*> faces = { posXPath, negXPath, posYPath, negYPath, posZPath, negZPath };
 	skybox->loadCubemap(faces);
 	glEnable(GL_DEPTH_TEST); // enable depth testing
-	//glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
-	glFrontFace(GL_CW);
+	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
+	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 
 
@@ -163,9 +163,12 @@ void draw(SDL_Window* window)
 #endif
 	glClearColor(1.0, 1.0, 1.0, 1.0); // set background colour
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
-	glDisable(GL_CULL_FACE);
-	//glFrontFace(GL_CCW);
+	//glDisable(GL_CULL_FACE);
+	glFrontFace(GL_CCW);
 	skybox->draw();
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glDepthFunc(GL_LESS);
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
