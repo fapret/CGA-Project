@@ -15,6 +15,7 @@ private:
 	float FOV;
 	glm::mat4 projection;
 	glm::mat4 view;
+	float ambientLight[3];
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
@@ -23,6 +24,8 @@ public:
 	float getPitch();
 	float getFOV();
 	glm::vec3 getViewDirection();
+	glm::vec3 getAmbientLight();
+	void setAmbientLight(glm::vec3 lightColor);
 	bool getIsActive();
 	void setSpeed(float speed);
 	void setYaw(float yaw);

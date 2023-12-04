@@ -3,6 +3,8 @@
 #include <FreeImage.h>
 #include <glad/glad.h>
 #include <stdexcept>
+#include "Hierarchy.h"
+#include "CameraComponent.h"
 
 class TerrainComponent : public EntityComponent {
 private:

@@ -56,6 +56,11 @@ void MeshComponent::draw()
 		
 			int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 			glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
+
+			GLint ambientColorLoc = glGetUniformLocation(shaderProgram, "ambientColor");
+			CameraComponent* camComp = (CameraComponent*) hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
+			glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z); // Set ambient light color to (0.2, 0.2, 0.2)
+
 			for (int i = 0; i < selectedLOD->numOfMeshes; i++) {
 				selectedLOD->meshData.at(i)->Draw(shaderProgram);
 			}

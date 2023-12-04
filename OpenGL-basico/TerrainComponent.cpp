@@ -92,6 +92,22 @@ void TerrainComponent::draw()
 {
     glBindVertexArray(vao);
     glBindTexture(GL_TEXTURE_2D, texture);
+
+    /*
+    float outerTessellationLevel = 1.0f; // Adjust as needed
+    float innerTessellationLevel = 1.0f; // Adjust as needed
+    GLfloat outerLevels[4] = { outerTessellationLevel, outerTessellationLevel, outerTessellationLevel, outerTessellationLevel };
+    GLfloat innerLevels[2] = { innerTessellationLevel, innerTessellationLevel };
+    // Set tessellation factors
+    glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerLevels);
+    glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerLevels);
+    */
+
+    Hierarchy& hierarchy = Hierarchy::getInstance();
+    GLint ambientColorLoc = glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "ambientColor");
+    CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
+    glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z);
+
     glDrawElements(GL_TRIANGLES, (width - 1) * (height - 1) * 6, GL_UNSIGNED_INT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);

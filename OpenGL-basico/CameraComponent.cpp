@@ -20,6 +20,9 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->pitch = 0.0f;
 	this->isActive = false;
 	this->FOV = 45.0f;
+	this->ambientLight[0] = 0.2f;
+	this->ambientLight[1] = 0.2f;
+	this->ambientLight[2] = 0.2f;
 }
 
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
@@ -30,6 +33,9 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 	this->pitch = 0.0f;
 	this->isActive = false;
 	this->FOV = 45.0f;
+	this->ambientLight[0] = 0.2f;
+	this->ambientLight[1] = 0.2f;
+	this->ambientLight[2] = 0.2f;
 }
 
 float CameraComponent::getSpeed()
@@ -64,6 +70,18 @@ glm::vec3 CameraComponent::getViewDirection()
 	float z = glm::sin(yawRad) * glm::cos(pitchRad);
 
 	return glm::normalize(glm::vec3(x, y, z));
+}
+
+glm::vec3 CameraComponent::getAmbientLight()
+{
+	return glm::vec3(ambientLight[0], ambientLight[1], ambientLight[2]);
+}
+
+void CameraComponent::setAmbientLight(glm::vec3 lightColor)
+{
+	this->ambientLight[0] = lightColor.x;
+	this->ambientLight[1] = lightColor.y;
+	this->ambientLight[2] = lightColor.z;
 }
 
 bool CameraComponent::getIsActive()
@@ -163,5 +181,7 @@ void CameraComponent::EditorPropertyDraw()
 	ImGui::Text("FOV:");
 	ImGui::SameLine();
 	ImGui::InputFloat("##FOV", &FOV, 0.1f, 1.0f, "%.1f");
+
+	ImGui::ColorPicker3("AmbientLight", ambientLight);
 }
 #endif
