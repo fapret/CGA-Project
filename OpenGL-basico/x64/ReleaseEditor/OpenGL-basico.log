@@ -1,12 +1,8 @@
-﻿  CameraComponent.cpp
-  GameState.cpp
-  MeshComponent.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\MeshComponent.cpp(5,17): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\MeshComponent.cpp(85,9): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
-  TerrainComponent.cpp
+﻿  GameState.cpp
+  SpotLightComponent.cpp
   Generando código
-  25 of 2767 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  30 of 2768 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    46 functions had inline decision re-evaluated but remain unchanged
+    131 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
   OpenGL-basico.vcxproj -> C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\x64\ReleaseEditor\OpenGL-avanzado.exe

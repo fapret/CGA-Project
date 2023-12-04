@@ -67,4 +67,14 @@ void Hierarchy::addShader(GLuint shaderId)
     shaders.push_back(shaderId);
 }
 
+int Hierarchy::getAmountSpotlights()
+{
+    return spotlightsAmount;
+}
+
+void Hierarchy::incAmountSpotlights()
+{
+    this->spotlightsAmount++;
+}
+
 

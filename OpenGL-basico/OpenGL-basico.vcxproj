@@ -185,6 +185,7 @@
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="ShaderCommons.cpp" />
+    <ClCompile Include="SpotLightComponent.cpp" />
     <ClCompile Include="TerrainComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
@@ -218,6 +219,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshComponent.h" />
     <ClInclude Include="ShaderCommons.h" />
+    <ClInclude Include="SpotLightComponent.h" />
     <ClInclude Include="TerrainComponent.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>

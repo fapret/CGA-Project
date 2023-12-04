@@ -4,6 +4,7 @@
 #include "ColliderComponent.h"
 #include "MeshComponent.h"
 #include "LightComponent.h"
+#include "TerrainComponent.h"
 
 class EntityComponentCreator {
 private:
@@ -13,6 +14,6 @@ public:
 	EntityComponentCreator(const EntityComponentCreator&) = delete;
 	EntityComponentCreator& operator=(const EntityComponentCreator&) = delete;
 	EntityComponent* createComponent(int index);
-	const char* componentNames[5];
+	const char* componentNames[6];
 	const int componentNamesSize;
 };

@@ -1,6 +1,6 @@
 #include "EntityComponentCreator.h"
 
-EntityComponentCreator::EntityComponentCreator() : componentNames{ "CameraComponent", "TransformComponent", "ColliderComponent", "MeshComponent", "LightComponent"}, componentNamesSize(5)
+EntityComponentCreator::EntityComponentCreator() : componentNames{ "CameraComponent", "TransformComponent", "ColliderComponent", "MeshComponent", "LightComponent", "TerrainComponent"}, componentNamesSize(6)
 {
 }
 
@@ -27,6 +27,9 @@ EntityComponent* EntityComponentCreator::createComponent(int index) {
 		break;
 	case 4:
 		return new LightComponent();
+		break;
+	case 5:
+		return new TerrainComponent();
 		break;
 	default:
 		return new EntityComponent();

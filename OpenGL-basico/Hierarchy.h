@@ -9,6 +9,7 @@ private:
 	Hierarchy() {}
 	Entity* activeCamera;
 	std::vector<GLuint> shaders;
+	int spotlightsAmount;
 public:
 	static Hierarchy& getInstance();
 	Hierarchy(const Hierarchy&) = delete;
@@ -23,4 +24,6 @@ public:
 	std::vector<Entity*> getAllEntities();
 	std::vector<GLuint> getShaders();
 	void addShader(GLuint shaderId);
+	int getAmountSpotlights();
+	void incAmountSpotlights();
 };
