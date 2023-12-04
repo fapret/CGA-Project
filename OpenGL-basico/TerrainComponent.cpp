@@ -8,6 +8,7 @@ TerrainComponent::~TerrainComponent()
 {
     delete[] vertices;
     delete[] indices;
+    delete[] textureCoords;
 
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
@@ -39,6 +40,16 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale)
     // Allocate memory for vertices
     vertices = new float[width * height * 3];
     indices = new unsigned int[(width - 1) * (height - 1) * 6];
+    textureCoords = new float[width * height * 2];
+
+    // Generate texture coordinates
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            unsigned int index = (y * width + x) * 2;
+            textureCoords[index] = static_cast<float>(x) / (width - 1);
+            textureCoords[index + 1] = static_cast<float>(y) / (height - 1);
+        }
+    }
 
     // Generate vertices and indices
     // Adjust scale if needed
@@ -84,6 +95,10 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)offsetof(TerrainComponent, textureCoords));
+
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
@@ -93,20 +108,13 @@ void TerrainComponent::draw()
     glBindVertexArray(vao);
     glBindTexture(GL_TEXTURE_2D, texture);
 
-    /*
-    float outerTessellationLevel = 1.0f; // Adjust as needed
-    float innerTessellationLevel = 1.0f; // Adjust as needed
-    GLfloat outerLevels[4] = { outerTessellationLevel, outerTessellationLevel, outerTessellationLevel, outerTessellationLevel };
-    GLfloat innerLevels[2] = { innerTessellationLevel, innerTessellationLevel };
-    // Set tessellation factors
-    glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerLevels);
-    glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerLevels);
-    */
-
     Hierarchy& hierarchy = Hierarchy::getInstance();
     GLint ambientColorLoc = glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "ambientColor");
     CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
     glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z);
+
+    glUniform1i(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "texture_diffuse1"), 0);
+    // and finally bind the texture
 
     glDrawElements(GL_TRIANGLES, (width - 1) * (height - 1) * 6, GL_UNSIGNED_INT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -115,6 +123,7 @@ void TerrainComponent::draw()
 
 void TerrainComponent::loadTexture(const char* texturePath)
 {
+    glBindVertexArray(vao);
     // Load the texture using FreeImage
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(texturePath, 0);
     if (fif == FIF_UNKNOWN)
@@ -126,18 +135,6 @@ void TerrainComponent::loadTexture(const char* texturePath)
     FIBITMAP* textureDib = FreeImage_Load(fif, texturePath);
     if (!textureDib)
         throw std::runtime_error("Failed to load texture image");
-
-    // Allocate memory for texture coordinates
-    textureCoords = new float[width * height * 2];
-
-    // Generate texture coordinates
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
-            unsigned int index = (y * width + x) * 2;
-            textureCoords[index] = static_cast<float>(x) / (width - 1);
-            textureCoords[index + 1] = static_cast<float>(y) / (height - 1);
-        }
-    }
 
     // Generate and bind the texture
     glGenTextures(1, &texture);
@@ -151,7 +148,7 @@ void TerrainComponent::loadTexture(const char* texturePath)
 
     // Load the texture data
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, FreeImage_GetWidth(textureDib), FreeImage_GetHeight(textureDib), 0,
-        GL_BGR, GL_UNSIGNED_BYTE, FreeImage_GetBits(textureDib));
+        GL_RGB, GL_UNSIGNED_BYTE, FreeImage_GetBits(textureDib));
 
     // Generate VAO, VBO, and EBO
     // ... (existing code)
