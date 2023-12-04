@@ -97,6 +97,12 @@ void initFramebuffer()
 	// Attach the texture to the framebuffer
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
 
+	GLuint depthRenderbuffer;
+	glGenRenderbuffers(1, &depthRenderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderbuffer);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1280, 720);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+
 	// Check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
@@ -132,6 +138,7 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	std::vector<const char*> faces = { posXPath, negXPath, posYPath, negYPath, posZPath, negZPath };
 	skybox->loadCubemap(faces);
 	glEnable(GL_DEPTH_TEST); // enable depth testing
+	//glDisable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
@@ -166,9 +173,9 @@ void draw(SDL_Window* window)
 	//glDisable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
 	skybox->draw();
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glDepthFunc(GL_LESS);
+	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
+	//glDepthFunc(GL_LESS);
 #ifdef USE_IMGUI
 	if(showWireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -315,12 +322,12 @@ int main(int argc, char* argv[]) {
 	MeshComponent* meshComp2 = new MeshComponent();
 	object2->addComponent(meshComp2);
 	meshComp2->setFatherEntity(object2);
-	LOD lod20 = createLOD("../models/jugador.obj", 0.0f);
+	LOD lod20 = createLOD("../models/sponza.obj", 0.0f);
 	meshComp2->addLOD(lod20);
-	LOD lod21 = createLOD("../models/cube.obj", 10.0f);
-	meshComp2->addLOD(lod21);
-	LOD lod22 = createLOD("../models/sphere.obj", 20.0f);
-	meshComp2->addLOD(lod22);
+	//LOD lod21 = createLOD("../models/cube.obj", 10.0f);
+	//meshComp2->addLOD(lod21);
+	//LOD lod22 = createLOD("../models/sphere.obj", 20.0f);
+	//meshComp2->addLOD(lod22);
 
 	/*
 	std::string sponzaName = "Sponza";
@@ -402,8 +409,8 @@ int main(int argc, char* argv[]) {
 
 
 #ifdef USE_IMGUI
-		glClearColor(0.231, 0.231, 0.329, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glClearColor(0.231, 0.231, 0.329, 1.0);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Render ImGui
 		// Start ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();

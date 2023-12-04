@@ -9,6 +9,7 @@ c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\entitycomponentcreator.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\entitycomponent.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\entity.obj
+c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\cubemap.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\collidercomponent.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\cameracomponent.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\boundingbox.obj
@@ -21,12 +22,10 @@ c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\imgui.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\transformcomponent.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\shadercommons.obj
-c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\cubemap.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\x64\releaseeditor\opengl-avanzado.exe
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\opengl-avanzado.ipdb
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\x64\releaseeditor\opengl-avanzado.pdb
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\opengl-avanzado.iobj
-c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\mundo.obj
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\opengl-avanzado.tlog\cl.command.1.tlog
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\opengl-avanzado.tlog\cl.items.tlog
 c:\users\usuario\desktop\facultad\cga\opengl-avanzado\cga-project\opengl-basico\x64\releaseeditor\opengl-avanzado.tlog\cl.read.1.tlog

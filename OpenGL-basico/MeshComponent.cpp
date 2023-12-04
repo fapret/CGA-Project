@@ -57,7 +57,7 @@ void MeshComponent::draw()
 			int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 			glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 			for (int i = 0; i < selectedLOD->numOfMeshes; i++) {
-				selectedLOD->meshData[i]->Draw(shaderProgram);
+				selectedLOD->meshData.at(i)->Draw(shaderProgram);
 			}
 		}
 		glm::mat4 model = glm::mat4(1.0f);
@@ -101,7 +101,14 @@ unsigned int TextureFromFile(const char* path)
 	unsigned int textureID;
 	glGenTextures(1, &textureID);
 
-	FIBITMAP* image = FreeImage_Load(FIF_JPEG, path, JPEG_DEFAULT);
+	FREE_IMAGE_FORMAT imageFormat = FreeImage_GetFIFFromFilename(path);
+
+	if (imageFormat == FIF_UNKNOWN) {
+		// Handle unknown file format
+		return -1;
+	}
+
+	FIBITMAP* image = FreeImage_Load(imageFormat, path, 0);
 
 	if (image)
 	{
