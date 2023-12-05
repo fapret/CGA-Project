@@ -9,13 +9,23 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "CameraComponent.h"
+#include "EntityComponent.h"
 
-class Cubemap {
+class SkyboxComponent : public EntityComponent {
 private:
 	GLuint textureId;
 	GLuint skyboxVAO, skyboxVBO;
+	float sunDir[3];
+	float sunColor[3];
 public:
-	Cubemap();
+	SkyboxComponent();
 	GLuint loadCubemap(std::vector<const char*> faces);
-	void draw();
+	void update();
+	void setSunColor(glm::vec3 color);
+	glm::vec3 getSunColor();
+	void setSunDirection(glm::vec3 dir);
+	glm::vec3 getSunDirection();
+#ifdef USE_IMGUI
+	void EditorPropertyDraw() override;
+#endif
 };

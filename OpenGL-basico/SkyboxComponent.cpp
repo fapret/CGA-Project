@@ -1,10 +1,13 @@
-#include "Cubemap.h"
+#include "SkyboxComponent.h"
 
-Cubemap::Cubemap()
+SkyboxComponent::SkyboxComponent() : EntityComponent("SkyboxComponent")
 {
+    sunDir[0] = 45.0f;
+    sunDir[1] = -90.0f;
+    sunDir[2] = 45.0f;
 }
 
-GLuint Cubemap::loadCubemap(std::vector<const char*> faces)
+GLuint SkyboxComponent::loadCubemap(std::vector<const char*> faces)
 {
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
@@ -14,7 +17,7 @@ GLuint Cubemap::loadCubemap(std::vector<const char*> faces)
         FIBITMAP* image = FreeImage_Load(FIF_JPEG, faces[i], JPEG_DEFAULT);
 
         if (!image) {
-            std::cout << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+            std::cout << "SkyboxComponent texture failed to load at path: " << faces[i] << std::endl;
             continue;
         }
 
@@ -101,7 +104,7 @@ float skyboxVertices[] = {
     return textureId;
 }
 
-void Cubemap::draw()
+void SkyboxComponent::update()
 {
 
     glDepthMask(GL_FALSE);
@@ -129,3 +132,47 @@ void Cubemap::draw()
     GLuint defaultShader = Hierarchy::getInstance().getShaders().at(0);
     glUseProgram(defaultShader);
 }
+
+void SkyboxComponent::setSunColor(glm::vec3 color)
+{
+    this->sunColor[0] = color.x;
+    this->sunColor[1] = color.y;
+    this->sunColor[2] = color.z;
+}
+
+glm::vec3 SkyboxComponent::getSunColor()
+{
+    return glm::vec3(sunColor[0], sunColor[1], sunColor[2]);
+}
+
+void SkyboxComponent::setSunDirection(glm::vec3 dir)
+{
+    this->sunDir[0] = dir.x;
+    this->sunDir[1] = dir.y;
+    this->sunDir[2] = dir.z;
+}
+
+glm::vec3 SkyboxComponent::getSunDirection()
+{
+    return glm::vec3(sunDir[0], sunDir[1], sunDir[2]);
+}
+
+#ifdef USE_IMGUI
+void SkyboxComponent::EditorPropertyDraw()
+{
+    EntityComponent::EditorPropertyDraw();
+    ImGui::ColorPicker3("SunColor", sunColor);
+
+    ImGui::Text("Direction of light");
+    ImGui::Separator();
+    ImGui::Text("X:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##XSun", &sunDir[0], 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Y:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##YSun", &sunDir[1], 0.01f, 0.1f, "%.3f");
+    ImGui::Text("Z:");
+    ImGui::SameLine();
+    ImGui::InputFloat("##ZSun", &sunDir[2], 0.01f, 0.1f, "%.3f");
+}
+#endif

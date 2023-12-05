@@ -84,7 +84,7 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cubemap.cpp">
+    <ClCompile Include="SkyboxComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LightComponent.cpp">
@@ -170,7 +170,7 @@
     <ClInclude Include="BoundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Cubemap.h">
+    <ClInclude Include="SkyboxComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LightComponent.h">

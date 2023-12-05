@@ -173,7 +173,7 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
-    <ClCompile Include="Cubemap.cpp" />
+    <ClCompile Include="SkyboxComponent.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityComponent.cpp" />
     <ClCompile Include="EntityComponentCreator.cpp" />
@@ -208,7 +208,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
-    <ClInclude Include="Cubemap.h" />
+    <ClInclude Include="SkyboxComponent.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityComponent.h" />
     <ClInclude Include="EntityComponentCreator.h" />

@@ -61,6 +61,14 @@ void MeshComponent::draw()
 			CameraComponent* camComp = (CameraComponent*) hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
 			glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z); // Set ambient light color to (0.2, 0.2, 0.2)
 
+			SkyboxComponent* camSky = (SkyboxComponent*)hierarchy.getActiveCamera()->findComponentsByType("SkyboxComponent").at(0);
+			if (camSky) {
+				GLint lightDirectionLoc = glGetUniformLocation(shaderProgram, "lightDirection");
+				glUniform3f(lightDirectionLoc, camSky->getSunDirection().x, camSky->getSunDirection().y, camSky->getSunDirection().z);
+				GLint lightColorLoc = glGetUniformLocation(shaderProgram, "lightColor");
+				glUniform3f(lightColorLoc, camSky->getSunColor().x, camSky->getSunColor().y, camSky->getSunColor().z);
+			}
+
 			for (int i = 0; i < selectedLOD->numOfMeshes; i++) {
 				selectedLOD->meshData.at(i)->Draw(shaderProgram);
 			}

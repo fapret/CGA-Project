@@ -33,7 +33,7 @@
 #include "CameraComponent.h"
 #include "EntityComponentCreator.h"
 
-#include "Cubemap.h"
+#include "SkyboxComponent.h"
 #include "GameState.h"
 
 using namespace std;
@@ -53,7 +53,7 @@ std::string cameraName = "MainCamera";
 Entity* camara = new Entity(cameraName);
 CameraComponent* cameraComponent = new CameraComponent();//Se agrega en el main
 
-Cubemap* skybox = new Cubemap();
+SkyboxComponent* skybox = new SkyboxComponent();
 
 #ifdef USE_IMGUI
 GLuint framebuffer;
@@ -173,7 +173,9 @@ void draw(SDL_Window* window)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear window
 	//glDisable(GL_CULL_FACE);
 	glFrontFace(GL_CCW);
-	skybox->draw();
+	SkyboxComponent* sky = (SkyboxComponent*) hierarchy.getActiveCamera()->findComponentsByType("SkyboxComponent").at(0);
+	if(sky)
+		sky->update();
 	//glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_CULL_FACE);
 	//glDepthFunc(GL_LESS);
@@ -185,6 +187,7 @@ void draw(SDL_Window* window)
 #endif
 
 	//Test fog
+	/*
 	glEnable(GL_FOG);
 	glFogi(GL_FOG_MODE, GL_EXP2); // You can use GL_EXP or GL_EXP2 for different fog modes
 	GLfloat fogColor[] = { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -192,6 +195,7 @@ void draw(SDL_Window* window)
 	glFogf(GL_FOG_DENSITY, 0.2);   // Adjust fog density as needed
 	glFogf(GL_FOG_START, 1.0);     // Start distance of fog
 	glFogf(GL_FOG_END, 5.0);       // End distance of fog
+	*/
 
 	// Create perspective projection matrix
 	CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
@@ -255,6 +259,7 @@ void cleanup(void)
 int main(int argc, char* argv[]) {
 	camara->addComponent(cameraComponent);//Agrego componente de camara a la camara
 	camara->addComponent(cameraComponent->getTransform());
+	camara->addComponent(skybox);
 	cameraComponent->setIsActive(true);
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);

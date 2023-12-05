@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include "Hierarchy.h"
 #include "CameraComponent.h"
+#include "SkyboxComponent.h"
 
 class TerrainComponent : public EntityComponent {
 private:

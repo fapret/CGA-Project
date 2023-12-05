@@ -117,6 +117,14 @@ void TerrainComponent::draw()
     glUniform1i(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "texture_diffuse1"), 0);
     // and finally bind the texture
 
+    SkyboxComponent* camSky = (SkyboxComponent*)hierarchy.getActiveCamera()->findComponentsByType("SkyboxComponent").at(0);
+    if (camSky) {
+        GLint lightDirectionLoc = glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "lightDirection");
+        glUniform3f(lightDirectionLoc, camSky->getSunDirection().x, camSky->getSunDirection().y, camSky->getSunDirection().z);
+        GLint lightColorLoc = glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "lightColor");
+        glUniform3f(lightColorLoc, camSky->getSunColor().x, camSky->getSunColor().y, camSky->getSunColor().z);
+    }
+
     glDrawElements(GL_TRIANGLES, (width - 1) * (height - 1) * 6, GL_UNSIGNED_INT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);

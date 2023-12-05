@@ -5,6 +5,7 @@
 #include "TransformComponent.h"
 #include "Hierarchy.h"
 #include "CameraComponent.h"
+#include "SkyboxComponent.h"
 
 struct LOD {
 	std::vector<GLuint> vao;
