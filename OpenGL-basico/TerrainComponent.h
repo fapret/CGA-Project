@@ -12,9 +12,12 @@ private:
 	int width, height;
 	float* vertices;
 	unsigned int* indices;
-	GLuint vao, vbo, ebo;
+	GLuint vao, vbo, ebo, vboNormals;
 	GLuint texture; // Texture ID
 	float* textureCoords;
+	float* normals;
+	void calculateNormal(int x, int y);
+	float scale;
 public:
 	TerrainComponent();
 	~TerrainComponent();

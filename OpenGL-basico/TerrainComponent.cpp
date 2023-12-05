@@ -1,6 +1,36 @@
 #include "TerrainComponent.h"
 #include <iostream>
 
+void TerrainComponent::calculateNormal(int x, int y) {
+    glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    if (x > 0 && y > 0 && x < width - 1 && y < height - 1) {
+        // Get the vertices and their heights
+        glm::vec3 v1 = glm::vec3(x * scale, vertices[(y - 1) * width * 3 + x * 3 + 1], (y - 1) * scale);
+        glm::vec3 v2 = glm::vec3((x - 1) * scale, vertices[y * width * 3 + (x - 1) * 3 + 1], y * scale);
+        glm::vec3 v3 = glm::vec3((x + 1) * scale, vertices[y * width * 3 + (x + 1) * 3 + 1], y * scale);
+        glm::vec3 v4 = glm::vec3(x * scale, vertices[(y + 1) * width * 3 + x * 3 + 1], (y + 1) * scale);
+
+        // Calculate the normal for the two triangles
+        glm::vec3 e1 = v3 - v1;
+        glm::vec3 e2 = v2 - v1;
+        glm::vec3 normal1 = glm::cross(e1, e2);
+
+        e1 = v4 - v2;
+        e2 = v3 - v2;
+        glm::vec3 normal2 = glm::cross(e1, e2);
+
+        // Accumulate the normals
+        normal = glm::normalize(normal1 + normal2);
+
+        // Set the normal for the vertex
+        normals[(y * width + x) * 3] = normal.x;
+        normals[(y * width + x) * 3 + 1] = normal.y;
+        normals[(y * width + x) * 3 + 2] = normal.z;
+    }
+}
+
+
 TerrainComponent::TerrainComponent() : EntityComponent("TerrainComponent")
 {
 }
@@ -10,6 +40,7 @@ TerrainComponent::~TerrainComponent()
     delete[] vertices;
     delete[] indices;
     delete[] textureCoords;
+    delete[] normals;
 
     glDeleteVertexArrays(1, &vao);
     glDeleteBuffers(1, &vbo);
@@ -18,6 +49,7 @@ TerrainComponent::~TerrainComponent()
 
 void TerrainComponent::loadHeightmap(const char* filePath, float scale, float heightScale)
 {
+    this->scale = scale;
     // Load the image using FreeImage
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     FIBITMAP* dib = nullptr;
@@ -41,6 +73,7 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     // Allocate memory for vertices
     vertices = new float[width * height * 3];
     indices = new unsigned int[(width - 1) * (height - 1) * 6];
+    normals = new float[width * height * 3];
     textureCoords = new float[width * height * 2];
 
     // Generate texture coordinates
@@ -49,6 +82,14 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
             unsigned int index = (y * width + x) * 2;
             textureCoords[index] = static_cast<float>(x) / (width - 1) * 500.0f;
             textureCoords[index + 1] = static_cast<float>(y) / (height - 1) * 500.0f;
+        }
+    }
+
+    // Calculate normals
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            unsigned int index = (y * width + x) * 3;
+            calculateNormal(x, y);
         }
     }
 
@@ -96,9 +137,17 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
+    // Vertex normals
+    //glGenBuffers(1, &vboNormals);
+    //glBindBuffer(GL_ARRAY_BUFFER, vboNormals);
+    //glBufferData(GL_ARRAY_BUFFER, width * height * 3 * sizeof(float), normals, GL_STATIC_DRAW);
+    // vertex normals
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
     // vertex texture coords
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(width * height * 6 * sizeof(float)));
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
