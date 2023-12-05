@@ -21,14 +21,30 @@ void TerrainComponent::calculateNormal(int x, int y) {
         glm::vec3 normal2 = glm::cross(e1, e2);
 
         // Accumulate the normals
-        normal = glm::normalize(normal1 + normal2);
+        normal += glm::normalize(normal1);
+        normal += glm::normalize(normal2);
+
+        // Average the normals
+        normal /= 2.0f;
 
         // Set the normal for the vertex
         normals[(y * width + x) * 3] = normal.x;
         normals[(y * width + x) * 3 + 1] = normal.y;
         normals[(y * width + x) * 3 + 2] = normal.z;
     }
+    // If it's a border vertex, set the normal to the up direction (flat terrain)
+    else if (y == 0 || y == height - 1) {
+        normals[(y * width + x) * 3] = 0.0f;
+        normals[(y * width + x) * 3 + 1] = 1.0f;
+        normals[(y * width + x) * 3 + 2] = 0.0f;
+    }
+    else if (x == 0 || x == width - 1) {
+        normals[(y * width + x) * 3] = 0.0f;
+        normals[(y * width + x) * 3 + 1] = 1.0f;
+        normals[(y * width + x) * 3 + 2] = 0.0f;
+    }
 }
+
 
 
 TerrainComponent::TerrainComponent() : EntityComponent("TerrainComponent")
@@ -156,14 +172,16 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
 void TerrainComponent::draw()
 {
     glBindVertexArray(vao);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    //glBindTexture(GL_TEXTURE_2D, texture);
 
     Hierarchy& hierarchy = Hierarchy::getInstance();
     GLint ambientColorLoc = glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "ambientColor");
     CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
     glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z);
 
+    //glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "texture_diffuse1"), 0);
+    glBindTexture(GL_TEXTURE_2D, texture);
     // and finally bind the texture
 
     SkyboxComponent* camSky = (SkyboxComponent*)hierarchy.getActiveCamera()->findComponentsByType("SkyboxComponent").at(0);
