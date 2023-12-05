@@ -38,6 +38,6 @@ void loadState()
 	TerrainComponent* terrainComp = new TerrainComponent();
 	terrain->addComponent(terrainComp);
 	terrainComp->setFatherEntity(terrain);
-	terrainComp->loadHeightmap("../iceland_heightmap.png", 0.5f);
+	terrainComp->loadHeightmap("../iceland_heightmap.png", 1.0f);
 	terrainComp->loadTexture("../grass.jpg");
 }

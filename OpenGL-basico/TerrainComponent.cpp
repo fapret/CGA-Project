@@ -1,4 +1,5 @@
 #include "TerrainComponent.h"
+#include <iostream>
 
 TerrainComponent::TerrainComponent() : EntityComponent("TerrainComponent")
 {
@@ -15,7 +16,7 @@ TerrainComponent::~TerrainComponent()
     glDeleteBuffers(1, &ebo);
 }
 
-void TerrainComponent::loadHeightmap(const char* filePath, float scale)
+void TerrainComponent::loadHeightmap(const char* filePath, float scale, float heightScale)
 {
     // Load the image using FreeImage
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
@@ -46,8 +47,8 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale)
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             unsigned int index = (y * width + x) * 2;
-            textureCoords[index] = static_cast<float>(x) / (width - 1);
-            textureCoords[index + 1] = static_cast<float>(y) / (height - 1);
+            textureCoords[index] = static_cast<float>(x) / (width - 1) * 500.0f;
+            textureCoords[index + 1] = static_cast<float>(y) / (height - 1) * 500.0f;
         }
     }
 
@@ -60,7 +61,7 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale)
             FreeImage_GetPixelColor(dib, x, y, &color);
 
             vertices[index] = x * scale;
-            vertices[index + 1] = color.rgbRed * scale;
+            vertices[index + 1] = color.rgbRed * scale * heightScale;
             vertices[index + 2] = y * scale;
         }
     }
@@ -97,7 +98,7 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale)
 
     // vertex texture coords
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)offsetof(TerrainComponent, textureCoords));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -160,8 +161,8 @@ void TerrainComponent::loadTexture(const char* texturePath)
     glBufferData(GL_ARRAY_BUFFER, width * height * 2 * sizeof(float), textureCoords, GL_STATIC_DRAW);
 
     // Specify the layout of the texture coordinate data
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(2);
 
     // Unbind the VBO
     glBindBuffer(GL_ARRAY_BUFFER, 0);
