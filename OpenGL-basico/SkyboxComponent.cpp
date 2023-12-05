@@ -2,9 +2,12 @@
 
 SkyboxComponent::SkyboxComponent() : EntityComponent("SkyboxComponent")
 {
-    sunDir[0] = 45.0f;
+    sunDir[0] = 0.0f;
     sunDir[1] = -90.0f;
-    sunDir[2] = 45.0f;
+    sunDir[2] = 0.0f;
+    sunColor[0] = 0.04f;
+    sunColor[1] = 0.04f;
+    sunColor[2] = 0.04f;
 }
 
 GLuint SkyboxComponent::loadCubemap(std::vector<const char*> faces)

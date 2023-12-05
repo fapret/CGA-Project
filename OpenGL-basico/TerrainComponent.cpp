@@ -179,6 +179,13 @@ void TerrainComponent::draw()
     CameraComponent* camComp = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
     glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z);
 
+    glm::mat4 model = glm::mat4(1.0f);
+    int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
+    glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
+
+    glUniformMatrix4fv(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "view"), 1, GL_FALSE, glm::value_ptr(camComp->getView()));
+    glUniformMatrix4fv(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "projection"), 1, GL_FALSE, glm::value_ptr(camComp->getProjection()));
+
     //glActiveTexture(GL_TEXTURE0);
     glUniform1i(glGetUniformLocation(Hierarchy::getInstance().getShaders().at(0), "texture_diffuse1"), 0);
     glBindTexture(GL_TEXTURE_2D, texture);

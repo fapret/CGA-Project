@@ -28,8 +28,10 @@ void loadState()
 	MeshComponent* meshComp2 = new MeshComponent();
 	object2->addComponent(meshComp2);
 	meshComp2->setFatherEntity(object2);
-	LOD lod20 = createLOD("../models/sponza.obj", 0.0f);
-	meshComp2->addLOD(lod20);
+	//LOD lod20 = createLOD("../models/uploads_files_2720101_BusGameMap.obj", 0.0f);
+	//meshComp2->addLOD(lod20);
+	//LOD lod21 = createLOD("../models/OC56_MelaleucaAlternifolia_OBJ/OBJ_OC56_MelaleucaAlternifolia_2.obj", 200.0f);
+	//meshComp2->addLOD(lod21);
 	*/
 
 	std::string objectName3 = "Terrain";
@@ -38,6 +40,6 @@ void loadState()
 	TerrainComponent* terrainComp = new TerrainComponent();
 	terrain->addComponent(terrainComp);
 	terrainComp->setFatherEntity(terrain);
-	terrainComp->loadHeightmap("../iceland_heightmap.png", 1.0f);
+	terrainComp->loadHeightmap("../island_heightmap.png", 10.0f, 0.1f);
 	terrainComp->loadTexture("../grass.jpg");
 }
