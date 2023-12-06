@@ -36,6 +36,9 @@
 #include "SkyboxComponent.h"
 #include "GameState.h"
 
+#include "btBulletDynamicsCommon.h"
+#include "BulletCollision/NarrowPhaseCollision/btVoronoiSimplexSolver.h"
+
 using namespace std;
 
 float r = 0;
@@ -264,6 +267,7 @@ int main(int argc, char* argv[]) {
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
+	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;
