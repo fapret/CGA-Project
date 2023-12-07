@@ -4,7 +4,7 @@
 class ColliderComponent : public EntityComponent {
 public:
 	ColliderComponent();
-	void draw() override;
+	void draw(float deltaTime = 0.0f) override;
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

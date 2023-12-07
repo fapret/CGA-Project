@@ -12,15 +12,17 @@ MeshComponent::MeshComponent() : EntityComponent("MeshComponent")
 {
 	this->maxViewDistance = 10000.0f;
 	this->transform = new TransformComponent();
+	this->animator = NULL;
 }
 
 MeshComponent::MeshComponent(float maxDistance) : EntityComponent("MeshComponent")
 {
 	this->maxViewDistance = maxDistance;
 	this->transform = new TransformComponent();
+	this->animator = NULL;
 }
 
-void MeshComponent::draw()
+void MeshComponent::draw(float deltaTime)
 {
 	Hierarchy& hierarchy = Hierarchy::getInstance();
 	Entity* camEntity = hierarchy.getActiveCamera();
@@ -47,6 +49,17 @@ void MeshComponent::draw()
 		if (selectedLOD) {
 			glm::mat4 model = glm::mat4(1.0f);
 			GLuint shaderProgram = hierarchy.getShaders().at(0);
+			if (animator != NULL) {
+				animator->UpdateAnimation(deltaTime);
+				auto transforms = animator->GetFinalBoneMatrices();
+				for (int i = 0; i < transforms.size(); ++i) {
+					std::string uniformName = "finalBonesMatrices[" + std::to_string(i) + "]";
+					GLint uniformLocation = glGetUniformLocation(shaderProgram, uniformName.c_str());
+					if (uniformLocation != -1) {
+						glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(transforms[i]));
+					}
+				}
+			}
 			model = glm::translate(model, glm::vec3(-transform->getPosition().x, -transform->getPosition().y, -transform->getPosition().z));
 			model = glm::rotate(model, glm::radians(transform->getRotation().x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotate around X axis
 			model = glm::rotate(model, glm::radians(transform->getRotation().y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate around Y axis
@@ -100,6 +113,17 @@ void MeshComponent::setFatherEntity(Entity* father)
 	if (transformList.size() == 0) {
 		father->addComponent(transform);
 	}
+}
+
+void MeshComponent::addAnimation(const std::string& pFile)
+{
+	Animation* danceAnimation = new Animation(pFile, this->LodLevels.at(0).meshData.at(0));
+	this->animator = new Animator(danceAnimation);
+}
+
+Animator* MeshComponent::getAnimator()
+{
+	return animator;
 }
 
 #ifdef USE_IMGUI
@@ -181,6 +205,15 @@ std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureTyp
 	return textures;
 }
 
+void SetVertexBoneDataToDefault(Vertex& vertex)
+{
+	for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
+	{
+		vertex.m_BoneIDs[i] = -1;
+		vertex.m_Weights[i] = 0.0f;
+	}
+}
+
 LOD createLOD(const std::string& pFile, float viewDistance)
 {
 	LOD lod;
@@ -197,7 +230,7 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 	}
 
 	for (unsigned int m = 0; m < scene->mNumMeshes; m++) {
-		const aiMesh* mesh = scene->mMeshes[m];
+		aiMesh* mesh = scene->mMeshes[m];
 		std::vector<unsigned int> indices;
 		for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
 			const aiFace& face = mesh->mFaces[i];
@@ -208,13 +241,15 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 
 		std::vector<Vertex> vertices;
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
-			vertices.push_back(Vertex(
+			Vertex topush = Vertex(
 				glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z),
 				glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z),
 				glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y),
 				glm::vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z),
 				glm::vec3(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z)
-			));
+			);
+			SetVertexBoneDataToDefault(topush);
+			vertices.push_back(topush);
 		}
 
 		std::vector<Texture> textures;
@@ -243,7 +278,7 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 			}
 		}
 
-		Mesh* newMesh = new Mesh(vertices, indices, textures);
+		Mesh* newMesh = new Mesh(vertices, indices, textures, mesh, scene);
 		lod.meshData.push_back(newMesh);
 	}
 

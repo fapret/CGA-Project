@@ -27,7 +27,7 @@ public:
 	EntityComponent* findComponentByID(std::string id);
 	std::vector<EntityComponent*> findComponentsByType(std::string type);
 	void addComponent(EntityComponent* component);
-	void draw();
+	void draw(float deltaTime = 0.0f);
 #ifdef USE_IMGUI
 	void drawProperties();
 #endif

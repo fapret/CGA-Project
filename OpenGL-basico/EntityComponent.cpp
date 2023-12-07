@@ -32,7 +32,7 @@ Entity* EntityComponent::getFatherEntity()
     return father;
 }
 
-void EntityComponent::draw()
+void EntityComponent::draw(float deltaTime)
 {
 }
 

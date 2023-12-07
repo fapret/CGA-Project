@@ -12,7 +12,7 @@ SpotLightComponent::SpotLightComponent() : LightComponent()
     hierarchy.incAmountSpotlights();
 }
 
-void SpotLightComponent::draw()
+void SpotLightComponent::draw(float deltaTime)
 {
     //TODO
 }

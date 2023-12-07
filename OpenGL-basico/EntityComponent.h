@@ -22,7 +22,7 @@ public:
 	EntityComponent(std::string type);
 	virtual void setFatherEntity(Entity* father);
 	Entity* getFatherEntity();
-	virtual void draw();
+	virtual void draw(float deltaTime = 0.0f);
 #ifdef USE_IMGUI
 	virtual void EditorPropertyDraw();
 #endif

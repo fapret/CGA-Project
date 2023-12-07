@@ -6,6 +6,8 @@
 #include "Hierarchy.h"
 #include "CameraComponent.h"
 #include "SkyboxComponent.h"
+#include "animation.h"
+#include "animator.h"
 
 struct LOD {
 	std::vector<GLuint> vao;
@@ -25,14 +27,17 @@ private:
 	std::vector<LOD> LodLevels;
 	TransformComponent* transform;
 	float calculateDistance(const glm::vec3& point1, const glm::vec3& point2);
+	Animator* animator;
 public:
 	MeshComponent();
 	MeshComponent(float maxDistance);
-	void draw() override;
+	void draw(float deltaTime = 0.0f) override;
 	void setMaxViewDistance(float maxView);
 	void addLOD(LOD lod);
 	int getMaxViewDistance();
 	void setFatherEntity(Entity* father) override;
+	void addAnimation(const std::string& pFile);
+	Animator* getAnimator();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

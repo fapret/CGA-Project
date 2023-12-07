@@ -123,7 +123,7 @@ TransformComponent* CameraComponent::getTransform()
 	return transform;
 }
 
-void CameraComponent::draw()
+void CameraComponent::draw(float deltaTime)
 {
 }
 
@@ -167,7 +167,7 @@ void CameraComponent::setUpCollission()
 	this->cameraRigidBody = new btRigidBody(cameraRigidBodyCI);
 
 	Hierarchy& hierarchy = Hierarchy::getInstance();
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 	dynamicsWorld->addRigidBody(cameraRigidBody);
 
 }
@@ -175,7 +175,7 @@ void CameraComponent::setUpCollission()
 void CameraComponent::updateRigidBody()
 {
 	Hierarchy& hierarchy = Hierarchy::getInstance();
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 
 	// Add the camera rigid body to the dynamics world
 
@@ -186,14 +186,12 @@ void CameraComponent::updateRigidBody()
 	cameraRigidBody->setWorldTransform(transformBt);
 	cameraRigidBody->getMotionState()->setWorldTransform(transformBt);
 	btVector3 centerOfMass = cameraRigidBody->getCenterOfMassPosition();
-	std::cout << pos.x << " " << pos.y << " " << pos.z << " | " << centerOfMass.getX() << " " << centerOfMass.getY() << " " << centerOfMass.getZ() << std::endl;
-
 }
 
 void CameraComponent::checkCollision()
 {
 	Hierarchy& hierarchy = Hierarchy::getInstance();
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 
 	btTransform trans;
 	cameraRigidBody->getMotionState()->getWorldTransform(trans);

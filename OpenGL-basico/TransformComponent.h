@@ -26,7 +26,7 @@ public:
 	glm::vec3 getRotation();
 	void setRotation(glm::vec3 rot);
 	TransformComponent();
-	void draw() override;
+	void draw(float deltaTime = 0.0f) override;
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

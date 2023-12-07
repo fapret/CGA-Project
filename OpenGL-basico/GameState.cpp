@@ -21,18 +21,15 @@ void loadState()
 	LOD lod2 = createLOD("../models/sphere.obj", 20.0f);
 	meshComp->addLOD(lod2);
 
-	/*
-	std::string objectName2 = "ObjetoPrueba2";
+	std::string objectName2 = "Thanos";
 	Entity* object2 = new Entity(objectName2);
 	hierarchy.addEntity(object2);
 	MeshComponent* meshComp2 = new MeshComponent();
 	object2->addComponent(meshComp2);
 	meshComp2->setFatherEntity(object2);
-	//LOD lod20 = createLOD("../models/uploads_files_2720101_BusGameMap.obj", 0.0f);
-	//meshComp2->addLOD(lod20);
-	//LOD lod21 = createLOD("../models/OC56_MelaleucaAlternifolia_OBJ/OBJ_OC56_MelaleucaAlternifolia_2.obj", 200.0f);
-	//meshComp2->addLOD(lod21);
-	*/
+	LOD lod20 = createLOD("../models/thanos.fbx", 0.0f);
+	meshComp2->addLOD(lod20);
+	meshComp2->addAnimation("../models/thanos.fbx");
 
 	std::string objectName3 = "Terrain";
 	Entity* terrain = new Entity(objectName3);

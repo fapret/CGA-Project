@@ -4,7 +4,7 @@ ColliderComponent::ColliderComponent() : EntityComponent("ColliderComponent")
 {
 }
 
-void ColliderComponent::draw()
+void ColliderComponent::draw(float deltaTime)
 {
 }
 

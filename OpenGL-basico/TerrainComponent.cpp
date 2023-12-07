@@ -142,15 +142,6 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
 
     FreeImage_Unload(dib);
 
-    btHeightfieldTerrainShape* heightfieldShape = new btHeightfieldTerrainShape(width, height, vertices, 1.0, 0, 1.0, 1, PHY_FLOAT, false);
-    btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
-    btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(0, motionState, heightfieldShape, btVector3(0, 0, 0));
-    btRigidBody* terrainRigidBody = new btRigidBody(rigidBodyCI);
-
-    Hierarchy& hierarchy = Hierarchy::getInstance();
-    btDiscreteDynamicsWorld* dinamicsWorld = hierarchy.getDinamicsWorld();
-    dinamicsWorld->addRigidBody(terrainRigidBody);
-
     // Generate VAO, VBO, and EBO
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
@@ -183,7 +174,7 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     glBindVertexArray(0);
 }
 
-void TerrainComponent::draw()
+void TerrainComponent::draw(float deltaTime)
 {
     glBindVertexArray(vao);
     //glBindTexture(GL_TEXTURE_2D, texture);

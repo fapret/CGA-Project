@@ -34,7 +34,7 @@ public:
 	void setIsActive(bool status);
 	void setFOV(float amount);
 	TransformComponent* getTransform();
-	void draw() override;
+	void draw(float deltaTime = 0.0f) override;
 	void setFatherEntity(Entity* father) override;
 	void update();
 	glm::mat4 getProjection();

@@ -11,7 +11,7 @@ private:
     int index;
 public:
     SpotLightComponent();
-    void draw() override;
+    void draw(float deltaTime = 0.0f) override;
     float getCutoff();
     void setCutoff(float cutoff);
     float getOuterCutoff();

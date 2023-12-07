@@ -50,7 +50,7 @@ TransformComponent::TransformComponent() : EntityComponent("TransformComponent")
     this->scaleZ = 1.0f;
 }
 
-void TransformComponent::draw()
+void TransformComponent::draw(float deltaTime)
 {
 }
 

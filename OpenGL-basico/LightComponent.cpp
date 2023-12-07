@@ -5,7 +5,7 @@ LightComponent::LightComponent() : EntityComponent("LightComponent")
 	this->transform = new TransformComponent();
 }
 
-void LightComponent::draw()
+void LightComponent::draw(float deltaTime)
 {
 }
 

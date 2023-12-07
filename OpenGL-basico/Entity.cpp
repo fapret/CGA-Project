@@ -67,11 +67,11 @@ void Entity::addComponent(EntityComponent* component)
 	this->components.push_back(component);
 }
 
-void Entity::draw()
+void Entity::draw(float deltaTime)
 {
 	for (size_t i = 0; i < components.size(); i++)
 	{
-		components[i]->draw();
+		components[i]->draw(deltaTime);
 	}
 }
 

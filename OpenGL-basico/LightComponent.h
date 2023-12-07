@@ -12,7 +12,7 @@ protected:
 	float pitch;
 public:
 	LightComponent();
-	void draw() override;
+	void draw(float deltaTime = 0.0f) override;
 	glm::vec3 getLightColor();
 	void setLightColor(glm::vec3 lightColor);
 	float getYaw();

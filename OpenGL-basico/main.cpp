@@ -44,7 +44,8 @@ using namespace std;
 
 float r = 0;
 bool relativeMouse = true;
-
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 Hierarchy& hierarchy = Hierarchy::getInstance();
 #ifdef USE_IMGUI
@@ -230,7 +231,7 @@ void draw(SDL_Window* window)
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
 
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 	dynamicsWorld->stepSimulation(1 / 60.f, 10);
 	int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
 	for (int i = 0; i < numManifolds; ++i) {
@@ -240,12 +241,15 @@ void draw(SDL_Window* window)
 		// You can access collision points, objects involved, etc., from the contact manifold
 	}
 	
+	float currentFrame = SDL_GetTicks() / 1000.0f;
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
 
 	// Draw the 3D model
 	std::vector<Entity*> entities = hierarchy.getAllEntities();
 	for (size_t i = 0; i < entities.size(); i++)
 	{
-		entities[i]->draw();
+		entities[i]->draw(deltaTime);
 	}
 
 	// Swap buffers and present
