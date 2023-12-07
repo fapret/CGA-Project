@@ -77,14 +77,8 @@ void Hierarchy::incAmountSpotlights()
     this->spotlightsAmount++;
 }
 
-void Hierarchy::setPhysics(Entity* physics)
+void Hierarchy::setGravity(float gravity)
 {
-    this->physics = physics;
+    this->dynamicsWorld->setGravity(btVector3(0, gravity, 0));
 }
-
-Entity* Hierarchy::getPhysics()
-{
-    return physics;
-}
-
 
