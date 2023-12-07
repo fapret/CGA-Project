@@ -8,6 +8,7 @@ private:
 	std::vector<Entity*> entities;
 	Hierarchy() {}
 	Entity* activeCamera;
+	Entity* physics;
 	std::vector<GLuint> shaders;
 	int spotlightsAmount;
 public:
@@ -26,4 +27,6 @@ public:
 	void addShader(GLuint shaderId);
 	int getAmountSpotlights();
 	void incAmountSpotlights();
+	void setPhysics(Entity* physics);
+	Entity* getPhysics();
 };

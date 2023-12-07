@@ -32,12 +32,14 @@
 #include "Entity.h"
 #include "CameraComponent.h"
 #include "EntityComponentCreator.h"
+#include "CollisionComponent.h"
 
 #include "SkyboxComponent.h"
 #include "GameState.h"
 
 #include "btBulletDynamicsCommon.h"
-#include "BulletCollision/NarrowPhaseCollision/btVoronoiSimplexSolver.h"
+
+
 
 using namespace std;
 
@@ -55,6 +57,9 @@ bool showWireframe = false;
 std::string cameraName = "MainCamera";
 Entity* camara = new Entity(cameraName);
 CameraComponent* cameraComponent = new CameraComponent();//Se agrega en el main
+
+//CollisionComponent* collision = new CollisionComponent();
+//Entity* physics = new Entity("physics");
 
 SkyboxComponent* skybox = new SkyboxComponent();
 
@@ -259,6 +264,9 @@ void cleanup(void)
 }
 
 
+
+
+
 int main(int argc, char* argv[]) {
 	camara->addComponent(cameraComponent);//Agrego componente de camara a la camara
 	camara->addComponent(cameraComponent->getTransform());
@@ -267,7 +275,6 @@ int main(int argc, char* argv[]) {
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;
@@ -319,6 +326,19 @@ int main(int argc, char* argv[]) {
 
 	bool running = true; // set running to true
 	SDL_Event sdlEvent;  // variable to detect SDL events
+
+	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+
+	///use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
+	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+	///btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
+	btBroadphaseInterface* overlappingPairCache = new btDbvtBroadphase();
+
+	///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
+	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver;
+
+	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
 	while (running)		// the event loop
 	{

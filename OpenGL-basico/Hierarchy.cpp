@@ -77,4 +77,14 @@ void Hierarchy::incAmountSpotlights()
     this->spotlightsAmount++;
 }
 
+void Hierarchy::setPhysics(Entity* physics)
+{
+    this->physics = physics;
+}
+
+Entity* Hierarchy::getPhysics()
+{
+    return physics;
+}
+
 
