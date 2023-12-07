@@ -6,6 +6,9 @@
 #include "Hierarchy.h"
 #include "CameraComponent.h"
 #include "SkyboxComponent.h"
+#include <btBulletDynamicsCommon.h>
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 
 class TerrainComponent : public EntityComponent {
 private:
@@ -18,10 +21,12 @@ private:
 	float* normals;
 	void calculateNormal(int x, int y);
 	float scale;
+	float heightScale;
 public:
 	TerrainComponent();
 	~TerrainComponent();
 	void loadHeightmap(const char* filePath, float scale = 1.0f, float heightScale = 1.0f);
 	void loadTexture(const char* texturePath);
 	void draw() override;
+	void createPhysics();
 };
