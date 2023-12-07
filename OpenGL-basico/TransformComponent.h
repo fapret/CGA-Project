@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <btBulletDynamicsCommon.h>
+
 
 class TransformComponent : public EntityComponent {
 private:
@@ -15,6 +17,7 @@ private:
 	float rotationX;
 	float rotationY;
 	float rotationZ;
+	btRigidBody* cameraRigidBody;
 public:
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 pos);

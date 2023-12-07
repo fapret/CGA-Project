@@ -6,6 +6,8 @@
 #include "Hierarchy.h"
 #include "CameraComponent.h"
 #include "SkyboxComponent.h"
+#include <BulletCollision/CollisionShapes/btHeightfieldTerrainShape.h>
+
 
 class TerrainComponent : public EntityComponent {
 private:

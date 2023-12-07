@@ -23,6 +23,8 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->ambientLight[0] = 0.2f;
 	this->ambientLight[1] = 0.2f;
 	this->ambientLight[2] = 0.2f;
+
+	setUpCollission();
 }
 
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
@@ -36,6 +38,8 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 	this->ambientLight[0] = 0.2f;
 	this->ambientLight[1] = 0.2f;
 	this->ambientLight[2] = 0.2f;
+
+	setUpCollission();
 }
 
 float CameraComponent::getSpeed()
@@ -152,6 +156,54 @@ glm::mat4 CameraComponent::getProjection()
 glm::mat4 CameraComponent::getView()
 {
 	return view;
+}
+
+void CameraComponent::setUpCollission()
+{
+	btCollisionShape* cameraShape = new btSphereShape(3);
+	// Create a motion state for the camera (connects the physics simulation and the camera component)
+	btDefaultMotionState* cameraMotionState = new btDefaultMotionState();
+	btRigidBody::btRigidBodyConstructionInfo cameraRigidBodyCI(0, cameraMotionState, cameraShape, btVector3(0, 0, 0));
+	this->cameraRigidBody = new btRigidBody(cameraRigidBodyCI);
+
+	Hierarchy& hierarchy = Hierarchy::getInstance();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	dynamicsWorld->addRigidBody(cameraRigidBody);
+
+}
+
+void CameraComponent::updateRigidBody()
+{
+	Hierarchy& hierarchy = Hierarchy::getInstance();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+
+	// Add the camera rigid body to the dynamics world
+
+	// Update the position of the camera rigid body based on the CameraComponent's position
+	btTransform transformBt;
+	glm::vec3 pos = this->transform->getPosition();
+	transformBt.setOrigin(btVector3(pos.x, pos.y, pos.z));
+	cameraRigidBody->setWorldTransform(transformBt);
+	cameraRigidBody->getMotionState()->setWorldTransform(transformBt);
+	btVector3 centerOfMass = cameraRigidBody->getCenterOfMassPosition();
+	std::cout << pos.x << " " << pos.y << " " << pos.z << " | " << centerOfMass.getX() << " " << centerOfMass.getY() << " " << centerOfMass.getZ() << std::endl;
+
+}
+
+void CameraComponent::checkCollision()
+{
+	Hierarchy& hierarchy = Hierarchy::getInstance();
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+
+	btTransform trans;
+	cameraRigidBody->getMotionState()->getWorldTransform(trans);
+	btVector3 cameraPosition = trans.getOrigin();
+
+	btCollisionWorld::ClosestRayResultCallback rayCallback(cameraPosition, cameraPosition - btVector3(0, 1, 0));
+	dynamicsWorld->rayTest(cameraPosition, cameraPosition - btVector3(0, 1, 0), rayCallback);
+	if (rayCallback.hasHit()) {
+		std::cout << "Hit";
+	}
 }
 
 #ifdef USE_IMGUI

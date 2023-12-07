@@ -92,6 +92,10 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     normals = new float[width * height * 3];
     textureCoords = new float[width * height * 2];
 
+    
+
+
+
     // Generate texture coordinates
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
@@ -136,6 +140,15 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     }
 
     FreeImage_Unload(dib);
+
+    btHeightfieldTerrainShape* heightfieldShape = new btHeightfieldTerrainShape(width, height, vertices, 1.0, 0, 1.0, 1, PHY_FLOAT, false);
+    btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+    btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(0, motionState, heightfieldShape, btVector3(0, 0, 0));
+    btRigidBody* terrainRigidBody = new btRigidBody(rigidBodyCI);
+
+    Hierarchy& hierarchy = Hierarchy::getInstance();
+    btDiscreteDynamicsWorld* dinamicsWorld = hierarchy.getDinamicsWorld();
+    dinamicsWorld->addRigidBody(terrainRigidBody);
 
     // Generate VAO, VBO, and EBO
     glGenVertexArrays(1, &vao);

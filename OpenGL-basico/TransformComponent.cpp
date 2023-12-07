@@ -10,6 +10,7 @@ void TransformComponent::setPosition(glm::vec3 pos)
     this->posX = pos.x;
     this->posY = pos.y;
     this->posZ = pos.z;
+
 }
 
 glm::vec3 TransformComponent::getScale()

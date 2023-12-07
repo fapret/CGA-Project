@@ -57,6 +57,7 @@ std::string cameraName = "MainCamera";
 Entity* camara = new Entity(cameraName);
 CameraComponent* cameraComponent = new CameraComponent();//Se agrega en el main
 
+
 //CollisionComponent* collision = new CollisionComponent();
 //Entity* physics = new Entity("physics");
 
@@ -228,6 +229,18 @@ void draw(SDL_Window* window)
 	int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
+
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDinamicsWorld();
+	dynamicsWorld->stepSimulation(1 / 60.f, 10);
+	int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
+	for (int i = 0; i < numManifolds; ++i) {
+		btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+
+		// Check for collisions and handle them
+		// You can access collision points, objects involved, etc., from the contact manifold
+	}
+	
+
 	// Draw the 3D model
 	std::vector<Entity*> entities = hierarchy.getAllEntities();
 	for (size_t i = 0; i < entities.size(); i++)
@@ -330,6 +343,7 @@ int main(int argc, char* argv[]) {
 	{
 		TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
 		CameraComponent* currCamComponent = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
+		currCamComponent->updateRigidBody();
 
 		while (SDL_PollEvent(&sdlEvent)) {
 #ifdef USE_IMGUI

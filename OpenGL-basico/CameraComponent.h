@@ -16,6 +16,7 @@ private:
 	glm::mat4 projection;
 	glm::mat4 view;
 	float ambientLight[3];
+	btRigidBody* cameraRigidBody;
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
@@ -38,6 +39,9 @@ public:
 	void update();
 	glm::mat4 getProjection();
 	glm::mat4 getView();
+	void setUpCollission();
+	void updateRigidBody();
+	void checkCollision();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif
