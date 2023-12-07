@@ -82,7 +82,7 @@ void Hierarchy::setGravity(float gravity)
     this->dynamicsWorld->setGravity(btVector3(0, gravity, 0));
 }
 
-btDiscreteDynamicsWorld* Hierarchy::getDinamicsWorld()
+btDiscreteDynamicsWorld* Hierarchy::getDynamicsWorld()
 {
     return dynamicsWorld;
 }

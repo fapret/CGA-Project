@@ -75,5 +75,5 @@ public:
 	int getAmountSpotlights();
 	void incAmountSpotlights();
 	void setGravity(float gravity = 9.8f);
-	btDiscreteDynamicsWorld* getDinamicsWorld();
+	btDiscreteDynamicsWorld* getDynamicsWorld();
 };

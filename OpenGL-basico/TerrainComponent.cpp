@@ -66,6 +66,7 @@ TerrainComponent::~TerrainComponent()
 void TerrainComponent::loadHeightmap(const char* filePath, float scale, float heightScale)
 {
     this->scale = scale;
+    this->heightScale = heightScale;
     // Load the image using FreeImage
     FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
     FIBITMAP* dib = nullptr;
@@ -215,6 +216,27 @@ void TerrainComponent::draw()
     glDrawElements(GL_TRIANGLES, (width - 1) * (height - 1) * 6, GL_UNSIGNED_INT, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
+}
+
+void TerrainComponent::createPhysics()
+{
+    btDynamicsWorld* dynamicsWorld = Hierarchy::getInstance().getDynamicsWorld();
+    if (!dynamicsWorld) {
+        throw std::runtime_error("DynamicsWorld is not initialized.");
+    }
+
+    // Create a static terrain shape
+    btHeightfieldTerrainShape* terrainShape = new btHeightfieldTerrainShape(width, height, vertices, 1.0f, 0.0f, heightScale, 1, PHY_FLOAT, false);
+
+    // Create motion state
+    btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
+
+    // Create rigid body
+    btRigidBody::btRigidBodyConstructionInfo rbInfo(0, motionState, terrainShape, btVector3(0, 0, 0));
+    btRigidBody* rigidBody = new btRigidBody(rbInfo);
+
+    // Add the rigid body to the dynamicsWorld
+    dynamicsWorld->addRigidBody(rigidBody);
 }
 
 void TerrainComponent::loadTexture(const char* texturePath)
