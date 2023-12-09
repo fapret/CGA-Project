@@ -174,7 +174,7 @@ unsigned int TextureFromFile(const char* path)
 	return textureID;
 }
 
-std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureType type, std::string typeName)
+std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureType type, std::string typeName, bool addLocalPath = false)
 {
 	std::vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -195,7 +195,12 @@ std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureTyp
 		if (!skip)
 		{   // if texture hasn't been loaded already, load it
 			Texture texture;
-			texture.id = TextureFromFile(str.C_Str());
+			if (addLocalPath) {
+				std::string localPath = "../models/textures/";
+				localPath += str.C_Str();
+				texture.id = TextureFromFile(localPath.c_str());
+			} else
+				texture.id = TextureFromFile(str.C_Str());
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);
@@ -214,6 +219,21 @@ void SetVertexBoneDataToDefault(Vertex& vertex)
 	}
 }
 
+bool endsWith(const std::string& str, const std::string& suffix) {
+	// Check if the string is long enough to contain the suffix
+	if (str.length() >= suffix.length()) {
+		// Extract the substring from the end of the string
+		std::string end = str.substr(str.length() - suffix.length());
+
+		// Compare the extracted substring with the suffix
+		return end == suffix;
+	}
+	else {
+		// If the string is shorter than the suffix, it can't end with the suffix
+		return false;
+	}
+}
+
 LOD createLOD(const std::string& pFile, float viewDistance)
 {
 	LOD lod;
@@ -223,6 +243,8 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 		aiProcess_Triangulate |
 		aiProcess_SortByPType);
 
+	bool addLocalPath = endsWith(pFile, ".fbx");
+	
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
@@ -253,21 +275,22 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 		}
 
 		std::vector<Texture> textures;
-		if (mesh->mMaterialIndex > 0) {
+		std::cout << "material: " << mesh->mMaterialIndex << " of:" << pFile << " mesh: " << m << std::endl;
+		if (mesh->mMaterialIndex >= 0) {
 			// check si el material tiene textura, si no usar un default
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-
+			//std::cout << "material index:" << mesh->mMaterialIndex << " model: " << pFile << std::endl;
 			// 1. diffuse maps
-			std::vector<Texture> diffuseMaps = loadMaterialTextures(lod, material, aiTextureType_DIFFUSE, "texture_diffuse");
+			std::vector<Texture> diffuseMaps = loadMaterialTextures(lod, material, aiTextureType_DIFFUSE, "texture_diffuse", addLocalPath);
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 			// 2. specular maps
-			std::vector<Texture> specularMaps = loadMaterialTextures(lod, material, aiTextureType_SPECULAR, "texture_specular");
+			std::vector<Texture> specularMaps = loadMaterialTextures(lod, material, aiTextureType_SPECULAR, "texture_specular", addLocalPath);
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 			// 3. normal maps
-			std::vector<Texture> normalMaps = loadMaterialTextures(lod, material, aiTextureType_HEIGHT, "texture_normal");
+			std::vector<Texture> normalMaps = loadMaterialTextures(lod, material, aiTextureType_HEIGHT, "texture_normal", addLocalPath);
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 			// 4. height maps
-			std::vector<Texture> heightMaps = loadMaterialTextures(lod, material, aiTextureType_AMBIENT, "texture_height");
+			std::vector<Texture> heightMaps = loadMaterialTextures(lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
 			textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {

@@ -196,7 +196,7 @@ public:
                 number = std::to_string(normalNr++); // transfer unsigned int to string
             else if (name == "texture_height")
                 number = std::to_string(heightNr++); // transfer unsigned int to string
-
+            //std::cout << "texture type: " << name << i << std::endl;
             // now set the sampler to the correct texture unit
             glUniform1i(glGetUniformLocation(shader, (name + number).c_str()), i);
             // and finally bind the texture

@@ -16,10 +16,10 @@ void loadState()
 	meshComp->setFatherEntity(object);
 	LOD lod0 = createLOD("../models/jugador.obj", 0.0f);
 	meshComp->addLOD(lod0);
-	LOD lod1 = createLOD("../models/cube.obj", 10.0f);
-	meshComp->addLOD(lod1);
-	LOD lod2 = createLOD("../models/sphere.obj", 20.0f);
-	meshComp->addLOD(lod2);
+	//LOD lod1 = createLOD("../models/thanos.obj", 10.0f);
+	//meshComp->addLOD(lod1);
+	//LOD lod2 = createLOD("../models/sphere.obj", 20.0f);
+	//meshComp->addLOD(lod2);
 
 	std::string objectName2 = "Thanos";
 	Entity* object2 = new Entity(objectName2);
@@ -37,6 +37,6 @@ void loadState()
 	TerrainComponent* terrainComp = new TerrainComponent();
 	terrain->addComponent(terrainComp);
 	terrainComp->setFatherEntity(terrain);
-	terrainComp->loadHeightmap("../island_heightmap.png", 10.0f, 0.1f);
+	terrainComp->loadHeightmap("../iceland_heightmap.png", 10.0f, 0.5f);
 	terrainComp->loadTexture("../grass.jpg");
 }
