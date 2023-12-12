@@ -31,7 +31,7 @@ void loadState()
 	meshComp2->setFatherEntity(object2);
 	//LOD lod20 = createLOD("../models/thanos.fbx", 0.0f);
 	//meshComp2->addLOD(lod20);
-	meshComp2->importObject("../models/thanos.fbx", 200.0f);
+	meshComp2->importObject("../models/thanos.fbx", 2000.0f);
 	meshComp2->addAnimation("../models/thanos.fbx");
 
 	/*

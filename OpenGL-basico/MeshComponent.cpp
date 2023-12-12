@@ -33,6 +33,9 @@ void MeshComponent::draw(float deltaTime)
 		}
 		TransformComponent* camTransform = (TransformComponent*)camTransformList.at(0);
 		float distance = calculateDistance(camTransform->getPosition(), transform->getPosition());
+		std::cout << "distance: " << distance << " maxDistance: " << maxViewDistance << std::endl;
+		if (distance > maxViewDistance)
+			return;
 
 		// Find the appropriate LOD level based on distance
 		LOD* selectedLOD = nullptr;
@@ -360,7 +363,7 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance)
 		aiProcess_SortByPType);
 
 	bool addLocalPath = endsWith(pFile, ".fbx");
-
+	this->maxViewDistance = viewDistance;
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
