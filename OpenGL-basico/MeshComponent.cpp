@@ -33,7 +33,7 @@ void MeshComponent::draw(float deltaTime)
 		}
 		TransformComponent* camTransform = (TransformComponent*)camTransformList.at(0);
 		float distance = calculateDistance(camTransform->getPosition(), transform->getPosition());
-		std::cout << "distance: " << distance << " maxDistance: " << maxViewDistance << std::endl;
+		//std::cout << "distance: " << distance << " maxDistance: " << maxViewDistance << std::endl;
 		if (distance > maxViewDistance)
 			return;
 
@@ -376,7 +376,7 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance)
 
 		int lodNum = 0;
 
-		std::cout << "mesh name: " << mesh->mName.C_Str() << std::endl;
+		//std::cout << "mesh name: " << mesh->mName.C_Str() << std::endl;
 		if (startsWith(mesh->mName.C_Str(), "COL_")) {
 
 		}
