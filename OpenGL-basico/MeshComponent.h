@@ -17,6 +17,7 @@ struct LOD {
 	std::vector<GLuint> textureIds;
 	int numOfMeshes;
 	std::vector<Texture> textures_loaded;
+	int Level;
 };
 
 LOD createLOD(const std::string& pFile, float viewDistance);
@@ -24,7 +25,7 @@ LOD createLOD(const std::string& pFile, float viewDistance);
 class MeshComponent : public EntityComponent {
 private:
 	float maxViewDistance;
-	std::vector<LOD> LodLevels;
+	std::vector<LOD*> LodLevels;
 	TransformComponent* transform;
 	float calculateDistance(const glm::vec3& point1, const glm::vec3& point2);
 	Animator* animator;
@@ -33,11 +34,12 @@ public:
 	MeshComponent(float maxDistance);
 	void draw(float deltaTime = 0.0f) override;
 	void setMaxViewDistance(float maxView);
-	void addLOD(LOD lod);
+	void addLOD(LOD* lod);
 	int getMaxViewDistance();
 	void setFatherEntity(Entity* father) override;
 	void addAnimation(const std::string& pFile);
 	Animator* getAnimator();
+	void importObject(const std::string& pFile, float viewDistance);
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

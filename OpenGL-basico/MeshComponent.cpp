@@ -39,10 +39,10 @@ void MeshComponent::draw(float deltaTime)
 		float minDistanceDifference = std::numeric_limits<float>::max();
 
 		for (auto& lod : LodLevels) {
-			float distanceDifference = std::abs(distance - lod.viewDistance);
+			float distanceDifference = std::abs(distance - lod->viewDistance);
 			if (distanceDifference < minDistanceDifference) {
 				minDistanceDifference = distanceDifference;
-				selectedLOD = &lod;
+				selectedLOD = lod;
 			}
 		}
 
@@ -96,7 +96,7 @@ void MeshComponent::setMaxViewDistance(float maxView)
 	this->maxViewDistance = maxView;
 }
 
-void MeshComponent::addLOD(LOD lod)
+void MeshComponent::addLOD(LOD* lod)
 {
 	this->LodLevels.push_back(lod);
 }
@@ -117,7 +117,7 @@ void MeshComponent::setFatherEntity(Entity* father)
 
 void MeshComponent::addAnimation(const std::string& pFile)
 {
-	Animation* danceAnimation = new Animation(pFile, this->LodLevels.at(0).meshData.at(0));
+	Animation* danceAnimation = new Animation(pFile, this->LodLevels.at(0)->meshData.at(0));
 	this->animator = new Animator(danceAnimation);
 }
 
@@ -174,7 +174,7 @@ unsigned int TextureFromFile(const char* path)
 	return textureID;
 }
 
-std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureType type, std::string typeName, bool addLocalPath = false)
+std::vector<Texture> loadMaterialTextures(LOD* lod, aiMaterial* mat, aiTextureType type, std::string typeName, bool addLocalPath = false)
 {
 	std::vector<Texture> textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -183,11 +183,11 @@ std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureTyp
 		mat->GetTexture(type, i, &str);
 		// check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
 		bool skip = false;
-		for (unsigned int j = 0; j < lod.textures_loaded.size(); j++)
+		for (unsigned int j = 0; j < lod->textures_loaded.size(); j++)
 		{
-			if (std::strcmp(lod.textures_loaded[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(lod->textures_loaded[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(lod.textures_loaded[j]);
+				textures.push_back(lod->textures_loaded[j]);
 				skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
 				break;
 			}
@@ -204,7 +204,7 @@ std::vector<Texture> loadMaterialTextures(LOD lod, aiMaterial* mat, aiTextureTyp
 			texture.type = typeName;
 			texture.path = str.C_Str();
 			textures.push_back(texture);
-			lod.textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecessary load duplicate textures.
+			lod->textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecessary load duplicate textures.
 		}
 	}
 	return textures;
@@ -234,6 +234,46 @@ bool endsWith(const std::string& str, const std::string& suffix) {
 	}
 }
 
+bool startsWith(const char* str, const char* prefix) {
+	// Check if the length of 'str' is at least the length of 'prefix'
+	if (std::strlen(str) < std::strlen(prefix)) {
+		return false;
+	}
+
+	// Use strncmp to compare the first 'strlen(prefix)' characters
+	return std::strncmp(str, prefix, std::strlen(prefix)) == 0;
+}
+
+bool startsWithLODNumberUnderscore(const char* str, int& extractedNumber) {
+	// Check if the string starts with "LOD"
+	if (std::strncmp(str, "LOD", 3) != 0) {
+		return false;
+	}
+
+	// Move the pointer to the character after "LOD"
+	str += 3;
+
+	// Check if the next character is a digit
+	if (!std::isdigit(*str)) {
+		return false;
+	}
+
+	// Extract the number
+	extractedNumber = 0;
+	while (std::isdigit(*str)) {
+		extractedNumber = extractedNumber * 10 + (*str - '0');
+		++str;
+	}
+
+	// Check if the next character is an underscore
+	if (*str == '_') {
+		return true;
+	}
+
+	return false;
+}
+
+
 LOD createLOD(const std::string& pFile, float viewDistance)
 {
 	LOD lod;
@@ -253,6 +293,7 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 
 	for (unsigned int m = 0; m < scene->mNumMeshes; m++) {
 		aiMesh* mesh = scene->mMeshes[m];
+
 		std::vector<unsigned int> indices;
 		for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
 			const aiFace& face = mesh->mFaces[i];
@@ -281,16 +322,16 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 			//std::cout << "material index:" << mesh->mMaterialIndex << " model: " << pFile << std::endl;
 			// 1. diffuse maps
-			std::vector<Texture> diffuseMaps = loadMaterialTextures(lod, material, aiTextureType_DIFFUSE, "texture_diffuse", addLocalPath);
+			std::vector<Texture> diffuseMaps = loadMaterialTextures(&lod, material, aiTextureType_DIFFUSE, "texture_diffuse", addLocalPath);
 			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 			// 2. specular maps
-			std::vector<Texture> specularMaps = loadMaterialTextures(lod, material, aiTextureType_SPECULAR, "texture_specular", addLocalPath);
+			std::vector<Texture> specularMaps = loadMaterialTextures(&lod, material, aiTextureType_SPECULAR, "texture_specular", addLocalPath);
 			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 			// 3. normal maps
-			std::vector<Texture> normalMaps = loadMaterialTextures(lod, material, aiTextureType_HEIGHT, "texture_normal", addLocalPath);
+			std::vector<Texture> normalMaps = loadMaterialTextures(&lod, material, aiTextureType_HEIGHT, "texture_normal", addLocalPath);
 			textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 			// 4. height maps
-			std::vector<Texture> heightMaps = loadMaterialTextures(lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
+			std::vector<Texture> heightMaps = loadMaterialTextures(&lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
 			textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
@@ -308,4 +349,111 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 	lod.viewDistance = viewDistance;
 	lod.numOfMeshes = scene->mNumMeshes;
 	return lod;
+}
+
+void MeshComponent::importObject(const std::string& pFile, float viewDistance)
+{
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(pFile,
+		aiProcess_CalcTangentSpace |
+		aiProcess_Triangulate |
+		aiProcess_SortByPType);
+
+	bool addLocalPath = endsWith(pFile, ".fbx");
+
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+		std::cerr << "Assimp error: " << importer.GetErrorString() << std::endl;
+		return;
+	}
+
+	for (unsigned int m = 0; m < scene->mNumMeshes; m++) {
+		aiMesh* mesh = scene->mMeshes[m];
+		std::cout << mesh->mName.C_Str() << std::endl;
+
+		int lodNum = 0;
+
+		std::cout << "mesh name: " << mesh->mName.C_Str() << std::endl;
+		if (startsWith(mesh->mName.C_Str(), "COL_")) {
+
+		}
+		else if (startsWithLODNumberUnderscore(mesh->mName.C_Str(), lodNum)) {
+			LOD* lod = nullptr;
+			bool toPush = false;
+			if (LodLevels.size() == 0) {
+				lod = new LOD();
+				lod->viewDistance = (viewDistance / (LodLevels.size() + 1)) * lodNum;
+				lod->numOfMeshes = 1;
+				toPush = true;
+			} else
+			for (size_t i = 0; i < LodLevels.size(); i++)
+			{
+				if (LodLevels.at(i)->Level == lodNum) {
+					lod = LodLevels.at(i);
+					lod->numOfMeshes += 1;
+					break;
+				}
+				if (i == LodLevels.size() - 1) {
+					lod = new LOD();
+					lod->viewDistance = (viewDistance / (LodLevels.size() + 1)) * lodNum;
+					lod->numOfMeshes = 1;
+					toPush = true;
+				}
+			}
+			if (toPush) {
+				LodLevels.push_back(lod);
+			}
+
+			std::vector<unsigned int> indices;
+			for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
+				const aiFace& face = mesh->mFaces[i];
+				for (unsigned int j = 0; j < face.mNumIndices; ++j) {
+					indices.push_back(face.mIndices[j]);
+				}
+			}
+
+			std::vector<Vertex> vertices;
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+				Vertex topush = Vertex(
+					glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z),
+					glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z),
+					glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y),
+					glm::vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z),
+					glm::vec3(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z)
+				);
+				SetVertexBoneDataToDefault(topush);
+				vertices.push_back(topush);
+			}
+
+			std::vector<Texture> textures;
+			std::cout << "material: " << mesh->mMaterialIndex << " of:" << pFile << " mesh: " << m << std::endl;
+			if (mesh->mMaterialIndex >= 0) {
+				// check si el material tiene textura, si no usar un default
+				aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+				//std::cout << "material index:" << mesh->mMaterialIndex << " model: " << pFile << std::endl;
+				// 1. diffuse maps
+				std::vector<Texture> diffuseMaps = loadMaterialTextures(lod, material, aiTextureType_DIFFUSE, "texture_diffuse", addLocalPath);
+				textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+				// 2. specular maps
+				std::vector<Texture> specularMaps = loadMaterialTextures(lod, material, aiTextureType_SPECULAR, "texture_specular", addLocalPath);
+				textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+				// 3. normal maps
+				std::vector<Texture> normalMaps = loadMaterialTextures(lod, material, aiTextureType_HEIGHT, "texture_normal", addLocalPath);
+				textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+				// 4. height maps
+				std::vector<Texture> heightMaps = loadMaterialTextures(lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
+				textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+				if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+					aiString texturePath;
+					if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
+						// el material tiene una textura difusa
+					}
+				}
+			}
+
+			Mesh* newMesh = new Mesh(vertices, indices, textures, mesh, scene);
+			lod->meshData.push_back(newMesh);
+		}
+	}
 }
