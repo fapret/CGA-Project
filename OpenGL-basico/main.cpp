@@ -37,6 +37,7 @@
 #include "GameState.h"
 
 #include "btBulletDynamicsCommon.h"
+#include "Callbacks.h"
 
 
 
@@ -232,15 +233,22 @@ void draw(SDL_Window* window)
 
 
 	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
-	dynamicsWorld->stepSimulation(1 / 60.f, 10);
+	dynamicsWorld->stepSimulation(1 / 120.f, 1000);
+	MyContactCallback contactCallback;
+	dynamicsWorld->contactTest(camComp->getRigidBody(), contactCallback);
+	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
+	//std::cout << "POS 1 " << collisionObjects[0]->getWorldTransform().getOrigin().getY() << std::endl;
+	//std::cout << "POS 2 " << collisionObjects[1]->getWorldTransform().getOrigin().getY() << std::endl;
+
+	/*
 	int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
 	for (int i = 0; i < numManifolds; ++i) {
-		btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
-
+ 		btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+		std::cout << "HIT" << std::endl;
 		// Check for collisions and handle them
 		// You can access collision points, objects involved, etc., from the contact manifold
 	}
-	
+	*/
 	float currentFrame = SDL_GetTicks() / 1000.0f;
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
@@ -289,8 +297,11 @@ int main(int argc, char* argv[]) {
 	camara->addComponent(skybox);
 	cameraComponent->setIsActive(true);
 	cameraComponent->setFatherEntity(camara);
+	TransformComponent* camTrans = (TransformComponent*)camara->findComponentsByType("TransformComponent").at(0);
+	camTrans->setPosition(glm::vec3(0.0f, -500.0f, 0.0f));
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
+	cameraComponent->setUpCollission();
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;

@@ -42,6 +42,7 @@ public:
 	void setUpCollission();
 	void updateRigidBody();
 	void checkCollision();
+	btRigidBody* getRigidBody();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif
