@@ -24,7 +24,6 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->ambientLight[1] = 0.2f;
 	this->ambientLight[2] = 0.2f;
 
-	setUpCollission();
 }
 
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
@@ -39,7 +38,6 @@ CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponen
 	this->ambientLight[1] = 0.2f;
 	this->ambientLight[2] = 0.2f;
 
-	setUpCollission();
 }
 
 float CameraComponent::getSpeed()
@@ -157,18 +155,41 @@ glm::mat4 CameraComponent::getView()
 {
 	return view;
 }
-
+/*
 void CameraComponent::setUpCollission()
 {
-	btCollisionShape* cameraShape = new btSphereShape(3);
-	// Create a motion state for the camera (connects the physics simulation and the camera component)
-	btDefaultMotionState* cameraMotionState = new btDefaultMotionState();
-	btRigidBody::btRigidBodyConstructionInfo cameraRigidBodyCI(0, cameraMotionState, cameraShape, btVector3(0, 0, 0));
-	this->cameraRigidBody = new btRigidBody(cameraRigidBodyCI);
+	btVector3 boxSize(1, 1, 1);
+	btBoxShape* boxShape = new btBoxShape(boxSize);
+	btScalar newMargin = 10.1;
+	boxShape->setMargin(newMargin);
+	btScalar collisionMargin = boxShape->getMargin();
+	std::cout << "Collision Margin: " << collisionMargin << std::endl;
+
+	// Set the mass of the box
+	btScalar boxMass = 10.0; // Adjust the mass as needed
+
+	// Set the initial position and orientation of the box
+	btTransform boxTransform;
+	boxTransform.setIdentity(); // No initial rotation
+	glm::vec3 transformPos = this->getTransform()->getPosition();
+	//boxTransform.setOrigin(btVector3(transformPos.x, transformPos.y, transformPos.z)); // Initial position
+	boxTransform.setOrigin(btVector3(transformPos.x, transformPos.y, transformPos.z)); // Initial position
+
+
+
+
+	// Create the motion state
+	btDefaultMotionState* boxMotionState = new btDefaultMotionState(boxTransform);
+
+	// Create the rigid body construction info
+	btVector3 boxInertia(0, 0, 0);
+	boxShape->calculateLocalInertia(boxMass, boxInertia);
+
+	this->cameraRigidBody = new btRigidBody(btRigidBody::btRigidBodyConstructionInfo(boxMass, boxMotionState, boxShape, boxInertia));;
 
 	Hierarchy& hierarchy = Hierarchy::getInstance();
 	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
-	dynamicsWorld->addRigidBody(cameraRigidBody);
+	dynamicsWorld->addRigidBody(this->cameraRigidBody);
 
 }
 
@@ -182,27 +203,27 @@ void CameraComponent::updateRigidBody()
 	// Update the position of the camera rigid body based on the CameraComponent's position
 	btTransform transformBt;
 	glm::vec3 pos = this->transform->getPosition();
-	transformBt.setOrigin(btVector3(pos.x, pos.y, pos.z));
+	btVector3 boxPos = this->getRigidBody()->getWorldTransform().getOrigin();
+	transformBt.setOrigin(btVector3(pos.x, boxPos.getY(), pos.z));
 	cameraRigidBody->setWorldTransform(transformBt);
 	cameraRigidBody->getMotionState()->setWorldTransform(transformBt);
-	btVector3 centerOfMass = cameraRigidBody->getCenterOfMassPosition();
+
+	btVector3 initPos = cameraRigidBody->getWorldTransform().getOrigin();
+	this->transform->setPosition(glm::vec3(pos.x, boxPos.getY(), pos.z));
+
+
+	//std::cout << centerOfMass.getX() << " " << centerOfMass.getY() << " " << centerOfMass.getZ() << std::endl;
 }
 
-void CameraComponent::checkCollision()
+
+btRigidBody* CameraComponent::getRigidBody()
 {
-	Hierarchy& hierarchy = Hierarchy::getInstance();
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
-
-	btTransform trans;
-	cameraRigidBody->getMotionState()->getWorldTransform(trans);
-	btVector3 cameraPosition = trans.getOrigin();
-
-	btCollisionWorld::ClosestRayResultCallback rayCallback(cameraPosition, cameraPosition - btVector3(0, 1, 0));
-	dynamicsWorld->rayTest(cameraPosition, cameraPosition - btVector3(0, 1, 0), rayCallback);
-	if (rayCallback.hasHit()) {
-		std::cout << "Hit";
-	}
+	return cameraRigidBody;
 }
+*/
+
+
+
 
 #ifdef USE_IMGUI
 void CameraComponent::EditorPropertyDraw()

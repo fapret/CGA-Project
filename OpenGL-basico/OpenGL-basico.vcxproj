@@ -214,6 +214,7 @@
     <ClInclude Include="assimp_glm_helpers.h" />
     <ClInclude Include="bone.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Callbacks.h" />
     <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="SkyboxComponent.h" />

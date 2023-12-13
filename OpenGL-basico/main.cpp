@@ -37,6 +37,7 @@
 #include "GameState.h"
 
 #include "btBulletDynamicsCommon.h"
+#include "Callbacks.h"
 
 
 
@@ -232,14 +233,13 @@ void draw(SDL_Window* window)
 
 
 	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
-	dynamicsWorld->stepSimulation(1 / 60.f, 10);
-	int numManifolds = dynamicsWorld->getDispatcher()->getNumManifolds();
-	for (int i = 0; i < numManifolds; ++i) {
-		btPersistentManifold* contactManifold = dynamicsWorld->getDispatcher()->getManifoldByIndexInternal(i);
+	dynamicsWorld->stepSimulation(1 / 120.f, 1000);
+	MyContactCallback contactCallback;
+	dynamicsWorld->contactTest(camComp->getTransform()->getRigidBody(), contactCallback);
+	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
+	
 
-		// Check for collisions and handle them
-		// You can access collision points, objects involved, etc., from the contact manifold
-	}
+
 	
 	float currentFrame = SDL_GetTicks() / 1000.0f;
 	deltaTime = currentFrame - lastFrame;
@@ -291,6 +291,7 @@ int main(int argc, char* argv[]) {
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
+	cameraComponent->getTransform()->setUpCollission();
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;
@@ -347,7 +348,7 @@ int main(int argc, char* argv[]) {
 	{
 		TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
 		CameraComponent* currCamComponent = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
-		currCamComponent->updateRigidBody();
+		camTransform->updateRigidBody();
 
 		while (SDL_PollEvent(&sdlEvent)) {
 #ifdef USE_IMGUI

@@ -211,13 +211,16 @@ void TerrainComponent::draw(float deltaTime)
 
 void TerrainComponent::createPhysics()
 {
-    btDynamicsWorld* dynamicsWorld = Hierarchy::getInstance().getDynamicsWorld();
+    Hierarchy& hierarchy = Hierarchy::getInstance();
+    btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
     if (!dynamicsWorld) {
         throw std::runtime_error("DynamicsWorld is not initialized.");
     }
 
     // Create a static terrain shape
+    btScalar newMargin = 10.1;
     btHeightfieldTerrainShape* terrainShape = new btHeightfieldTerrainShape(width, height, vertices, 1.0f, 0.0f, heightScale, 1, PHY_FLOAT, false);
+    terrainShape->setMargin(newMargin);
 
     // Create motion state
     btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 0, 0)));
@@ -225,6 +228,13 @@ void TerrainComponent::createPhysics()
     // Create rigid body
     btRigidBody::btRigidBodyConstructionInfo rbInfo(0, motionState, terrainShape, btVector3(0, 0, 0));
     btRigidBody* rigidBody = new btRigidBody(rbInfo);
+
+    //btStaticPlaneShape* planeShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+    //planeShape->setMargin(newMargin);
+    //btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+    //btRigidBody::btRigidBodyConstructionInfo rbInfo(0, motionState, planeShape);
+    //btRigidBody* rigidBody = new btRigidBody(rbInfo);
+
 
     // Add the rigid body to the dynamicsWorld
     dynamicsWorld->addRigidBody(rigidBody);

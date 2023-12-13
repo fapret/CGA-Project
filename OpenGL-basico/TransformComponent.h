@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <btBulletDynamicsCommon.h>
+#include "Hierarchy.h"
 
 
 class TransformComponent : public EntityComponent {
@@ -26,7 +27,10 @@ public:
 	glm::vec3 getRotation();
 	void setRotation(glm::vec3 rot);
 	TransformComponent();
+	void setUpCollission();
+	void updateRigidBody();
 	void draw(float deltaTime = 0.0f) override;
+	btRigidBody* getRigidBody();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif
