@@ -18,7 +18,6 @@ private:
 	float rotationX;
 	float rotationY;
 	float rotationZ;
-	btRigidBody* cameraRigidBody;
 public:
 	glm::vec3 getPosition();
 	void setPosition(glm::vec3 pos);
@@ -27,10 +26,7 @@ public:
 	glm::vec3 getRotation();
 	void setRotation(glm::vec3 rot);
 	TransformComponent();
-	void setUpCollission();
-	void updateRigidBody();
 	void draw(float deltaTime = 0.0f) override;
-	btRigidBody* getRigidBody();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

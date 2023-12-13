@@ -231,19 +231,24 @@ void draw(SDL_Window* window)
 	int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
 	glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
-
-	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
-	dynamicsWorld->stepSimulation(1 / 120.f, 1000);
-	MyContactCallback contactCallback;
-	dynamicsWorld->contactTest(camComp->getTransform()->getRigidBody(), contactCallback);
-	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
-	
-
-
-	
 	float currentFrame = SDL_GetTicks() / 1000.0f;
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
+
+	glm::vec3 camPos = camComp->getTransform()->getPosition();
+	camComp->getCollider()->getRigidBody()->getWorldTransform().setOrigin(btVector3(camPos.x, camPos.y, camPos.z));
+
+	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
+	dynamicsWorld->stepSimulation(1 / 200.f, 1000);
+	MyContactCallback contactCallback;
+	dynamicsWorld->contactTest(camComp->getCollider()->getRigidBody(), contactCallback);
+	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
+	btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
+
+
+
+	camComp->getTransform()->setPosition(glm::vec3(camRigidBodyPos.getX(), camRigidBodyPos.getY(),camRigidBodyPos.getZ()));
+	
 
 	// Draw the 3D model
 	std::vector<Entity*> entities = hierarchy.getAllEntities();
@@ -291,7 +296,7 @@ int main(int argc, char* argv[]) {
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
-	cameraComponent->getTransform()->setUpCollission();
+	cameraComponent->getCollider()->setUpCollission(0, 4.5);
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;
@@ -348,7 +353,7 @@ int main(int argc, char* argv[]) {
 	{
 		TransformComponent* camTransform = (TransformComponent*)hierarchy.getActiveCamera()->findComponentsByType("TransformComponent").at(0);
 		CameraComponent* currCamComponent = (CameraComponent*)hierarchy.getActiveCamera()->findComponentsByType("CameraComponent").at(0);
-		camTransform->updateRigidBody();
+		//currCamComponent->updateRigidBody();
 
 		while (SDL_PollEvent(&sdlEvent)) {
 #ifdef USE_IMGUI
@@ -455,6 +460,8 @@ int main(int argc, char* argv[]) {
 #endif
 		//update();
 		draw(window); // call the draw function
+
+
 #ifdef USE_IMGUI
 		ImGui::Image((void*)(intptr_t)texture, ImGui::GetContentRegionAvail(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
