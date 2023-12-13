@@ -20,9 +20,9 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 	this->pitch = 0.0f;
 	this->isActive = false;
 	this->FOV = 45.0f;
-	this->ambientLight[0] = 0.2f;
-	this->ambientLight[1] = 0.2f;
-	this->ambientLight[2] = 0.2f;
+	this->ambientLight[0] = 0.5f;
+	this->ambientLight[1] = 0.5f;
+	this->ambientLight[2] = 0.5f;
 
 }
 
