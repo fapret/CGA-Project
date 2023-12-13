@@ -1,7 +1,7 @@
-﻿  TerrainComponent.cpp
+﻿  CameraComponent.cpp
   Generando código
-  1 of 3702 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  36 of 3702 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    35 functions had inline decision re-evaluated but remain unchanged
+    36 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
   OpenGL-basico.vcxproj -> C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\x64\ReleaseEditor\OpenGL-avanzado.exe
