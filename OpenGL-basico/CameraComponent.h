@@ -1,6 +1,7 @@
 #pragma once
 #include "EntityComponent.h"
 #include "TransformComponent.h"
+#include "ColliderComponent.h"
 #include "Hierarchy.h"
 #include <SDL_stdinc.h>
 
@@ -10,13 +11,13 @@ private:
 	float yaw;
 	float pitch;
 	TransformComponent* transform;
+	ColliderComponent* collider;
 	bool isActive;
 	float wrapAngle(float angle);
 	float FOV;
 	glm::mat4 projection;
 	glm::mat4 view;
 	float ambientLight[3];
-	//btRigidBody* cameraRigidBody;
 public:
 	CameraComponent();
 	CameraComponent(TransformComponent* transform);
@@ -34,15 +35,12 @@ public:
 	void setIsActive(bool status);
 	void setFOV(float amount);
 	TransformComponent* getTransform();
+	ColliderComponent* getCollider();
 	void draw(float deltaTime = 0.0f) override;
 	void setFatherEntity(Entity* father) override;
 	void update();
 	glm::mat4 getProjection();
 	glm::mat4 getView();
-	//void setUpCollission();
-	//void updateRigidBody();
-	//btRigidBody* getRigidBody();
-	void checkCollision();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

@@ -15,7 +15,8 @@ float CameraComponent::wrapAngle(float angle)
 CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 {
 	this->transform = new TransformComponent();
-	this->Speed = 70.1f;
+	this->collider = new ColliderComponent();
+	this->Speed = 1.0f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
 	this->isActive = false;
@@ -29,6 +30,7 @@ CameraComponent::CameraComponent() : EntityComponent("CameraComponent")
 CameraComponent::CameraComponent(TransformComponent* transform) : EntityComponent("CameraComponent")
 {
 	this->transform = transform;
+	this->collider = new ColliderComponent();
 	this->Speed = 0.1f;
 	this->yaw = 0.0f;
 	this->pitch = 0.0f;
@@ -121,6 +123,11 @@ TransformComponent* CameraComponent::getTransform()
 	return transform;
 }
 
+ColliderComponent* CameraComponent::getCollider()
+{
+	return collider;
+}
+
 void CameraComponent::draw(float deltaTime)
 {
 }
@@ -129,8 +136,18 @@ void CameraComponent::setFatherEntity(Entity* father)
 {
 	EntityComponent::setFatherEntity(father);
 	std::vector<EntityComponent*> transformList = father->findComponentsByType("TransformComponent");
+	std::vector<EntityComponent*> colliderList = father->findComponentsByType("ColliderComponent");
 	if (transformList.size() == 0) {
 		father->addComponent(transform);
+	}
+	else {
+		this->transform = (TransformComponent*)transformList.at(0);
+	}
+	if (colliderList.size() == 0) {
+		father->addComponent(collider);
+	}
+	else {
+		this->collider = (ColliderComponent*)colliderList.at(0);
 	}
 }
 
@@ -155,18 +172,19 @@ glm::mat4 CameraComponent::getView()
 {
 	return view;
 }
+
 /*
 void CameraComponent::setUpCollission()
 {
 	btVector3 boxSize(1, 1, 1);
 	btBoxShape* boxShape = new btBoxShape(boxSize);
-	btScalar newMargin = 10.1;
+	btScalar newMargin = 2.0;
 	boxShape->setMargin(newMargin);
 	btScalar collisionMargin = boxShape->getMargin();
 	std::cout << "Collision Margin: " << collisionMargin << std::endl;
 
 	// Set the mass of the box
-	btScalar boxMass = 10.0; // Adjust the mass as needed
+	btScalar boxMass = 4.7f; // Adjust the mass as needed
 
 	// Set the initial position and orientation of the box
 	btTransform boxTransform;
@@ -192,7 +210,8 @@ void CameraComponent::setUpCollission()
 	dynamicsWorld->addRigidBody(this->cameraRigidBody);
 
 }
-
+*/
+/*
 void CameraComponent::updateRigidBody()
 {
 	Hierarchy& hierarchy = Hierarchy::getInstance();
