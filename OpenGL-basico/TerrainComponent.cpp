@@ -49,6 +49,7 @@ void TerrainComponent::calculateNormal(int x, int y) {
 
 TerrainComponent::TerrainComponent() : EntityComponent("TerrainComponent")
 {
+    this->transform = new TransformComponent();
 }
 
 TerrainComponent::~TerrainComponent()
@@ -63,7 +64,7 @@ TerrainComponent::~TerrainComponent()
     glDeleteBuffers(1, &ebo);
 }
 
-void TerrainComponent::loadHeightmap(const char* filePath, float scale, float heightScale)
+void TerrainComponent::loadHeightmap(const char* filePath, float scale, float heightScale, float textureScale)
 {
     this->scale = scale;
     this->heightScale = heightScale;
@@ -101,8 +102,8 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             unsigned int index = (y * width + x) * 2;
-            textureCoords[index] = static_cast<float>(x) / (width - 1) * 500.0f;
-            textureCoords[index + 1] = static_cast<float>(y) / (height - 1) * 500.0f;
+            textureCoords[index] = static_cast<float>(x) / (width - 1) * textureScale;
+            textureCoords[index + 1] = static_cast<float>(y) / (height - 1) * textureScale;
         }
     }
 
@@ -122,9 +123,9 @@ void TerrainComponent::loadHeightmap(const char* filePath, float scale, float he
             RGBQUAD color;
             FreeImage_GetPixelColor(dib, x, y, &color);
 
-            vertices[index] = x * scale;
+            vertices[index] = (x - width / 2.0f) * scale;
             vertices[index + 1] = color.rgbRed * scale * heightScale;
-            vertices[index + 2] = y * scale;
+            vertices[index + 2] = (y - height / 2.0f) * scale;
         }
     }
 
@@ -185,6 +186,7 @@ void TerrainComponent::draw(float deltaTime)
     glUniform3f(ambientColorLoc, camComp->getAmbientLight().x, camComp->getAmbientLight().y, camComp->getAmbientLight().z);
 
     glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, transform->getPosition());
     int modelIndex = glGetUniformLocation(hierarchy.getShaders()[0], "model");
     glUniformMatrix4fv(modelIndex, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -228,6 +230,15 @@ void TerrainComponent::createPhysics()
 
     // Add the rigid body to the dynamicsWorld
     dynamicsWorld->addRigidBody(rigidBody);
+}
+
+void TerrainComponent::setFatherEntity(Entity* father)
+{
+    EntityComponent::setFatherEntity(father);
+    std::vector<EntityComponent*> transformList = father->findComponentsByType("TransformComponent");
+    if (transformList.size() == 0) {
+        father->addComponent(transform);
+    }
 }
 
 void TerrainComponent::loadTexture(const char* texturePath)

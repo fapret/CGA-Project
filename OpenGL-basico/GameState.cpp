@@ -18,7 +18,6 @@ void loadState()
 	meshComp->importObject("../models/city.fbx", 20000.0f);
 	TransformComponent* tranComp = (TransformComponent*) object->findComponentsByType("TransformComponent").at(0);
 	tranComp->setPosition(glm::vec3(0, 250, 0));
-	tranComp->setScale(glm::vec3(10, 10, 10));
 	
 
 	std::string objectName2 = "Thanos";
@@ -37,7 +36,8 @@ void loadState()
 	TerrainComponent* terrainComp = new TerrainComponent();
 	terrain->addComponent(terrainComp);
 	terrainComp->setFatherEntity(terrain);
-	terrainComp->loadHeightmap("../iceland_heightmap.png", 10.0f, 0.5f);
+	terrainComp->loadHeightmap("../island_heightmap.png", 10.0f, 0.5f);
 	terrainComp->loadTexture("../grass.jpg");
-	
+	TransformComponent* terrtranComp = (TransformComponent*)terrain->findComponentsByType("TransformComponent").at(0);
+	terrtranComp->setPosition(glm::vec3(0, -655, -450));
 }

@@ -22,11 +22,13 @@ private:
 	void calculateNormal(int x, int y);
 	float scale;
 	float heightScale;
+	TransformComponent* transform;
 public:
 	TerrainComponent();
 	~TerrainComponent();
-	void loadHeightmap(const char* filePath, float scale = 1.0f, float heightScale = 1.0f);
+	void loadHeightmap(const char* filePath, float scale = 1.0f, float heightScale = 1.0f, float textureScale = 50.0f);
 	void loadTexture(const char* texturePath);
 	void draw(float deltaTime = 0.0f) override;
 	void createPhysics();
+	void setFatherEntity(Entity* father) override;
 };
