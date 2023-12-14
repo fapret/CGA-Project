@@ -387,6 +387,7 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance, b
 				lod = new LOD();
 				lod->viewDistance = (viewDistance / (LodLevels.size() + 1)) * lodNum;
 				lod->numOfMeshes = 1;
+				lod->Level = lodNum;
 				toPush = true;
 			} else
 			for (size_t i = 0; i < LodLevels.size(); i++)
@@ -395,11 +396,12 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance, b
 					lod = LodLevels.at(i);
 					lod->numOfMeshes += 1;
 					break;
-				}
+				} else
 				if (i == LodLevels.size() - 1) {
 					lod = new LOD();
 					lod->viewDistance = (viewDistance / (LodLevels.size() + 1)) * lodNum;
 					lod->numOfMeshes = 1;
+					lod->Level = lodNum;
 					toPush = true;
 				}
 			}

@@ -168,18 +168,17 @@ void loadState()
 	tranCompMaca->setScale(glm::vec3(0.110, 0.110, 0.110));
 	tranCompMaca->setRotation(glm::vec3(0, 90, 0));
 
-	std::string uruguayName = "UruguayFlag";
-	Entity* uruguay = new Entity(uruguayName);
-	hierarchy.addEntity(uruguay);
-	MeshComponent* meshUruguay = new MeshComponent();
-	uruguay->addComponent(meshUruguay);
-	meshUruguay->setFatherEntity(uruguay);
-	meshUruguay->importObject("../models/uruguay.fbx", 2000.0f, false);
-	//meshUruguay->addAnimation("../models/uruguay.fbx");
-	TransformComponent* tranCompUruguay = (TransformComponent*)uruguay->findComponentsByType("TransformComponent").at(0);
-	//tranCompUruguay->setPosition(glm::vec3(15, 500, -20));
-	//tranCompUruguay->setScale(glm::vec3(0.110, 0.110, 0.110));
-	//tranCompUruguay->setRotation(glm::vec3(0, 90, 0));
+	std::string xmasName = "xmasTree";
+	Entity* xmasTree = new Entity(xmasName);
+	hierarchy.addEntity(xmasTree);
+	MeshComponent* meshXmas = new MeshComponent();
+	xmasTree->addComponent(meshXmas);
+	meshXmas->setFatherEntity(xmasTree);
+	meshXmas->importObject("../models/xmasTrees.fbx", 200.0f);
+	TransformComponent* tranCompUruguay = (TransformComponent*)xmasTree->findComponentsByType("TransformComponent").at(0);
+	tranCompUruguay->setPosition(glm::vec3(9.700, 492.800, -70.000));
+	tranCompUruguay->setScale(glm::vec3(0.030, 0.030, 0.030));
+	tranCompUruguay->setRotation(glm::vec3(-90.000, 0, -45.000));
 
 	std::string objectName3 = "Terrain";
 	Entity* terrain = new Entity(objectName3);
