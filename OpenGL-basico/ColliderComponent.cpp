@@ -22,6 +22,26 @@ TransformComponent* ColliderComponent::getTransform()
 	return transform;
 }
 
+void ColliderComponent::setCameraTransform(TransformComponent* transform)
+{
+	camTransform = transform;
+}
+
+void ColliderComponent::freeCameraTransform()
+{
+	camTransform = nullptr;
+}
+
+glm::vec3 ColliderComponent::getTransformPos()
+{
+	if (camTransform) {
+		return camTransform->getPosition();
+	}
+	else {
+		return transform->getPosition();
+	}
+}
+
 void ColliderComponent::draw(float deltaTime)
 {
 }

@@ -242,7 +242,7 @@ void draw(SDL_Window* window)
 
 	for (int i = 0; i < dynamicObjects.size(); i++) {
 		ColliderComponent* collComp = (ColliderComponent*)dynamicObjects.at(i);
-		glm::vec3 pos = collComp->getTransform()->getPosition();
+		glm::vec3 pos = collComp->getTransformPos();
 		collComp->getRigidBody()->getWorldTransform().setOrigin(btVector3(pos.x, pos.y, pos.z));
 	}
 
@@ -304,7 +304,12 @@ void cleanup(void)
 }
 
 
-
+void freeCameraFromObjects() {
+	for (int i = 0; i < hierarchy.getDynamicObjects().size(); i++) {
+		ColliderComponent* collCoemp = (ColliderComponent*)hierarchy.getDynamicObjects().at(i);
+		collCoemp->freeCameraTransform();
+	}
+}
 
 
 int main(int argc, char* argv[]) {
@@ -416,6 +421,16 @@ int main(int argc, char* argv[]) {
 					break;
 				case SDLK_LCTRL:
 					camTransform->setPosition(camTransform->getPosition() + glm::vec3(0.0f, 1.0f, 0.0f) * currCamComponent->getSpeed());
+					break;
+				case SDLK_1: {
+					freeCameraFromObjects();
+					ColliderComponent* collComp = (ColliderComponent*)hierarchy.getDynamicObjects().at(0);
+					collComp->setCameraTransform(camTransform);
+					break;
+				}
+				case SDLK_0:
+					freeCameraFromObjects();
+					break;
 				}
 				break;
 

@@ -7,7 +7,7 @@ class ColliderComponent : public EntityComponent {
 private:
 	btRigidBody* rigidBody;
 	TransformComponent* transform;
-
+	TransformComponent* camTransform;
 public:
 	ColliderComponent();
 	void draw(float deltaTime = 0.0f) override;
@@ -15,6 +15,9 @@ public:
 	btRigidBody* getRigidBody();
 	void setFatherEntity(Entity* father) override;
 	TransformComponent* getTransform();
+	void setCameraTransform(TransformComponent* transform);
+	void freeCameraTransform();
+	glm::vec3 getTransformPos();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

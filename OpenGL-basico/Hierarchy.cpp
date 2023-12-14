@@ -92,6 +92,8 @@ std::vector<EntityComponent*> Hierarchy::getDynamicObjects()
     return dynamicObjects;
 }
 
+
+
 btDiscreteDynamicsWorld* Hierarchy::getDynamicsWorld()
 {
     return dynamicsWorld;
