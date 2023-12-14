@@ -104,7 +104,6 @@ public:
                 transform1.setOrigin(position1);
             }
             if (box2->getMass() > 0.0f) {
-                std::cout << "Hit en el 2" << std::endl;
                 transform2.setOrigin(position2);
             }
 
@@ -140,6 +139,39 @@ public:
 
         // Check for overlap along the X-axis
         btVector3 position2 = btVector3(0,492,0);
+
+        transform2.setOrigin(position2);
+
+        box2->setWorldTransform(transform2);
+        return 0;
+    }
+
+};
+
+class MyTpCallbackDisco : public btCollisionWorld::ContactResultCallback {
+public:
+    MyTpCallbackDisco() {}
+
+    // This method is called when a contact is detected
+
+    btScalar addSingleResult(btManifoldPoint& cp,
+        const btCollisionObjectWrapper* colObj0Wrap,
+        int partId0,
+        int index0,
+        const btCollisionObjectWrapper* colObj1Wrap,
+        int partId1,
+        int index1) override {
+
+        btRigidBody* box1 = nullptr;
+        btRigidBody* box2 = nullptr;
+
+        box2 = static_cast<btRigidBody*>(const_cast<btCollisionObject*>(colObj1Wrap->getCollisionObject()));
+
+        // Get the current transforms
+        btTransform transform2 = box2->getWorldTransform();
+
+        // Check for overlap along the X-axis
+        btVector3 position2 = btVector3(237, 220, 26);
 
         transform2.setOrigin(position2);
 

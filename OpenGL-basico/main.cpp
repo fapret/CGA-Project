@@ -250,11 +250,17 @@ void draw(SDL_Window* window)
 	dynamicsWorld->stepSimulation(1 / 200.f, 1000);
 	MyContactCallback contactCallback;
 	dynamicsWorld->contactTest(camComp->getCollider()->getRigidBody(), contactCallback);
+	
 	Entity * puerta = hierarchy.findEntityByName("Puerta");
 	ColliderComponent* puertaCollider = (ColliderComponent*)puerta->findComponentsByType("ColliderComponent").at(0);
-	
 	MyTpCallback tpCallback;
 	dynamicsWorld->contactTest(puertaCollider->getRigidBody(), tpCallback);
+
+	Entity* puertaDisco = hierarchy.findEntityByName("Puerta Disco");
+	ColliderComponent* puertaColliderDisco = (ColliderComponent*)puertaDisco->findComponentsByType("ColliderComponent").at(0);
+	MyTpCallbackDisco tpCallbackDisco;
+	dynamicsWorld->contactTest(puertaColliderDisco->getRigidBody(), tpCallbackDisco);
+
 	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
 	btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
 

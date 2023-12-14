@@ -83,7 +83,7 @@ void loadState()
 	MeshComponent* meshStorm = new MeshComponent();
 	stormObj->addComponent(meshStorm);
 	meshStorm->setFatherEntity(stormObj);
-	meshStorm->importObject("../models/stormtropper.fbx", 2000.0f);
+	meshStorm->importObject("../models/stormtropper.fbx", 2000.0f, false);
 	meshStorm->addAnimation("../models/stormtropper.fbx");
 	TransformComponent* tranCompStorm = (TransformComponent*)stormObj->findComponentsByType("TransformComponent").at(0);
 	tranCompStorm->setPosition(glm::vec3(-23, 492, 5));
@@ -96,7 +96,7 @@ void loadState()
 	MeshComponent* meshShrek = new MeshComponent();
 	shrek->addComponent(meshShrek);
 	meshShrek->setFatherEntity(shrek);
-	meshShrek->importObject("../models/shrek.fbx", 2000.0f);
+	meshShrek->importObject("../models/shrek.fbx", 2000.0f, false);
 	meshShrek->addAnimation("../models/shrek.fbx");
 	TransformComponent* tranCompShrek = (TransformComponent*)shrek->findComponentsByType("TransformComponent").at(0);
 	tranCompShrek->setPosition(glm::vec3(0, 500, -35));
@@ -109,7 +109,7 @@ void loadState()
 	MeshComponent* meshAlien = new MeshComponent();
 	alien->addComponent(meshAlien);
 	meshAlien->setFatherEntity(alien);
-	meshAlien->importObject("../models/alien.fbx", 2000.0f);
+	meshAlien->importObject("../models/alien.fbx", 2000.0f, false);
 	meshAlien->addAnimation("../models/alien.fbx");
 	TransformComponent* tranCompAlien = (TransformComponent*)alien->findComponentsByType("TransformComponent").at(0);
 	tranCompAlien->setPosition(glm::vec3(-15, 500, 15));
@@ -122,7 +122,7 @@ void loadState()
 	MeshComponent* meshSanta = new MeshComponent();
 	santa->addComponent(meshSanta);
 	meshSanta->setFatherEntity(santa);
-	meshSanta->importObject("../models/santa.fbx", 2000.0f);
+	meshSanta->importObject("../models/santa.fbx", 2000.0f, false);
 	meshSanta->addAnimation("../models/santa.fbx");
 	TransformComponent* tranCompSanta = (TransformComponent*)santa->findComponentsByType("TransformComponent").at(0);
 	tranCompSanta->setPosition(glm::vec3(5, 492.5, -60));
@@ -135,7 +135,7 @@ void loadState()
 	MeshComponent* meshBaila = new MeshComponent();
 	baila->addComponent(meshBaila);
 	meshBaila->setFatherEntity(baila);
-	meshBaila->importObject("../models/bailarina.fbx", 2000.0f);
+	meshBaila->importObject("../models/bailarina.fbx", 2000.0f, false);
 	meshBaila->addAnimation("../models/bailarina.fbx");
 	TransformComponent* tranCompBaila = (TransformComponent*)baila->findComponentsByType("TransformComponent").at(0);
 	tranCompBaila->setPosition(glm::vec3(5, 500, -5));
@@ -148,7 +148,7 @@ void loadState()
 	MeshComponent* meshBaila2 = new MeshComponent();
 	baila2->addComponent(meshBaila2);
 	meshBaila2->setFatherEntity(baila2);
-	meshBaila2->importObject("../models/greenDancer.fbx", 2000.0f);
+	meshBaila2->importObject("../models/greenDancer.fbx", 2000.0f, false);
 	meshBaila2->addAnimation("../models/greenDancer.fbx");
 	TransformComponent* tranCompBaila2 = (TransformComponent*)baila2->findComponentsByType("TransformComponent").at(0);
 	tranCompBaila2->setPosition(glm::vec3(0, 500, -15));
@@ -161,7 +161,7 @@ void loadState()
 	MeshComponent* meshMacarena = new MeshComponent();
 	macarena->addComponent(meshMacarena);
 	meshMacarena->setFatherEntity(macarena);
-	meshMacarena->importObject("../models/skeleton.fbx", 2000.0f);
+	meshMacarena->importObject("../models/skeleton.fbx", 2000.0f, false);
 	meshMacarena->addAnimation("../models/skeleton.fbx");
 	TransformComponent* tranCompMaca = (TransformComponent*)macarena->findComponentsByType("TransformComponent").at(0);
 	tranCompMaca->setPosition(glm::vec3(15, 500, -20));
@@ -174,7 +174,7 @@ void loadState()
 	MeshComponent* meshUruguay = new MeshComponent();
 	uruguay->addComponent(meshUruguay);
 	meshUruguay->setFatherEntity(uruguay);
-	meshUruguay->importObject("../models/uruguay.fbx", 2000.0f);
+	meshUruguay->importObject("../models/uruguay.fbx", 2000.0f, false);
 	//meshUruguay->addAnimation("../models/uruguay.fbx");
 	TransformComponent* tranCompUruguay = (TransformComponent*)uruguay->findComponentsByType("TransformComponent").at(0);
 	//tranCompUruguay->setPosition(glm::vec3(15, 500, -20));
@@ -201,6 +201,16 @@ void loadState()
 	TransformComponent* tranPuerta = (TransformComponent*)puerta->findComponentsByType("TransformComponent").at(0);
 	tranPuerta->setPosition(glm::vec3(237, 223, -2));
 	colliderPuerta->setUpCollission(0, 0, 10, false, glm::vec3(0, 0, 0));
+
+	std::string puertaDiscoName = "Puerta Disco";
+	Entity* puertaDisco = new Entity(puertaDiscoName);
+	hierarchy.addEntity(puertaDisco);
+	ColliderComponent* colliderPuertaDisco = new ColliderComponent();
+	colliderPuertaDisco->setFatherEntity(puertaDisco);
+	puertaDisco->addComponent(colliderPuertaDisco);
+	TransformComponent* tranPuertaDisco = (TransformComponent*)puertaDisco->findComponentsByType("TransformComponent").at(0);
+	tranPuertaDisco->setPosition(glm::vec3(23, 478, 91));
+	colliderPuertaDisco->setUpCollission(0, 0, 10, false, glm::vec3(0, 0, 0));
 
 	btStaticPlaneShape* planeShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 	planeShape->setMargin(20);
