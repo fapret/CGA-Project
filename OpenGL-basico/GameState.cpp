@@ -57,7 +57,7 @@ void loadState()
 	TransformComponent* tranCono = (TransformComponent*)cono->findComponentsByType("TransformComponent").at(0);
 	tranCono->setPosition(glm::vec3(-25, 227, -100));
 	tranCono->setScale(glm::vec3(0.02, 0.02, 0.02));
-	colliderCompCono->setUpCollission(0, 2, 10, false, glm::vec3(0, 0, 0));
+	colliderCompCono->setUpCollission(0, 200, 10, false, glm::vec3(0, 0, 0));
 	hierarchy.addDynamicObject(colliderCompCono);
 
 	std::string objectName2 = "Thanos";
@@ -87,6 +87,16 @@ void loadState()
 	terrainComp->loadTexture("../grass.jpg");
 	TransformComponent* terrtranComp = (TransformComponent*)terrain->findComponentsByType("TransformComponent").at(0);
 	terrtranComp->setPosition(glm::vec3(0, -655, -450));
+
+	std::string puertaName = "Puerta";
+	Entity* puerta = new Entity(puertaName);
+	hierarchy.addEntity(puerta);
+	ColliderComponent* colliderPuerta = new ColliderComponent();
+	colliderPuerta->setFatherEntity(puerta);
+	puerta->addComponent(colliderPuerta);
+	TransformComponent* tranPuerta = (TransformComponent*)puerta->findComponentsByType("TransformComponent").at(0);
+	tranPuerta->setPosition(glm::vec3(237, 223, -2));
+	colliderPuerta->setUpCollission(0, 0, 10, false, glm::vec3(0, 0, 0));
 
 	btStaticPlaneShape* planeShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 	planeShape->setMargin(20);

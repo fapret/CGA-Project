@@ -250,6 +250,11 @@ void draw(SDL_Window* window)
 	dynamicsWorld->stepSimulation(1 / 200.f, 1000);
 	MyContactCallback contactCallback;
 	dynamicsWorld->contactTest(camComp->getCollider()->getRigidBody(), contactCallback);
+	Entity * puerta = hierarchy.findEntityByName("Puerta");
+	ColliderComponent* puertaCollider = (ColliderComponent*)puerta->findComponentsByType("ColliderComponent").at(0);
+	
+	MyTpCallback tpCallback;
+	dynamicsWorld->contactTest(puertaCollider->getRigidBody(), tpCallback);
 	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
 	btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
 
@@ -320,7 +325,7 @@ int main(int argc, char* argv[]) {
 	cameraComponent->setFatherEntity(camara);
 	hierarchy.addEntity(camara);
 	hierarchy.setActiveCamera(camara);
-	cameraComponent->getCollider()->setUpCollission(0, 4.5);
+	cameraComponent->getCollider()->setUpCollission(0, 4.5, 1, true);
 
 #ifdef USE_IMGUI
 	bool createEntityWindow = false;

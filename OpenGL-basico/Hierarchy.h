@@ -15,7 +15,7 @@ private:
 
 		// Create the dynamics world
 		this->dynamicsWorld = new btDiscreteDynamicsWorld(this->dispatcher, this->overlappingPairCache, this->solver, this->collisionConfiguration);
-		this->dynamicsWorld->setGravity(btVector3(0, 0, 0));
+		this->dynamicsWorld->setGravity(btVector3(0, -9.8, 0));
 	};
 	Entity* activeCamera;
 	std::vector<GLuint> shaders;
