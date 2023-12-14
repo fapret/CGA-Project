@@ -38,7 +38,7 @@ void loadState()
 	MeshComponent* discoMesh = new MeshComponent();
 	disco->addComponent(discoMesh);
 	discoMesh->setFatherEntity(disco);
-	discoMesh->importObject("../models/nightclub.fbx", 1000.0f, true);
+	discoMesh->importObject("../models/nightclub.fbx", 250.0f, true);
 	TransformComponent* tranDisco = (TransformComponent*)disco->findComponentsByType("TransformComponent").at(0);
 	tranDisco->setRotation(glm::vec3(-90, 0, 0));
 	tranDisco->setPosition(glm::vec3(0, 500, 0));
@@ -69,7 +69,7 @@ void loadState()
 	meshComp2->setFatherEntity(object2);
 	colliderCompThanos->setFatherEntity(object2);
 	object2->addComponent(colliderCompThanos);
-	meshComp2->importObject("../models/thanos.fbx", 2000.0f, false);
+	meshComp2->importObject("../models/thanos.fbx", 200.0f, false);
 	meshComp2->addAnimation("../models/thanos.fbx");
 	TransformComponent* tranCompThanos = (TransformComponent*)object2->findComponentsByType("TransformComponent").at(0);
 	tranCompThanos->setPosition(glm::vec3(15, 500, 15));
@@ -83,7 +83,7 @@ void loadState()
 	MeshComponent* meshStorm = new MeshComponent();
 	stormObj->addComponent(meshStorm);
 	meshStorm->setFatherEntity(stormObj);
-	meshStorm->importObject("../models/stormtropper.fbx", 2000.0f, false);
+	meshStorm->importObject("../models/stormtropper.fbx", 200.0f, false);
 	meshStorm->addAnimation("../models/stormtropper.fbx");
 	TransformComponent* tranCompStorm = (TransformComponent*)stormObj->findComponentsByType("TransformComponent").at(0);
 	tranCompStorm->setPosition(glm::vec3(-23, 492, 5));
@@ -96,7 +96,7 @@ void loadState()
 	MeshComponent* meshShrek = new MeshComponent();
 	shrek->addComponent(meshShrek);
 	meshShrek->setFatherEntity(shrek);
-	meshShrek->importObject("../models/shrek.fbx", 2000.0f, false);
+	meshShrek->importObject("../models/shrek.fbx", 200.0f, false);
 	meshShrek->addAnimation("../models/shrek.fbx");
 	TransformComponent* tranCompShrek = (TransformComponent*)shrek->findComponentsByType("TransformComponent").at(0);
 	tranCompShrek->setPosition(glm::vec3(0, 500, -35));
@@ -109,7 +109,7 @@ void loadState()
 	MeshComponent* meshAlien = new MeshComponent();
 	alien->addComponent(meshAlien);
 	meshAlien->setFatherEntity(alien);
-	meshAlien->importObject("../models/alien.fbx", 2000.0f, false);
+	meshAlien->importObject("../models/alien.fbx", 200.0f, false);
 	meshAlien->addAnimation("../models/alien.fbx");
 	TransformComponent* tranCompAlien = (TransformComponent*)alien->findComponentsByType("TransformComponent").at(0);
 	tranCompAlien->setPosition(glm::vec3(-15, 500, 15));
@@ -122,7 +122,7 @@ void loadState()
 	MeshComponent* meshSanta = new MeshComponent();
 	santa->addComponent(meshSanta);
 	meshSanta->setFatherEntity(santa);
-	meshSanta->importObject("../models/santa.fbx", 2000.0f, false);
+	meshSanta->importObject("../models/santa.fbx", 200.0f, false);
 	meshSanta->addAnimation("../models/santa.fbx");
 	TransformComponent* tranCompSanta = (TransformComponent*)santa->findComponentsByType("TransformComponent").at(0);
 	tranCompSanta->setPosition(glm::vec3(5, 492.5, -60));
@@ -135,7 +135,7 @@ void loadState()
 	MeshComponent* meshBaila2 = new MeshComponent();
 	baila2->addComponent(meshBaila2);
 	meshBaila2->setFatherEntity(baila2);
-	meshBaila2->importObject("../models/greenDancer.fbx", 2000.0f, false);
+	meshBaila2->importObject("../models/greenDancer.fbx", 200.0f, false);
 	meshBaila2->addAnimation("../models/greenDancer.fbx");
 	TransformComponent* tranCompBaila2 = (TransformComponent*)baila2->findComponentsByType("TransformComponent").at(0);
 	tranCompBaila2->setPosition(glm::vec3(0, 500, -15));
@@ -148,7 +148,7 @@ void loadState()
 	MeshComponent* meshMacarena = new MeshComponent();
 	macarena->addComponent(meshMacarena);
 	meshMacarena->setFatherEntity(macarena);
-	meshMacarena->importObject("../models/skeleton.fbx", 2000.0f, false);
+	meshMacarena->importObject("../models/skeleton.fbx", 200.0f, false);
 	meshMacarena->addAnimation("../models/skeleton.fbx");
 	TransformComponent* tranCompMaca = (TransformComponent*)macarena->findComponentsByType("TransformComponent").at(0);
 	tranCompMaca->setPosition(glm::vec3(15, 500, -20));
@@ -166,6 +166,41 @@ void loadState()
 	tranCompUruguay->setPosition(glm::vec3(9.700, 492.800, -70.000));
 	tranCompUruguay->setScale(glm::vec3(0.030, 0.030, 0.030));
 	tranCompUruguay->setRotation(glm::vec3(-90.000, 0, -45.000));
+
+	std::string barrierName = "estatua";
+	Entity* barrier = new Entity(barrierName);
+	hierarchy.addEntity(barrier);
+	MeshComponent* meshBarrier = new MeshComponent();
+	barrier->addComponent(meshBarrier);
+	meshBarrier->setFatherEntity(barrier);
+	meshBarrier->importObject("../models/estatua.fbx", 150.0f);
+	TransformComponent* tranCompBarrier = (TransformComponent*)barrier->findComponentsByType("TransformComponent").at(0);
+	tranCompBarrier->setPosition(glm::vec3(10, 230, 15));
+	tranCompBarrier->setScale(glm::vec3(15, 15, 15));
+	tranCompBarrier->setRotation(glm::vec3(-90.000, 0, 90.000));
+
+	std::string sillonName = "sillon";
+	Entity* sillon = new Entity(sillonName);
+	hierarchy.addEntity(sillon);
+	MeshComponent* meshSillon = new MeshComponent();
+	sillon->addComponent(meshSillon);
+	meshSillon->setFatherEntity(sillon);
+	meshSillon->importObject("../models/seating.fbx", 200.0f);
+	TransformComponent* tranCompSillon = (TransformComponent*)sillon->findComponentsByType("TransformComponent").at(0);
+	tranCompSillon->setPosition(glm::vec3(27, 493, -25.000));
+	tranCompSillon->setScale(glm::vec3(7, 7, 7));
+	tranCompSillon->setRotation(glm::vec3(-90.000, 0, 180.000));
+
+	Entity* sillon2 = new Entity(sillonName);
+	hierarchy.addEntity(sillon2);
+	MeshComponent* meshSillon2 = new MeshComponent();
+	sillon2->addComponent(meshSillon2);
+	meshSillon2->setFatherEntity(sillon2);
+	meshSillon2->importObject("../models/seating.fbx", 200.0f);
+	TransformComponent* tranCompSillon2 = (TransformComponent*)sillon2->findComponentsByType("TransformComponent").at(0);
+	tranCompSillon2->setPosition(glm::vec3(-27, 493, -25.000));
+	tranCompSillon2->setScale(glm::vec3(7, 7, 7));
+	tranCompSillon2->setRotation(glm::vec3(-90.000, 0, 0));
 
 	std::string objectName3 = "Terrain";
 	Entity* terrain = new Entity(objectName3);

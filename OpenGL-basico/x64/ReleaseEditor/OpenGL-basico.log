@@ -1,4 +1,4 @@
-﻿  EntityComponentCreator.cpp
+﻿  GameState.cpp
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(45,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(56,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(67,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
@@ -7,59 +7,9 @@ C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(31,31): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(55,44): warning C4244: 'return': conversión de 'int' a 'float'; posible pérdida de datos
 C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(97,21): warning C4018: '<': no coinciden signed/unsigned
-  GameState.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(45,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(56,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(67,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\Mesh.h(89,43): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(30,25): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(31,31): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(55,44): warning C4244: 'return': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(97,21): warning C4018: '<': no coinciden signed/unsigned
-  MeshComponent.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(45,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(56,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(67,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\Mesh.h(89,43): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(30,25): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(31,31): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(55,44): warning C4244: 'return': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(97,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\MeshComponent.cpp(5,17): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\MeshComponent.cpp(109,9): warning C4244: 'return': conversión de 'float' a 'int'; posible pérdida de datos
-  main.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(45,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(56,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(67,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\Mesh.h(89,43): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(30,25): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(31,31): warning C4244: '=': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(55,44): warning C4244: 'return': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\animation.h(97,21): warning C4018: '<': no coinciden signed/unsigned
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(476,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(476,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(495,139): warning C4244: 'argumento': conversión de 'double' a 'int'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(495,94): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(502,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(503,107): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(503,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(517,70): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(518,108): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(518,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(572,66): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(573,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(594,107): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(594,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(613,107): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\main.cpp(613,67): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
-  mesh.cpp
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(45,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(56,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\bone.h(67,20): warning C4244: 'inicializando': conversión de 'double' a 'float'; posible pérdida de datos
-C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\OpenGL-basico\mesh.h(89,43): warning C4018: '<': no coinciden signed/unsigned
   Generando código
-  40 of 3742 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
+  1 of 3744 functions (<0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    52 functions had inline decision re-evaluated but remain unchanged
+    34 functions had inline decision re-evaluated but remain unchanged
   Generación de código finalizada
   OpenGL-basico.vcxproj -> C:\Users\Usuario\Desktop\Facultad\CGA\OpenGL-avanzado\CGA-Project\x64\ReleaseEditor\OpenGL-avanzado.exe
