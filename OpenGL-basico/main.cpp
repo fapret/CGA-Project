@@ -483,7 +483,8 @@ int main(int argc, char* argv[]) {
 		}
 
 		ImGui::SetNextItemWidth(-1.0f);
-		if (ImGui::ListBox("##Listbox", &selectedItem, namesAsChar, hierarchy.getAllEntities().size())) {
+		float remainingHeight = ImGui::GetContentRegionAvail().y;
+		if (ImGui::ListBox("##Listbox", &selectedItem, namesAsChar, hierarchy.getAllEntities().size(), (static_cast<float>(windowHeight) * 0.32 / 8))) {
 			// Handle item selection here
 			// 'selectedItem' contains the index of the selected item
 		}
