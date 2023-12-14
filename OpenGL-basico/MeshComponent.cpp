@@ -337,6 +337,9 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 			std::vector<Texture> heightMaps = loadMaterialTextures(&lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
 			textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
+			std::vector<Texture> opacityMaps = loadMaterialTextures(&lod, material, aiTextureType_OPACITY, "texture_opacity", addLocalPath);
+			textures.insert(textures.end(), opacityMaps.begin(), opacityMaps.end());
+
 			if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 				aiString texturePath;
 				if (material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath) == AI_SUCCESS) {
@@ -479,6 +482,9 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance, b
 				// 4. height maps
 				std::vector<Texture> heightMaps = loadMaterialTextures(lod, material, aiTextureType_AMBIENT, "texture_height", addLocalPath);
 				textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+
+				std::vector<Texture> opacityMaps = loadMaterialTextures(lod, material, aiTextureType_OPACITY, "texture_opacity", addLocalPath);
+				textures.insert(textures.end(), opacityMaps.begin(), opacityMaps.end());
 
 				if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 					aiString texturePath;

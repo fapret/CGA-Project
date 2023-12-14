@@ -129,19 +129,6 @@ void loadState()
 	tranCompSanta->setScale(glm::vec3(0.01, 0.01, 0.01));
 	tranCompSanta->setRotation(glm::vec3(0, 180, 0));
 
-	std::string bailaName = "Bailarina";
-	Entity* baila = new Entity(bailaName);
-	hierarchy.addEntity(baila);
-	MeshComponent* meshBaila = new MeshComponent();
-	baila->addComponent(meshBaila);
-	meshBaila->setFatherEntity(baila);
-	meshBaila->importObject("../models/bailarina.fbx", 2000.0f, false);
-	meshBaila->addAnimation("../models/bailarina.fbx");
-	TransformComponent* tranCompBaila = (TransformComponent*)baila->findComponentsByType("TransformComponent").at(0);
-	tranCompBaila->setPosition(glm::vec3(5, 500, -5));
-	tranCompBaila->setScale(glm::vec3(0.06, 0.06, 0.06));
-	//tranCompBaila->setRotation(glm::vec3(0, 180, 0));
-
 	std::string baila2Name = "GreenDancer";
 	Entity* baila2 = new Entity(baila2Name);
 	hierarchy.addEntity(baila2);

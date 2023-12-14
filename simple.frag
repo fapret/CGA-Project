@@ -7,20 +7,29 @@ in vec3 Normal;
 out vec4 FragColor;
 
 uniform sampler2D texture_diffuse1;
-uniform sampler2D texture_diffuse2;  // Add a new texture uniform
-uniform sampler2D texture_height;   // New height map texture
-uniform vec3 ambientColor; // Ambient light color
-uniform vec3 lightDirection; // Direction of the sunlight
-uniform vec3 lightColor; // Color of the sunlight
+uniform sampler2D texture_diffuse2;
+uniform sampler2D texture_height;
+uniform sampler2D texture_opacity1; // Opacity map texture
+
+uniform int opacityFound;
+
+uniform vec3 ambientColor;
+uniform vec3 lightDirection;
+uniform vec3 lightColor;
 
 void main()
-{    
+{
     // Sample the textures
     vec4 texColor1 = texture(texture_diffuse1, TexCoords);
     vec4 texColor2 = texture(texture_diffuse2, TexCoords);
 
     // Combine textures as needed (for example, you can blend them using mix)
     vec4 texColor = mix(texColor1, texColor2, 0.5);
+    // Sample the opacity map texture
+    vec3 opacitySample = texture(texture_opacity1, TexCoords).rgb;
+
+    // Use the maximum value of the RGB channels as opacity
+    float opacity = max(max(opacitySample.r, opacitySample.g), opacitySample.b);
 
     // Sample the height map texture
     float heightValue = texture(texture_height, TexCoords).r;
@@ -41,6 +50,9 @@ void main()
     // Combine ambient and diffuse lighting
     vec3 result = ambient + diffuse * texColor.rgb;
 
-    // Output final color
-    FragColor = vec4(result, texColor.a);
+    if(opacityFound == 1){
+        FragColor = vec4(result, texColor.a * opacity);
+    } else {
+        FragColor = vec4(result, texColor.a);
+    }
 }

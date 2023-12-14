@@ -177,11 +177,13 @@ public:
         unsigned int specularNr = 1;
         unsigned int normalNr = 1;
         unsigned int heightNr = 1;
+        unsigned int opacityNr = 1;
         glUseProgram(shader);
         Entity* activeCamera = Hierarchy::getInstance().getActiveCamera();
         CameraComponent* cam = (CameraComponent*)activeCamera->findComponentsByType("CameraComponent").at(0);
         glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(cam->getView()));
         glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+        int opacityFound = 0;
         for (unsigned int i = 0; i < textures.size(); i++)
         {
             glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
@@ -196,6 +198,13 @@ public:
                 number = std::to_string(normalNr++); // transfer unsigned int to string
             else if (name == "texture_height")
                 number = std::to_string(heightNr++); // transfer unsigned int to string
+            else if (name == "texture_opacity") {
+                glEnable(GL_BLEND);
+                glDepthMask(GL_FALSE);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                number = std::to_string(opacityNr++);
+                opacityFound = 1;
+            }
             //std::cout << "texture type: " << name << i << std::endl;
             // now set the sampler to the correct texture unit
             glUniform1i(glGetUniformLocation(shader, (name + number).c_str()), i);
@@ -203,15 +212,22 @@ public:
             glBindTexture(GL_TEXTURE_2D, textures[i].id);
         }
 
+        glUniform1i(glGetUniformLocation(shader, "opacityFound"), opacityFound);
         // draw mesh
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
+
+        for (unsigned int i = 0; i < textures.size(); i++)
+        {
+            glActiveTexture(GL_TEXTURE0 + i);
+            glBindTexture(GL_TEXTURE_2D, 0);
+        }
+        glDisable(GL_BLEND);
+        glDepthMask(GL_TRUE);
         // always good practice to set everything back to defaults once configured.
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
 

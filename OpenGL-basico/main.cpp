@@ -153,6 +153,8 @@ void init(SDL_Window* window, SDL_GLContext gl_context)
 	glEnable(GL_CULL_FACE); // enable back face culling - try this and see what happens!
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
 #ifdef USE_IMGUI
