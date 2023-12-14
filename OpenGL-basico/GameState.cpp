@@ -4,6 +4,7 @@
 #include "Hierarchy.h"
 #include "MeshComponent.h"
 #include "TerrainComponent.h"
+#include "ColliderComponent.h"
 
 void loadState()
 {
@@ -18,7 +19,41 @@ void loadState()
 	meshComp->importObject("../models/city.fbx", 20000.0f);
 	TransformComponent* tranComp = (TransformComponent*) object->findComponentsByType("TransformComponent").at(0);
 	tranComp->setPosition(glm::vec3(0, 250, 0));
-	
+
+	std::string motelName = "Motel";
+	Entity* motel = new Entity(motelName);
+	hierarchy.addEntity(motel);
+	MeshComponent* motelMesh = new MeshComponent();
+	motel->addComponent(motelMesh);
+	motelMesh->setFatherEntity(motel);
+	motelMesh->importObject("../models/motel.fbx", 1000.0f);
+	TransformComponent* tranMotel = (TransformComponent*)motel->findComponentsByType("TransformComponent").at(0);
+	tranMotel->setPosition(glm::vec3(238, 231, -115));
+	tranMotel->setScale(glm::vec3(5, 5, 5));
+	tranMotel->setRotation(glm::vec3(-90, 0, 180));
+
+	std::string discoName = "Baile";
+	Entity* disco = new Entity(discoName);
+	hierarchy.addEntity(disco);
+	MeshComponent* discoMesh = new MeshComponent();
+	disco->addComponent(discoMesh);
+	discoMesh->setFatherEntity(disco);
+	discoMesh->importObject("../models/nightclub.fbx", 1000.0f);
+	TransformComponent* tranDisco = (TransformComponent*)disco->findComponentsByType("TransformComponent").at(0);
+	tranDisco->setRotation(glm::vec3(-90, 0, 0));
+	tranDisco->setPosition(glm::vec3(0, 500, 0));
+	tranDisco->setScale(glm::vec3(5, 5, 5));
+
+	std::string coneName = "cono";
+	Entity* cono = new Entity(coneName);
+	hierarchy.addEntity(cono);
+	MeshComponent* meshCono = new MeshComponent();
+	cono->addComponent(meshCono);
+	meshCono->setFatherEntity(cono);
+	meshCono->importObject("../models/cone.fbx", 2000.0f);
+	TransformComponent* tranCono = (TransformComponent*)cono->findComponentsByType("TransformComponent").at(0);
+	tranCono->setPosition(glm::vec3(-5, 228, 0));
+	tranCono->setScale(glm::vec3(0.01, 0.01, 0.01));
 
 	std::string objectName2 = "Thanos";
 	Entity* object2 = new Entity(objectName2);
@@ -28,15 +63,14 @@ void loadState()
 	ColliderComponent* colliderCompThanos = new ColliderComponent();
 	meshComp2->setFatherEntity(object2);
 	colliderCompThanos->setFatherEntity(object2);
-	
+	object2->addComponent(colliderCompThanos);
 	meshComp2->importObject("../models/thanos.fbx", 2000.0f);
 	meshComp2->addAnimation("../models/thanos.fbx");
 	TransformComponent* tranCompThanos = (TransformComponent*)object2->findComponentsByType("TransformComponent").at(0);
-	tranCompThanos->setPosition(glm::vec3(-25, 230, 100));
+	tranCompThanos->setPosition(glm::vec3(15, 500, 15));
+	tranCompThanos->setRotation(glm::vec3(0, 45, 0));
 	tranCompThanos->setScale(glm::vec3(0.2, 0.2, 0.2));
 	colliderCompThanos->setUpCollission(0, 0, 10, false, glm::vec3(0, 10, 0));
-
-
 	
 	std::string objectName3 = "Terrain";
 	Entity* terrain = new Entity(objectName3);
