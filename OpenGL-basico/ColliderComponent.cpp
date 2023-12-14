@@ -38,7 +38,7 @@ void ColliderComponent::setUpCollission(int type, btScalar mass, btScalar scale,
 	if (type == 0) {
 		btVector3 boxSize(scale, scale, scale);
 		shape = new btBoxShape(boxSize);
-		btScalar newMargin = scale;
+		btScalar newMargin = 0.1;
 		shape->setMargin(newMargin);
 	}
 	
@@ -46,6 +46,7 @@ void ColliderComponent::setUpCollission(int type, btScalar mass, btScalar scale,
 	btTransform boxTransform;
 	boxTransform.setIdentity(); // No initial rotation
 	glm::vec3 transformPos = this->getTransform()->getPosition() + offset;
+	std::cout << "Pos : " << transformPos.x << " " << transformPos.y << " " << transformPos.z << std::endl;
 	boxTransform.setOrigin(btVector3(transformPos.x, transformPos.y, transformPos.z)); // Initial position
 
 	// Create the motion state

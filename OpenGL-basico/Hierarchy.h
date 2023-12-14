@@ -25,6 +25,7 @@ private:
 	btCollisionDispatcher* dispatcher;
 	btBroadphaseInterface* overlappingPairCache;
 	btSequentialImpulseConstraintSolver* solver;
+	std::vector<EntityComponent*> dynamicObjects;
 	~Hierarchy() {
 		delete this->dynamicsWorld;
 		delete this->solver;
@@ -49,5 +50,7 @@ public:
 	int getAmountSpotlights();
 	void incAmountSpotlights();
 	void setGravity(float gravity = 9.8f);
+	void addDynamicObject(EntityComponent* object);
+	std::vector<EntityComponent*> getDynamicObjects();
 	btDiscreteDynamicsWorld* getDynamicsWorld();
 };

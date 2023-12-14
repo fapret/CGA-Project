@@ -49,11 +49,16 @@ void loadState()
 	hierarchy.addEntity(cono);
 	MeshComponent* meshCono = new MeshComponent();
 	cono->addComponent(meshCono);
+	ColliderComponent* colliderCompCono = new ColliderComponent();
 	meshCono->setFatherEntity(cono);
+	colliderCompCono->setFatherEntity(cono);
+	cono->addComponent(colliderCompCono);
 	meshCono->importObject("../models/cone.fbx", 2000.0f);
 	TransformComponent* tranCono = (TransformComponent*)cono->findComponentsByType("TransformComponent").at(0);
-	tranCono->setPosition(glm::vec3(-5, 228, 0));
-	tranCono->setScale(glm::vec3(0.01, 0.01, 0.01));
+	tranCono->setPosition(glm::vec3(-25, 227, -100));
+	tranCono->setScale(glm::vec3(0.02, 0.02, 0.02));
+	colliderCompCono->setUpCollission(0, 2, 10, false, glm::vec3(0, 0, 0));
+	hierarchy.addDynamicObject(colliderCompCono);
 
 	std::string objectName2 = "Thanos";
 	Entity* object2 = new Entity(objectName2);
@@ -70,7 +75,7 @@ void loadState()
 	tranCompThanos->setPosition(glm::vec3(15, 500, 15));
 	tranCompThanos->setRotation(glm::vec3(0, 45, 0));
 	tranCompThanos->setScale(glm::vec3(0.2, 0.2, 0.2));
-	colliderCompThanos->setUpCollission(0, 0, 10, false, glm::vec3(0, 10, 0));
+	colliderCompThanos->setUpCollission(0, 0, 4, false, glm::vec3(0, -2, 0));
 	
 	std::string objectName3 = "Terrain";
 	Entity* terrain = new Entity(objectName3);

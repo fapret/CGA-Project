@@ -82,6 +82,16 @@ void Hierarchy::setGravity(float gravity)
     this->dynamicsWorld->setGravity(btVector3(0, gravity, 0));
 }
 
+void Hierarchy::addDynamicObject(EntityComponent* object)
+{
+    dynamicObjects.push_back(object);
+}
+
+std::vector<EntityComponent*> Hierarchy::getDynamicObjects()
+{
+    return dynamicObjects;
+}
+
 btDiscreteDynamicsWorld* Hierarchy::getDynamicsWorld()
 {
     return dynamicsWorld;

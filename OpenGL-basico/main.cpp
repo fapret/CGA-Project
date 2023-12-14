@@ -238,6 +238,14 @@ void draw(SDL_Window* window)
 	glm::vec3 camPos = camComp->getTransform()->getPosition();
 	camComp->getCollider()->getRigidBody()->getWorldTransform().setOrigin(btVector3(camPos.x, camPos.y, camPos.z));
 
+	std::vector<EntityComponent*> dynamicObjects = hierarchy.getDynamicObjects();
+
+	for (int i = 0; i < dynamicObjects.size(); i++) {
+		ColliderComponent* collComp = (ColliderComponent*)dynamicObjects.at(i);
+		glm::vec3 pos = collComp->getTransform()->getPosition();
+		collComp->getRigidBody()->getWorldTransform().setOrigin(btVector3(pos.x, pos.y, pos.z));
+	}
+
 	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 	dynamicsWorld->stepSimulation(1 / 200.f, 1000);
 	MyContactCallback contactCallback;
@@ -245,9 +253,20 @@ void draw(SDL_Window* window)
 	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
 	btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
 
+	//std::cout << "Pos 1: " << collisionObjects[0]->getWorldTransform().getOrigin().getY() << std::endl;
+	//std::cout << "Pos 2: " << collisionObjects[1]->getWorldTransform().getOrigin().getY() << std::endl;
+	//std::cout << "Pos 3: " << collisionObjects[2]->getWorldTransform().getOrigin().getY() << std::endl;
+
 
 
 	camComp->getTransform()->setPosition(glm::vec3(camRigidBodyPos.getX(), camRigidBodyPos.getY(),camRigidBodyPos.getZ()));
+
+	for (int i = 0; i < dynamicObjects.size(); i++) {
+		ColliderComponent* collComp = (ColliderComponent*)dynamicObjects.at(i);
+		btVector3 posD = collComp->getRigidBody()->getWorldTransform().getOrigin();
+		glm::vec3 pos = collComp->getTransform()->getPosition();
+		collComp->getTransform()->setPosition(glm::vec3(posD.getX(), pos.y, posD.getZ()));
+	}
 	
 
 	// Draw the 3D model

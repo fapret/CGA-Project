@@ -70,7 +70,7 @@ public:
             std::cout << "Overlap Z: " << overlapZ << std::endl;
             // Resolve collision along the X-axis
             if (overlapX > 0.0f) {
-                btScalar displacement = overlapX / 2.0f;
+                btScalar displacement = overlapX / 40.0f;
 
                 if (position1.getX() < position2.getX()) {
                     position1.setX(position1.getX() - displacement);
@@ -84,7 +84,7 @@ public:
 
             // Resolve collision along the Z-axis
             if (overlapZ > 0.0f) {
-                btScalar displacement = overlapZ / 2.0f;
+                btScalar displacement = overlapZ / 40.0f;
 
                 if (position1.getZ() < position2.getZ()) {
                     position1.setZ(position1.getZ() - displacement);
@@ -101,6 +101,7 @@ public:
                 transform1.setOrigin(position1);
             }
             if (box2->getMass() > 0.0f) {
+                std::cout << "Hit en el 2" << std::endl;
                 transform2.setOrigin(position2);
             }
 
