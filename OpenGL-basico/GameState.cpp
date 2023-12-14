@@ -16,7 +16,7 @@ void loadState()
 	MeshComponent* meshComp = new MeshComponent();
 	object->addComponent(meshComp);
 	meshComp->setFatherEntity(object);
-	meshComp->importObject("../models/city.fbx", 20000.0f);
+	meshComp->importObject("../models/city.fbx", 20000.0f, false);
 	TransformComponent* tranComp = (TransformComponent*) object->findComponentsByType("TransformComponent").at(0);
 	tranComp->setPosition(glm::vec3(0, 250, 0));
 
@@ -26,7 +26,7 @@ void loadState()
 	MeshComponent* motelMesh = new MeshComponent();
 	motel->addComponent(motelMesh);
 	motelMesh->setFatherEntity(motel);
-	motelMesh->importObject("../models/motel.fbx", 1000.0f);
+	motelMesh->importObject("../models/motel.fbx", 1000.0f, false);
 	TransformComponent* tranMotel = (TransformComponent*)motel->findComponentsByType("TransformComponent").at(0);
 	tranMotel->setPosition(glm::vec3(238, 231, -115));
 	tranMotel->setScale(glm::vec3(5, 5, 5));
@@ -38,7 +38,7 @@ void loadState()
 	MeshComponent* discoMesh = new MeshComponent();
 	disco->addComponent(discoMesh);
 	discoMesh->setFatherEntity(disco);
-	discoMesh->importObject("../models/nightclub.fbx", 1000.0f);
+	discoMesh->importObject("../models/nightclub.fbx", 1000.0f, true);
 	TransformComponent* tranDisco = (TransformComponent*)disco->findComponentsByType("TransformComponent").at(0);
 	tranDisco->setRotation(glm::vec3(-90, 0, 0));
 	tranDisco->setPosition(glm::vec3(0, 500, 0));
@@ -53,7 +53,7 @@ void loadState()
 	meshCono->setFatherEntity(cono);
 	colliderCompCono->setFatherEntity(cono);
 	cono->addComponent(colliderCompCono);
-	meshCono->importObject("../models/cone.fbx", 2000.0f);
+	meshCono->importObject("../models/cone.fbx", 2000.0f, false);
 	TransformComponent* tranCono = (TransformComponent*)cono->findComponentsByType("TransformComponent").at(0);
 	tranCono->setPosition(glm::vec3(-25, 227, -100));
 	tranCono->setScale(glm::vec3(0.02, 0.02, 0.02));
@@ -69,7 +69,7 @@ void loadState()
 	meshComp2->setFatherEntity(object2);
 	colliderCompThanos->setFatherEntity(object2);
 	object2->addComponent(colliderCompThanos);
-	meshComp2->importObject("../models/thanos.fbx", 2000.0f);
+	meshComp2->importObject("../models/thanos.fbx", 2000.0f, false);
 	meshComp2->addAnimation("../models/thanos.fbx");
 	TransformComponent* tranCompThanos = (TransformComponent*)object2->findComponentsByType("TransformComponent").at(0);
 	tranCompThanos->setPosition(glm::vec3(15, 500, 15));

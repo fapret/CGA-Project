@@ -354,7 +354,7 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 	return lod;
 }
 
-void MeshComponent::importObject(const std::string& pFile, float viewDistance)
+void MeshComponent::importObject(const std::string& pFile, float viewDistance, bool createMesh)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pFile,
@@ -426,6 +426,37 @@ void MeshComponent::importObject(const std::string& pFile, float viewDistance)
 				);
 				SetVertexBoneDataToDefault(topush);
 				vertices.push_back(topush);
+			}
+
+			if (createMesh) {
+				btTriangleMesh* triangleMesh = new btTriangleMesh();
+
+				for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
+					const aiFace& face = mesh->mFaces[i];
+
+					const aiVector3D& vertex = mesh->mVertices[face.mIndices[0]];
+					const aiVector3D& vertex1 = mesh->mVertices[face.mIndices[1]];
+					const aiVector3D& vertex2 = mesh->mVertices[face.mIndices[2]];
+					triangleMesh->addTriangle(
+						btVector3(vertex.x, vertex.y, vertex.z),
+						btVector3(vertex1.x, vertex1.y, vertex1.z),
+						btVector3(vertex2.x, vertex2.y, vertex2.z)
+					);
+				}
+
+				btCollisionShape* collisionShape = new btBvhTriangleMeshShape(triangleMesh, true);
+
+
+				btDefaultMotionState* motionState = new btDefaultMotionState();
+				btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(0, motionState, collisionShape);
+				btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
+
+				btTransform transform = rigidBody->getWorldTransform();
+				transform.setOrigin(btVector3(transform.getOrigin().getX(), transform.getOrigin().getY() + 10.0f, transform.getOrigin().getZ()));
+				rigidBody->setWorldTransform(transform);
+
+				Hierarchy& hierarchy = Hierarchy::getInstance();
+				hierarchy.getDynamicsWorld()->addRigidBody(rigidBody);
 			}
 
 			std::vector<Texture> textures;

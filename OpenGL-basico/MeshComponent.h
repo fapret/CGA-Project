@@ -39,7 +39,7 @@ public:
 	void setFatherEntity(Entity* father) override;
 	void addAnimation(const std::string& pFile);
 	Animator* getAnimator();
-	void importObject(const std::string& pFile, float viewDistance);
+	void importObject(const std::string& pFile, float viewDistance, bool createMesh);
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif
