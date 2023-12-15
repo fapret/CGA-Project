@@ -366,7 +366,7 @@ int main(int argc, char* argv[]) {
 		1280, 720, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 #else
 	window = SDL_CreateWindow("Ventana", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		800, 800, SDL_WINDOW_OPENGL);
+		1280, 720, SDL_WINDOW_OPENGL);
 #endif
 
 	gl_context = SDL_GL_CreateContext(window);
