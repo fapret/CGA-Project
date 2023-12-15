@@ -17,9 +17,11 @@ private:
 	GLuint skyboxVAO, skyboxVBO;
 	float sunDir[3];
 	float sunColor[3];
+	int inited;
+	char textBuffers[6][256];
 public:
 	SkyboxComponent();
-	GLuint loadCubemap(std::vector<const char*> faces);
+	void loadCubemap(std::vector<const char*> faces);
 	void update();
 	void setSunColor(glm::vec3 color);
 	glm::vec3 getSunColor();

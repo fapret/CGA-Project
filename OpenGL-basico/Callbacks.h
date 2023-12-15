@@ -42,7 +42,7 @@ public:
             // Return 0 to continue processing other contacts
         }
         if (colObj0Wrap->getCollisionShape()->getName() == "Triangle" || colObj1Wrap->getCollisionShape()->getName() == "Triangle") {
-            std::cout << "Choca con la disco" << std::endl;
+            //std::cout << "Choca con la disco" << std::endl;
         }
         else {
             btRigidBody* box1 = nullptr;

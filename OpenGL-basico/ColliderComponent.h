@@ -8,6 +8,7 @@ private:
 	btRigidBody* rigidBody;
 	TransformComponent* transform;
 	TransformComponent* camTransform;
+	bool inited;
 public:
 	ColliderComponent();
 	void draw(float deltaTime = 0.0f) override;
@@ -18,6 +19,7 @@ public:
 	void setCameraTransform(TransformComponent* transform);
 	void freeCameraTransform();
 	glm::vec3 getTransformPos();
+	bool isInited();
 #ifdef USE_IMGUI
 	void EditorPropertyDraw() override;
 #endif

@@ -115,11 +115,19 @@ void MeshComponent::setFatherEntity(Entity* father)
 	std::vector<EntityComponent*> transformList = father->findComponentsByType("TransformComponent");
 	if (transformList.size() == 0) {
 		father->addComponent(transform);
+		transform->setFatherEntity(father);
+	}
+	else {
+		this->transform = (TransformComponent*) transformList.at(0);
 	}
 }
 
 void MeshComponent::addAnimation(const std::string& pFile)
 {
+	strcpy(textBuffers[1], pFile.c_str());
+	if (animator != NULL) {
+		delete this->animator;
+	}
 	Animation* danceAnimation = new Animation(pFile, this->LodLevels.at(0)->meshData.at(0));
 	this->animator = new Animator(danceAnimation);
 }
@@ -133,6 +141,23 @@ Animator* MeshComponent::getAnimator()
 void MeshComponent::EditorPropertyDraw()
 {
 	EntityComponent::EditorPropertyDraw();
+	ImGui::Text("Mesh");
+	ImGui::Separator();
+	ImGui::InputText("Mesh", textBuffers[0], 256);
+	ImGui::Text("Max View Distance:");
+	ImGui::SameLine();
+	ImGui::InputFloat("##maxView", &maxViewDistance, 0.01f, 0.1f, "%.3f");
+	if (ImGui::Button("Load mesh")) {
+		this->importObject(textBuffers[0], maxViewDistance);
+	}
+
+	ImGui::Separator();
+	ImGui::Text("Animation");
+	ImGui::Separator();
+	ImGui::InputText("Animation", textBuffers[1], 256);
+	if (ImGui::Button("Play animation")) {
+		this->addAnimation(textBuffers[1]);
+	}
 }
 #endif
 
@@ -276,7 +301,6 @@ bool startsWithLODNumberUnderscore(const char* str, int& extractedNumber) {
 	return false;
 }
 
-
 LOD createLOD(const std::string& pFile, float viewDistance)
 {
 	LOD lod;
@@ -359,6 +383,8 @@ LOD createLOD(const std::string& pFile, float viewDistance)
 
 void MeshComponent::importObject(const std::string& pFile, float viewDistance, bool createMesh)
 {
+	strcpy(textBuffers[0], pFile.c_str());
+	LodLevels.clear();
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(pFile,
 		aiProcess_CalcTangentSpace |

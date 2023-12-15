@@ -6,9 +6,12 @@ Hierarchy& Hierarchy::getInstance()
     return instance;
 }
 
-void Hierarchy::addEntity(Entity* entity)
+void Hierarchy::addEntity(Entity* entity, bool start)
 {
-	this->entities.push_back(entity);
+    if (start)
+        this->entities.insert(this->entities.begin(), entity);
+    else
+        this->entities.push_back(entity);
 }
 
 void Hierarchy::removeEntityById(std::string id)

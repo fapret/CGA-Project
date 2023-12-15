@@ -3,6 +3,7 @@
 ColliderComponent::ColliderComponent() : EntityComponent("ColliderComponent")
 {
 	this->transform = new TransformComponent();
+	this->inited = false;
 }
 
 void ColliderComponent::setFatherEntity(Entity* father)
@@ -42,6 +43,11 @@ glm::vec3 ColliderComponent::getTransformPos()
 	}
 }
 
+bool ColliderComponent::isInited()
+{
+	return inited;
+}
+
 void ColliderComponent::draw(float deltaTime)
 {
 }
@@ -53,6 +59,7 @@ void ColliderComponent::setUpCollission(int type, btScalar mass, btScalar scale,
 	// 1 Plane
 	// 2 Sphere
 	// 3 Mesh
+	this->inited = true;
 
 	btPolyhedralConvexShape* shape = nullptr;
 	if (type == 0) {

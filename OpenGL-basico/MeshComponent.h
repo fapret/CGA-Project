@@ -18,6 +18,7 @@ struct LOD {
 	int numOfMeshes;
 	std::vector<Texture> textures_loaded;
 	int Level;
+	//AVISO! FALTA DESTRUCT, DA PERDIDA DE MEMORIA
 };
 
 LOD createLOD(const std::string& pFile, float viewDistance);
@@ -29,11 +30,13 @@ private:
 	TransformComponent* transform;
 	float calculateDistance(const glm::vec3& point1, const glm::vec3& point2);
 	Animator* animator;
+	char textBuffers[2][256];
 public:
 	MeshComponent();
 	MeshComponent(float maxDistance);
 	void draw(float deltaTime = 0.0f) override;
 	void setMaxViewDistance(float maxView);
+	[[deprecated]]
 	void addLOD(LOD* lod);
 	int getMaxViewDistance();
 	void setFatherEntity(Entity* father) override;

@@ -8,15 +8,27 @@ SkyboxComponent::SkyboxComponent() : EntityComponent("SkyboxComponent")
     sunColor[0] = 0.04f;
     sunColor[1] = 0.04f;
     sunColor[2] = 0.04f;
+    inited = 0;
+    strcpy(textBuffers[0], "../left.jpg");
+    strcpy(textBuffers[1], "../right.jpg");
+    strcpy(textBuffers[2], "../top.jpg");
+    strcpy(textBuffers[3], "../bottom.jpg");
+    strcpy(textBuffers[4], "../back.jpg");
+    strcpy(textBuffers[5], "../front.jpg");
 }
 
-GLuint SkyboxComponent::loadCubemap(std::vector<const char*> faces)
+void SkyboxComponent::loadCubemap(std::vector<const char*> faces)
 {
-    glGenTextures(1, &textureId);
+    if(inited > 0)
+        glDeleteTextures(inited, &textureId);
+    this->inited = faces.size();
+    glGenTextures(faces.size(), &textureId);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureId);
 
     int width, height, nrChannels;
     for (GLuint i = 0; i < faces.size(); i++) {
+        if (faces[i] == "")
+            continue;
         FIBITMAP* image = FreeImage_Load(FIF_JPEG, faces[i], JPEG_DEFAULT);
 
         if (!image) {
@@ -103,8 +115,6 @@ float skyboxVertices[] = {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
-
-    return textureId;
 }
 
 void SkyboxComponent::update()
@@ -164,6 +174,7 @@ glm::vec3 SkyboxComponent::getSunDirection()
 void SkyboxComponent::EditorPropertyDraw()
 {
     EntityComponent::EditorPropertyDraw();
+
     ImGui::ColorPicker3("SunColor", sunColor);
 
     ImGui::Text("Direction of light");
@@ -177,5 +188,22 @@ void SkyboxComponent::EditorPropertyDraw()
     ImGui::Text("Z:");
     ImGui::SameLine();
     ImGui::InputFloat("##ZSun", &sunDir[2], 0.01f, 0.1f, "%.3f");
+
+    ImGui::Separator();
+    ImGui::Text("Skybox images");
+    ImGui::Separator();
+
+    ImGui::InputText("LEFT", textBuffers[0], 256);
+    ImGui::InputText("RIGHT", textBuffers[1], 256);
+    ImGui::InputText("TOP", textBuffers[2], 256);
+    ImGui::InputText("BOTTOM", textBuffers[3], 256);
+    ImGui::InputText("BACK", textBuffers[4], 256);
+    ImGui::InputText("FRONT", textBuffers[5], 256);
+
+    if (ImGui::Button("Load skybox")) {
+        std::vector<const char*> faces = { textBuffers[1], textBuffers[0], textBuffers[2], textBuffers[3], textBuffers[5], textBuffers[4] };
+        this->loadCubemap(faces);
+    }
+
 }
 #endif

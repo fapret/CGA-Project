@@ -38,7 +38,7 @@ public:
 	Hierarchy(const Hierarchy&) = delete;
 	Hierarchy& operator=(const Hierarchy&) = delete;
 
-	void addEntity(Entity* entity);
+	void addEntity(Entity* entity, bool start = false);
 	void removeEntityById(std::string id);
 	Entity* findEntityById(std::string id);
 	Entity* findEntityByName(std::string name);

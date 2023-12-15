@@ -1,4 +1,5 @@
 #include "CameraComponent.h"
+#include "SkyboxComponent.h"
 
 float CameraComponent::wrapAngle(float angle)
 {
@@ -137,17 +138,25 @@ void CameraComponent::setFatherEntity(Entity* father)
 	EntityComponent::setFatherEntity(father);
 	std::vector<EntityComponent*> transformList = father->findComponentsByType("TransformComponent");
 	std::vector<EntityComponent*> colliderList = father->findComponentsByType("ColliderComponent");
+	std::vector<EntityComponent*> skyboxList = father->findComponentsByType("SkyboxComponent");
 	if (transformList.size() == 0) {
 		father->addComponent(transform);
+		transform->setFatherEntity(father);
 	}
 	else {
 		this->transform = (TransformComponent*)transformList.at(0);
 	}
 	if (colliderList.size() == 0) {
 		father->addComponent(collider);
+		collider->setFatherEntity(father);
 	}
 	else {
 		this->collider = (ColliderComponent*)colliderList.at(0);
+	}
+	if (skyboxList.size() == 0) {
+		SkyboxComponent* skybox = new SkyboxComponent();
+		father->addComponent(skybox);
+		skybox->setFatherEntity(father);
 	}
 }
 

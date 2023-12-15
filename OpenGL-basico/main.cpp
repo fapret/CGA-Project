@@ -238,7 +238,8 @@ void draw(SDL_Window* window)
 	lastFrame = currentFrame;
 
 	glm::vec3 camPos = camComp->getTransform()->getPosition();
-	camComp->getCollider()->getRigidBody()->getWorldTransform().setOrigin(btVector3(camPos.x, camPos.y, camPos.z));
+	if(camComp->getCollider()->isInited())
+		camComp->getCollider()->getRigidBody()->getWorldTransform().setOrigin(btVector3(camPos.x, camPos.y, camPos.z));
 
 	std::vector<EntityComponent*> dynamicObjects = hierarchy.getDynamicObjects();
 
@@ -251,7 +252,8 @@ void draw(SDL_Window* window)
 	btDiscreteDynamicsWorld* dynamicsWorld = hierarchy.getDynamicsWorld();
 	dynamicsWorld->stepSimulation(1 / 200.f, 1000);
 	MyContactCallback contactCallback;
-	dynamicsWorld->contactTest(camComp->getCollider()->getRigidBody(), contactCallback);
+	if(camComp->getCollider()->isInited())
+		dynamicsWorld->contactTest(camComp->getCollider()->getRigidBody(), contactCallback);
 	
 	Entity * puerta = hierarchy.findEntityByName("Puerta");
 	ColliderComponent* puertaCollider = (ColliderComponent*)puerta->findComponentsByType("ColliderComponent").at(0);
@@ -264,7 +266,10 @@ void draw(SDL_Window* window)
 	dynamicsWorld->contactTest(puertaColliderDisco->getRigidBody(), tpCallbackDisco);
 
 	btCollisionObjectArray& collisionObjects = dynamicsWorld->getCollisionObjectArray();
-	btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
+	if (camComp->getCollider()->isInited()) {
+		btVector3 camRigidBodyPos = camComp->getCollider()->getRigidBody()->getWorldTransform().getOrigin();
+		camComp->getTransform()->setPosition(glm::vec3(camRigidBodyPos.getX(), camRigidBodyPos.getY(), camRigidBodyPos.getZ()));
+	}
 
 	//std::cout << "Pos 1: " << collisionObjects[0]->getWorldTransform().getOrigin().getY() << std::endl;
 	//std::cout << "Pos 2: " << collisionObjects[1]->getWorldTransform().getOrigin().getY() << std::endl;
@@ -272,7 +277,6 @@ void draw(SDL_Window* window)
 
 
 
-	camComp->getTransform()->setPosition(glm::vec3(camRigidBodyPos.getX(), camRigidBodyPos.getY(),camRigidBodyPos.getZ()));
 
 	for (int i = 0; i < dynamicObjects.size(); i++) {
 		ColliderComponent* collComp = (ColliderComponent*)dynamicObjects.at(i);
@@ -599,7 +603,7 @@ int main(int argc, char* argv[]) {
 			if (ImGui::Button("Create")) {
 				createEntityWindow = false;
 				Entity* entity = new Entity(entityNameBuffer);
-				hierarchy.addEntity(entity);
+				hierarchy.addEntity(entity, true);
 			}
 			ImGui::SameLine();
 			if (ImGui::Button("Cancel")) {
