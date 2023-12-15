@@ -1,0 +1,18 @@
+# Blender 4.0.2 MTL File: 'nightclub.blend'
+# www.blender.org
+
+newmtl 1001
+Ks 0.500000 0.500000 0.500000
+Ke 1.000000 1.000000 1.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd ../models/textures/1001_baseColor.jpg
+
+newmtl 1002
+Ks 0.500000 0.500000 0.500000
+Ke 1.000000 1.000000 1.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd ../models/textures/1002_baseColor.jpg
